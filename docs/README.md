@@ -20,6 +20,12 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
     - Migration from Astro i18n
     - Troubleshooting locale issues
 
+- **[CMS Sync Manager](CMS-SYNC.md)** - Web-based interface for CMS content synchronization
+    - Push content types and styles to Optimizely CMS
+    - Real-time progress tracking and logs
+    - Bulk or individual operations
+    - Secure access with HTTP Basic Auth
+
 ### Layout & Design
 
 - **[Row & Column Layout Guide](ROW-COLUMN-LAYOUT-GUIDE.md)** - How to use Row and Column styling options in the CMS
@@ -29,25 +35,24 @@ This folder contains comprehensive documentation for the Opti-Astro project, cov
     - Common layout patterns (forms, heroes, cards, sidebars)
     - Best practices and troubleshooting
 
-### Forms & Data Integration
+### Optimizely Graph & Admin Tools
 
-- **[Forms Guide](FORMS.md)** - Complete guide to Optimizely Forms with ODP integration
-    - Form types (Optimizely Forms vs ODP Forms)
-    - Creating and configuring forms in CMS
-    - Form field components and validation
-    - ODP integration for data collection and tracking
-    - Event tracking (impressions, submissions, pageviews)
-    - Testing, verification, and troubleshooting
-    - Best practices and advanced configuration
+- **[Search Optimizations Guide](GRAPH-OPTIMIZATIONS.md)** - How to use the Synonyms and Pinned Results managers to improve search relevance
+    - Configuring synonyms for equivalent or replacement search terms
+    - Pinning specific content to the top of search results
+
+- **[CMS Sync Manager](CMS-SYNC.md)** - Web-based CMS content synchronization tool
+    - Push content types and component styles to CMS
+    - Real-time terminal output and progress tracking
+    - Individual or bulk operations
 
 ## 🚀 Quick Start
 
 New to this project? Start with these essential guides:
 
 1. **For Setup**: Start with [Environment Variables Configuration](ENVIRONMENT-VARIABLES.md) to configure your development environment
-2. **For Developers**: Read the [Locale Configuration Guide](LOCALE-CONFIG.md) to understand the internationalization system
+2. **For Developers**: Read the [Locale Configuration Guide](LOCALE-CONFIG.md) to understand the internationalization system  
 3. **For Content Editors**: Check out the [Row & Column Layout Guide](ROW-COLUMN-LAYOUT-GUIDE.md) to master the CMS layout tools
-4. **For Forms**: Read the [Forms Guide](FORMS.md) to create forms and set up ODP integration
 
 ## 📖 Project Overview
 
