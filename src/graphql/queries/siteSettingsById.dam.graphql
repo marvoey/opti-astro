@@ -13,7 +13,6 @@ query siteSettingsById($key: [String]!, $loc: [Locales]!, $ver: String!) {
                 ...ContentReferenceItem
             }
             FooterText
-            TopNavStyle
             HeaderLinks {
                 ... on MenuItem {
                     Link {
