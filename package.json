@@ -8,6 +8,7 @@
         "start": "node dist/server/entry.mjs",
         "build": "graphql-codegen --config codegen.ts && astro build",
         "preview": "astro preview",
+        "rsync": "./sync.sh",
         "astro": "astro",
         "check": "astro check",
         "codegen": "graphql-codegen --config codegen.ts",
