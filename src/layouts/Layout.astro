@@ -77,6 +77,9 @@ const canonicalUrl = Astro.url.origin + hierarchicalUrl;
 const graphType = graphtype !== '-' ? graphtype : 'website';
 const contentKey = contentPayload.key || '';
 
+// Detect if this is the homepage
+const isHomepage = Astro.url.pathname === '/' || Astro.url.pathname === `/${Astro.currentLocale}` || Astro.url.pathname === `/${Astro.currentLocale}/`;
+
 ---
 
 <!doctype html>
@@ -109,7 +112,7 @@ const contentKey = contentPayload.key || '';
         <title>{title}</title>
         {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
     </head>
-    <body data-content-key={contentKey}>
+    <body data-content-key={contentKey} class:list={[{ 'page-homepage': isHomepage }]}>
         {
             EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && isDraft 
                 && (ctx === 'edit' || ctx === 'ext_preview') && (

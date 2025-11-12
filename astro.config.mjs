@@ -1,6 +1,7 @@
 // @ts-check
 import alpinejs from '@astrojs/alpinejs';
 import svelte from '@astrojs/svelte';
+import netlify from '@astrojs/netlify/functions';
 import tailwindcss from '@tailwindcss/vite';
 import { adapter } from 'astro-auto-adapter';
 import { defineConfig, envField, fontProviders } from 'astro/config';

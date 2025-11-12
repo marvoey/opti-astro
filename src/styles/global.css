@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 /* @import './inter.css'; */
 /* @theme {--font-sans: InterVariable, sans-serif;} */
+@import './baker-hero.css';
 
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {

@@ -1,0 +1,54 @@
+/* Hero Section - Full Width, 2/3 Viewport Height */
+/* Only applies to homepage - scoped with .page-homepage class */
+
+/* Target the specific second child div - the outer container */
+body.page-homepage > div > div:nth-child(1) {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+}
+
+/* Target the row container inside the second child */
+body.page-homepage > div > div:nth-child(1) > .vb\:row {
+  width: 100vw !important;
+  min-height: 67vh !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Target the hero section within this specific div */
+body.page-homepage > div > div:nth-child(1) .component-hero {
+  height: 67vh !important;
+  width: 100% !important;
+  max-height: 67vh !important;
+}
+
+/* Ensure the image covers the full area */
+body.page-homepage > div > div:nth-child(1) .component-hero img {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Reduce width of the hero content container */
+body.page-homepage > div > div:nth-child(1) > div > div > section >
+  div.relative.z-10.px-6.text-left.text-white  {
+  max-width: 40% !important;
+  width: 40% !important;
+  padding-left: 48px !important;
+}
+
+/* Next section after hero - overlap and align right */
+body.page-homepage > div > div:nth-child(2) {
+  position: relative !important;
+  margin-top: -100px !important;
+  width: 60vw !important;
+  max-width: 60vw !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  z-index: 20 !important;
+  background: linear-gradient(108.99deg, #ad122a -0.16%, #790123 153.62%);
+  color: white !important;
+}
