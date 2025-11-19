@@ -14,6 +14,7 @@ import { resolveContentVariant } from '../optimizely/variant-resolver';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { localeToSdkLocale, fetchContentByPath } from '../lib/locale-helpers';
+import '../styles/hero-overlay.css';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
