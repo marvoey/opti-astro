@@ -1,0 +1,42 @@
+/* Hero Background Overlay Styling
+ * Applies professional blue background similar to insurance.archgroup.com
+ * Target: body > div > div:nth-child(1) > div > section > div.absolute.inset-0.bg-neutral\/60
+ */
+
+/* Ensure parent containers have full height */
+body > div > div:nth-child(1) > div {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* Parent section - center content vertically, align left horizontally */
+body > div > div:nth-child(1) > div > section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  height: 100%;
+}
+
+/* Option 1: Blue gradient with subtle dot pattern texture */
+body > div > div:nth-child(1) > div > section > div.relative.z-10.px-6.text-center.text-white {
+  /* Primary blue background with gradient overlay */
+  background-color: #0052A5;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(0, 82, 165, 0.95) 0%, rgba(0, 102, 204, 0.85) 100%);
+  background-size: 20px 20px, 100% 100%;
+  background-position: 0 0, 0 0;
+  opacity: 0.9;
+
+  /* Width and overflow control */
+  width: 40%;
+
+  /* Left alignment and padding */
+  text-align: left;
+  margin-left: 10rem;
+  padding: 2rem;
+  margin-right: auto;
+}
+
+

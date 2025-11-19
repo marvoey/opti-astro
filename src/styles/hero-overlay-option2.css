@@ -1,0 +1,19 @@
+/* Hero Background Overlay Styling - Option 2
+ * Clean gradient with radial glow effect
+ * Target: body > div > div:nth-child(1) > div > section > div.absolute.inset-0.bg-neutral\/60
+ */
+
+body > div > div:nth-child(1) > div > section > div.absolute.inset-0.bg-neutral\/60 {
+  background: #0052A5;
+  background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  opacity: 0.85;
+}
+
+/* Simplified selector option if the full path doesn't work */
+/*
+.bg-neutral\/60 {
+  background: #0052A5 !important;
+  background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%) !important;
+  opacity: 0.85 !important;
+}
+*/
