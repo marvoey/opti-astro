@@ -4,6 +4,8 @@
     "version": "0.0.1",
     "scripts": {
         "dev": "graphql-codegen --config codegen.ts && astro dev",
+        "dev:4001": "graphql-codegen --config codegen.ts && astro dev --port 4001 --host",
+        "dev:4002": "graphql-codegen --config codegen.ts && astro dev --port 4002 --host",
         "prod:hotreload": "graphql-codegen --config codegen.ts && astro dev --host",
         "start": "node dist/server/entry.mjs",
         "build": "graphql-codegen --config codegen.ts && astro build",
