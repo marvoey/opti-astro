@@ -1,0 +1,56 @@
+---
+interface Props {
+    contentKey: string;
+    version?: string;
+    locale?: string;
+    context?: string;
+    types?: string[];
+}
+
+const { contentKey, version, locale, context, types } = Astro.props;
+---
+
+<div class="bg-gray-900 text-white p-4 border-b-4 border-blue-500 shadow-lg" x-data="{ expanded: false }">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-600">
+                    PREVIEW MODE
+                </span>
+                <span class="text-sm text-gray-300">
+                    Content Key: <code class="text-blue-400 font-mono">{contentKey}</code>
+                </span>
+            </div>
+            <button
+                @click="expanded = !expanded"
+                class="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            >
+                <span x-show="!expanded">Show Details ▼</span>
+                <span x-show="expanded">Hide Details ▲</span>
+            </button>
+        </div>
+
+        <div x-show="expanded" x-collapse>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-700">
+                <div>
+                    <p class="text-xs text-gray-400 uppercase mb-1">Version</p>
+                    <p class="font-mono text-sm">{version || 'N/A'}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase mb-1">Locale</p>
+                    <p class="font-mono text-sm">{locale || 'N/A'}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase mb-1">Context</p>
+                    <p class="font-mono text-sm">{context || 'N/A'}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase mb-1">Content Types</p>
+                    <p class="font-mono text-sm text-green-400">
+                        {types?.join(', ') || 'Loading...'}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
