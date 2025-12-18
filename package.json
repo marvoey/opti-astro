@@ -84,8 +84,5 @@
     "packageManager": "yarn@4.9.1",
     "engines": {
         "node": "22.x"
-    },
-    "resolutions": {
-        "@optimarvin/opti-webex-api-client": "portal:/home/marvin/Projects/webex-integration"
     }
 }
