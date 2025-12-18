@@ -5,9 +5,10 @@ import type { Locales } from '../../../__generated/sdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import { getOptimizelySdk } from '../../graphql/getSdk';
 import type { Project } from '@optimarvin/opti-webex-api-client';
-import ContentInfo from './ContentInfo.astro';
 import type { Campaign } from '@optimarvin/opti-webex-api-client';
 import type { Audience } from '@optimarvin/opti-webex-api-client';
+import type { Page } from '@optimarvin/opti-webex-api-client';
+import { filterMatchingPages } from '../../lib/page-conditions';
 
 interface Props {
     contentKey: string;
@@ -34,6 +35,7 @@ let webexClient: OptimizelyClient | null = null;
 let projectData: Project | null = null;
 let campaigns: Campaign[] = [];
 let audiences: Audience[] = [];
+let pages: Page[] = [];
 let campaignsCount: number | null = null;
 let audiencesCount: number | null = null;
 
@@ -47,17 +49,26 @@ if (OPTIMIZELY_WEBEX_API_TOKEN && optiWebProjectId) {
         projectData = await webexClient.projects.get(optiWebProjectId);
 
         // Fetch campaigns
-        const campaigns = await webexClient.campaigns.list(optiWebProjectId);
+        campaigns = await webexClient.campaigns.list(optiWebProjectId);
         campaignsCount = campaigns.length;
-        
+
         //Fetch audiences
-        const audiences = await webexClient.audiences.list(optiWebProjectId);
+        audiences = await webexClient.audiences.list(optiWebProjectId);
         audiencesCount = audiences.length;
+
+        //Fetch pages
+        pages = await webexClient.pages.list(optiWebProjectId);
 
     } catch (error) {
         console.error('Failed to initialize WebEx client or fetch project:', error);
     }
 }
+
+// Filter pages that match the current URL
+// Remove protocol and /preview prefix if present (CMS preview mode)
+const pathname = Astro.url.pathname.replace(/^\/preview/, '') || '/';
+const currentUrl = `${Astro.url.host}${pathname}`;
+const matchingPages = filterMatchingPages(pages, currentUrl);
 ---
 
 <div class="bg-gray-900 text-white p-4 border-b-4 border-blue-500 shadow-lg" x-data="{ expanded: false }">
@@ -142,6 +153,73 @@ if (OPTIMIZELY_WEBEX_API_TOKEN && optiWebProjectId) {
                             </div>
                         )}
                     </div>
+
+                    {audiences.length > 0 && (
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <h4 class="text-sm font-semibold text-blue-400 mb-3">Audiences</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                                {audiences.map((audience) => (
+                                    <a
+                                        href={`https://app.optimizely.com/v2/projects/${optiWebProjectId}/audiences/${audience.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-blue-400 hover:bg-gray-800 rounded transition-colors"
+                                    >
+                                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                        <span class="truncate">{audience.name}</span>
+                                        <svg class="w-3 h-3 flex-shrink-0 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {matchingPages.length > 0 && (
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <h4 class="text-sm font-semibold text-green-400 mb-3">
+                                Matching Pages for: <span class="font-mono text-xs text-gray-300">{currentUrl}</span>
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                                {matchingPages.map((page) => (
+                                    <a
+                                        href={`https://app.optimizely.com/v2/projects/${optiWebProjectId}/implementation/pages/${page.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-green-400 hover:bg-gray-800 rounded transition-colors"
+                                    >
+                                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <div class="flex flex-col truncate">
+                                            <span class="truncate font-medium">{page.name}</span>
+                                            {page.page_type && (
+                                                <span class="text-xs text-gray-500">{page.page_type}</span>
+                                            )}
+                                        </div>
+                                        <svg class="w-3 h-3 flex-shrink-0 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {pages.length > 0 && matchingPages.length === 0 && (
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <h4 class="text-sm font-semibold text-gray-400 mb-2">Matching Pages</h4>
+                            <p class="text-xs text-gray-500">
+                                No pages match the current URL: <span class="font-mono">{currentUrl}</span>
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Total pages in project: {pages.length}
+                            </p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
