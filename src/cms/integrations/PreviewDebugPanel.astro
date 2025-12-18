@@ -1,13 +1,63 @@
 ---
+import { OPTIMIZELY_WEBEX_API_TOKEN } from 'astro:env/server';
+import { OptimizelyClient } from '@optimarvin/opti-webex-api-client';
+import type { Locales } from '../../../__generated/sdk';
+import type { ContentPayload } from '../../graphql/shared/ContentPayload';
+import { getOptimizelySdk } from '../../graphql/getSdk';
+import type { Project } from '@optimarvin/opti-webex-api-client';
+import ContentInfo from './ContentInfo.astro';
+import type { Campaign } from '@optimarvin/opti-webex-api-client';
+import type { Audience } from '@optimarvin/opti-webex-api-client';
+
 interface Props {
     contentKey: string;
     version?: string;
     locale?: string;
     context?: string;
     types?: string[];
+    contentPayload: ContentPayload;
 }
 
-const { contentKey, version, locale, context, types } = Astro.props;
+const { contentKey, version, locale, context, types, contentPayload } = Astro.props;
+
+// Fetch siteSettings to get OptiWebProjectId
+const { host } = Astro.url;
+const siteSettings = await getOptimizelySdk(contentPayload).siteSettingsByHostname({
+    domain: host,
+    locale: [contentPayload.loc as Locales],
+});
+
+const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
+
+// Initialize WebEx client if token is available
+let webexClient: OptimizelyClient | null = null;
+let projectData: Project | null = null;
+let campaigns: Campaign[] = [];
+let audiences: Audience[] = [];
+let campaignsCount: number | null = null;
+let audiencesCount: number | null = null;
+
+if (OPTIMIZELY_WEBEX_API_TOKEN && optiWebProjectId) {
+    try {
+        webexClient = new OptimizelyClient({
+            token: OPTIMIZELY_WEBEX_API_TOKEN,
+        });
+
+        // Fetch project data
+        projectData = await webexClient.projects.get(optiWebProjectId);
+
+        // Fetch campaigns
+        const campaigns = await webexClient.campaigns.list(optiWebProjectId);
+        campaignsCount = campaigns.length;
+        
+        //Fetch audiences
+        const audiences = await webexClient.audiences.list(optiWebProjectId);
+        audiencesCount = audiences.length;
+
+    } catch (error) {
+        console.error('Failed to initialize WebEx client or fetch project:', error);
+    }
+}
 ---
 
 <div class="bg-gray-900 text-white p-4 border-b-4 border-blue-500 shadow-lg" x-data="{ expanded: false }">
@@ -15,42 +65,85 @@ const { contentKey, version, locale, context, types } = Astro.props;
         <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-3">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-600">
-                    PREVIEW MODE
-                </span>
-                <span class="text-sm text-gray-300">
-                    Content Key: <code class="text-blue-400 font-mono">{contentKey}</code>
+                    Web Experimentation Panel
                 </span>
             </div>
             <button
                 @click="expanded = !expanded"
                 class="text-sm text-blue-400 hover:text-blue-300 transition-colors"
             >
-                <span x-show="!expanded">Show Details ▼</span>
-                <span x-show="expanded">Hide Details ▲</span>
+                <span x-show="!expanded">Show Details &#x25BC;</span>
+                <span x-show="expanded">Hide Details &#x25B2;</span>
             </button>
         </div>
 
         <div x-show="expanded" x-collapse>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-700">
-                <div>
-                    <p class="text-xs text-gray-400 uppercase mb-1">Version</p>
-                    <p class="font-mono text-sm">{version || 'N/A'}</p>
+            {optiWebProjectId && (
+                <div class="mt-4 pt-4 border-t border-gray-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-blue-400">WebEx Project Information</h3>
+                        <a
+                            href={`https://app.optimizely.com/v2/projects/${optiWebProjectId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded transition-colors"
+                        >
+                            Open in Optimizely
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase mb-1">Project ID</p>
+                            <p class="font-mono text-sm">{optiWebProjectId}</p>
+                        </div>
+                        {projectData && (
+                            <>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase mb-1">Project Name</p>
+                                    <p class="font-mono text-sm">{projectData.name || 'N/A'}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase mb-1">Campaigns</p>
+                                    <p class="font-mono text-sm">
+                                        {campaignsCount !== null ? (
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-500/20 text-purple-400">
+                                                {campaignsCount}
+                                            </span>
+                                        ) : (
+                                            <span class="text-gray-500">N/A</span>
+                                        )}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase mb-1">Audiences</p>
+                                    <p class="font-mono text-sm">
+                                        {audiencesCount !== null ? (
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-500/20 text-purple-400">
+                                                {audiencesCount}
+                                            </span>
+                                        ) : (
+                                            <span class="text-gray-500">N/A</span>
+                                        )}
+                                    </p>
+                                </div>
+                            </>
+                        )}
+                        {!projectData && OPTIMIZELY_WEBEX_API_TOKEN && (
+                            <div class="col-span-3">
+                                <p class="text-xs text-yellow-400">Failed to fetch project data from WebEx API</p>
+                            </div>
+                        )}
+                        {!OPTIMIZELY_WEBEX_API_TOKEN && (
+                            <div class="col-span-3">
+                                <p class="text-xs text-gray-500">Set OPTIMIZELY_WEBEX_API_TOKEN to view project details</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div>
-                    <p class="text-xs text-gray-400 uppercase mb-1">Locale</p>
-                    <p class="font-mono text-sm">{locale || 'N/A'}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-400 uppercase mb-1">Context</p>
-                    <p class="font-mono text-sm">{context || 'N/A'}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-gray-400 uppercase mb-1">Content Types</p>
-                    <p class="font-mono text-sm text-green-400">
-                        {types?.join(', ') || 'Loading...'}
-                    </p>
-                </div>
-            </div>
+            )}
         </div>
     </div>
 </div>

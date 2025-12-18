@@ -1,0 +1,31 @@
+---
+interface Props {
+    version?: string;
+    locale?: string;
+    context?: string;
+    types?: string[];
+}
+
+const { version, locale, context, types } = Astro.props;
+---
+
+<div class="mt-4 border-t border-gray-700 pt-4">
+    <div>
+        <p class="mb-1 text-xs text-gray-400 uppercase">Version</p>
+        <p class="font-mono text-sm">{version || 'N/A'}</p>
+    </div>
+    <div>
+        <p class="mb-1 text-xs text-gray-400 uppercase">Locale</p>
+        <p class="font-mono text-sm">{locale || 'N/A'}</p>
+    </div>
+    <div>
+        <p class="mb-1 text-xs text-gray-400 uppercase">Context</p>
+        <p class="font-mono text-sm">{context || 'N/A'}</p>
+    </div>
+    <div>
+        <p class="mb-1 text-xs text-gray-400 uppercase">Content Types</p>
+        <p class="font-mono text-sm text-green-400">
+            {types?.join(', ') || 'Loading...'}
+        </p>
+    </div>
+</div>

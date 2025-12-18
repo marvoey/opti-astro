@@ -41,6 +41,7 @@ const isPageType = types?.includes('_Page') && isExperienceType === false;
         locale={previewPayload.loc}
         context={previewPayload.ctx}
         types={types}
+        contentPayload={previewPayload}
     />
     {!types && <h1 class="text-center text-5xl">Let's create some content</h1>}
     {isComponentType && <Component data={previewPayload} />}
