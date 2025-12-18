@@ -17,6 +17,7 @@ import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
+import StorageManager from './components/StorageManager.svelte';
 
 interface Props {
     title: string;
@@ -162,5 +163,7 @@ const isRtl = rtlLangs.includes(currentLang.split('-')[0]);
             // Start Alpine
             Alpine.start();
         </script>
+
+        <StorageManager client:load />
     </body>
 </html>

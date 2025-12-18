@@ -118,6 +118,11 @@ export default defineConfig({
                 optional: true,
                 default: true,
             }),
+            OPTIMIZELY_WEBEX_API_TOKEN: envField.string({
+                context: 'server',
+                access: 'secret',
+                optional: true,
+            }),
             // Note: ASTRO_I18N_CONFIG is a build-time only variable (used in astro.config.mjs)
             // It's not included in the env schema since it's not needed at runtime
         },
