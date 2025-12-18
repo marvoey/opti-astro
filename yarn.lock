@@ -4032,12 +4032,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@optimarvin/opti-webex-api-client@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@optimarvin/opti-webex-api-client@npm:1.1.0"
-  checksum: 10c0/621fc928a526ae0e41e5e3e2638ea497fd107019acfe9edfe703a3506615b0b530359bb5ab86893c2e8db9a20b6638eb62889a3b152ddcf6a892095500e830df
+"@optimarvin/opti-webex-api-client@portal:/home/marvin/Projects/webex-integration::locator=opti-astro%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@optimarvin/opti-webex-api-client@portal:/home/marvin/Projects/webex-integration::locator=opti-astro%40workspace%3A."
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@optimizely/optimizely-sdk@npm:^6.0.0":
   version: 6.0.0

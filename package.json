@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "scripts": {
         "dev": "graphql-codegen --config codegen.ts && astro dev",
+        "dev:linked": "NODE_OPTIONS=\"--preserve-symlinks\" yarn dev",
         "prod:hotreload": "graphql-codegen --config codegen.ts && astro dev --host",
         "start": "node dist/server/entry.mjs",
         "build": "graphql-codegen --config codegen.ts && astro build",
@@ -83,5 +84,8 @@
     "packageManager": "yarn@4.9.1",
     "engines": {
         "node": "22.x"
+    },
+    "resolutions": {
+        "@optimarvin/opti-webex-api-client": "portal:/home/marvin/Projects/webex-integration"
     }
 }
