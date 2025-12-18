@@ -5,7 +5,7 @@ import type { Page } from '@optimarvin/opti-webex-api-client';
  */
 interface ConditionRule {
     type: string;
-    match_type: 'simple' | 'exact' | 'regex' | 'substring' | 'contains';
+    match_type: 'simple' | 'exact' | 'regex' | 'substring';
     value: string;
 }
 
@@ -15,7 +15,51 @@ interface ConditionRule {
 type ConditionTree = ConditionRule | ['and' | 'or', ...ConditionTree[]];
 
 /**
+ * Normalizes a URL for simple match type:
+ * - Removes protocol (http:// or https://)
+ * - Removes query parameters
+ * - Removes hash fragments
+ * - Converts to lowercase
+ */
+function normalizeUrlForSimpleMatch(url: string): string {
+    let normalized = url.toLowerCase();
+
+    // Remove protocol
+    normalized = normalized.replace(/^https?:\/\//, '');
+
+    // Remove query parameters and hash
+    normalized = normalized.split('?')[0].split('#')[0];
+
+    return normalized;
+}
+
+/**
+ * Normalizes a URL for substring match type:
+ * - Removes protocol (http:// or https://)
+ * - Removes trailing slashes
+ * - Converts to lowercase
+ * - Keeps subdomains, subdirectories, extensions, query and hash parameters
+ */
+function normalizeUrlForSubstringMatch(url: string): string {
+    let normalized = url.toLowerCase();
+
+    // Remove protocol
+    normalized = normalized.replace(/^https?:\/\//, '');
+
+    // Remove trailing slashes
+    normalized = normalized.replace(/\/+$/, '');
+
+    return normalized;
+}
+
+/**
  * Evaluates a single condition rule against a URL
+ *
+ * Match types:
+ * - simple: Ignores protocol, query params, hash. Case-insensitive. For single pages.
+ * - exact: Must match exactly. Case-insensitive.
+ * - substring: Matches if URL contains value anywhere. Ignores protocol and trailing slashes. Case-insensitive.
+ * - regex: Regular expression match. Case-sensitive.
  */
 function evaluateRule(rule: ConditionRule, url: string): boolean {
     if (rule.type !== 'url') {
@@ -25,27 +69,37 @@ function evaluateRule(rule: ConditionRule, url: string): boolean {
     }
 
     const { match_type, value } = rule;
-    const normalizedUrl = url.toLowerCase();
-    const normalizedValue = value.toLowerCase();
 
     switch (match_type) {
-        case 'exact':
+        case 'simple': {
+            // Simple match: ignores protocol, query params, and hash
+            const normalizedUrl = normalizeUrlForSimpleMatch(url);
+            const normalizedValue = normalizeUrlForSimpleMatch(value);
             return normalizedUrl === normalizedValue;
+        }
 
-        case 'simple':
-        case 'substring':
-        case 'contains':
-            // Simple match checks if the URL contains the value
+        case 'exact': {
+            // Exact match: case-insensitive exact comparison
+            return url.toLowerCase() === value.toLowerCase();
+        }
+
+        case 'substring': {
+            // Substring match: ignores protocol and trailing slashes
+            const normalizedUrl = normalizeUrlForSubstringMatch(url);
+            const normalizedValue = normalizeUrlForSubstringMatch(value);
             return normalizedUrl.includes(normalizedValue);
+        }
 
-        case 'regex':
+        case 'regex': {
+            // RegEx match: case-sensitive
             try {
-                const regex = new RegExp(value, 'i');
+                const regex = new RegExp(value);
                 return regex.test(url);
             } catch (error) {
                 console.error('Invalid regex pattern:', value, error);
                 return false;
             }
+        }
 
         default:
             console.warn('Unknown match_type:', match_type);

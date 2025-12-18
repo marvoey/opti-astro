@@ -1,0 +1,15 @@
+query contentMetadataById($key: [String]!) {
+  _Page(ids: $key) {
+    item {
+      _metadata {
+        url {
+          base
+          default
+          hierarchical
+          internal
+          type
+        }
+      }
+    }
+  }
+}

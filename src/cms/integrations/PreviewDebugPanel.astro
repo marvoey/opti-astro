@@ -66,9 +66,23 @@ if (OPTIMIZELY_WEBEX_API_TOKEN && optiWebProjectId) {
 
 // Filter pages that match the current URL
 // Remove protocol and /preview prefix if present (CMS preview mode)
-const pathname = Astro.url.pathname.replace(/^\/preview/, '') || '/';
-const currentUrl = `${Astro.url.host}${pathname}`;
+
+// Fetch metdata for url path building
+const metaDataResponse = await getOptimizelySdk(contentPayload).contentMetadataById({
+    key: [contentPayload.key],
+});
+const urlInfo = metaDataResponse._Page?.item?._metadata?.url;;
+console.log(urlInfo);
+
+const currentUrl = `${urlInfo?.base}${urlInfo?.default}`;
+
+console.log('Built URL:', currentUrl);
+
+// const pathname = Astro.url.pathname.replace(/^\/preview/, '') || '/';
+// const currentUrl = `${Astro.url.host}${pathname}`;
 const matchingPages = filterMatchingPages(pages, currentUrl);
+
+// console.log(contentPayload);
 ---
 
 <div class="bg-gray-900 text-white p-4 border-b-4 border-blue-500 shadow-lg" x-data="{ expanded: false }">
