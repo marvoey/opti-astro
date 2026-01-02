@@ -37,6 +37,7 @@
     "@deno/astro-adapter": "^0.3.2",
     "@optimarvin/opti-cms-client": "^0.1.3",
     "@optimarvin/opti-graphql-client": "^0.1.9",
+    "@optimarvin/opti-webex-api-client": "^1.1.1",
     "@optimizely/optimizely-sdk": "^6.0.0",
     "@rollup/plugin-commonjs": "^28.0.3",
     "@splidejs/splide": "^4.1.4",
