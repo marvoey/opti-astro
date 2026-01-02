@@ -5,5 +5,12 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "noEmit": true,
-  }
+    "target": "ES6", // @0no-co/graphqlsp Requires ES6 and above
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./src/pages/tools/codegen/schema.graphql"
+      }
+    ]
+  },
 }
