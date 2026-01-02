@@ -3853,6 +3853,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "@optimarvin/opti-cms-client@npm:^0.1.3":
   version: 0.1.3
   resolution: "@optimarvin/opti-cms-client@npm:0.1.3"
@@ -3868,6 +3869,12 @@ __metadata:
     graphql: "npm:^16.8.1"
     graphql-request: "npm:^6.1.0"
   checksum: 10c0/f7a3ce8b43e0c6e2c7a78832eb4bc56c8c0599e2aa2ea054a408cf6d5566fde593cb33a6322d4b49883cf7a598bacfc35cb17333854580220ada229d26b2e931
+=======
+"@optimarvin/opti-webex-api-client@npm:^1.1.0":
+  version: 1.1.1
+  resolution: "@optimarvin/opti-webex-api-client@npm:1.1.1"
+  checksum: 10c0/33dc050da65175eeb8440178a69533b6626f0fcdfb6b96e0869767a2e66f9313dee8c32cea3e16ebf48112aafbec6d9985be866427b6aab0cded3d98d1384a06
+>>>>>>> tooling
   languageName: node
   linkType: hard
 
@@ -11289,8 +11296,12 @@ __metadata:
     "@graphql-codegen/typescript-generic-sdk": "npm:^4.0.1"
     "@graphql-codegen/typescript-graphql-request": "npm:6.2.0"
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
+<<<<<<< HEAD
     "@optimarvin/opti-cms-client": "npm:^0.1.3"
     "@optimarvin/opti-graphql-client": "npm:^0.1.9"
+=======
+    "@optimarvin/opti-webex-api-client": "npm:^1.1.0"
+>>>>>>> tooling
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
     "@remkoj/optimizely-cms-api": "npm:^5.1.7"
