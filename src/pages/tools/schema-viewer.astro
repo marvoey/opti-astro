@@ -1,0 +1,378 @@
+---
+import ToolsLayout from '../../layouts/ToolsLayout.astro';
+
+const OPTIMIZELY_GRAPH_GATEWAY = import.meta.env.OPTIMIZELY_GRAPH_GATEWAY || process.env.OPTIMIZELY_GRAPH_GATEWAY;
+const OPTIMIZELY_GRAPH_SINGLE_KEY = import.meta.env.OPTIMIZELY_GRAPH_SINGLE_KEY || process.env.OPTIMIZELY_GRAPH_SINGLE_KEY;
+
+const defaultEndpoint = OPTIMIZELY_GRAPH_GATEWAY && OPTIMIZELY_GRAPH_SINGLE_KEY
+  ? `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2?auth=${OPTIMIZELY_GRAPH_SINGLE_KEY}`
+  : '';
+
+export const prerender = false;
+---
+
+<ToolsLayout title="GraphQL Schema Viewer" description="Introspect and explore any GraphQL endpoint">
+  <style>
+    code, pre {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    }
+  </style>
+
+  <div class="min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mb-2">GraphQL Schema Viewer</h1>
+          <p class="text-base-content/70">Introspect and explore any GraphQL endpoint</p>
+        </div>
+
+        <!-- Endpoint Form -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+          <div class="card-body">
+            <form id="schemaForm">
+              <div class="form-control mb-4">
+                <label class="label">
+                  <span class="label-text font-semibold">GraphQL Endpoint URL</span>
+                </label>
+                <input
+                  type="url"
+                  id="endpoint"
+                  value={defaultEndpoint}
+                  placeholder="https://api.example.com/graphql"
+                  class="input input-bordered w-full"
+                  required
+                />
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text">Auth Header (Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="authHeader"
+                    placeholder="Authorization"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text">Auth Value (Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="authValue"
+                    placeholder="Bearer YOUR_TOKEN"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="fetchBtn">
+                <span id="fetchBtnText">Fetch Schema</span>
+                <span id="fetchBtnLoading" class="loading loading-spinner loading-sm hidden"></span>
+              </button>
+            </form>
+
+            <!-- Error Alert -->
+            <div id="errorAlert" class="alert alert-error mt-4 hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span id="errorText"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schema Display -->
+        <div id="schemaDisplay" class="card bg-base-100 shadow-xl hidden">
+          <div class="card-body">
+            <!-- Tabs -->
+            <div role="tablist" class="tabs tabs-lifted">
+              <input type="radio" name="schema_tabs" role="tab" class="tab" aria-label="Raw SDL" checked />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-xl font-semibold">Schema Definition Language</h2>
+                  <button type="button" class="btn btn-sm btn-ghost" id="copyBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="mockup-code">
+                  <pre id="sdlContent" class="overflow-x-auto text-sm"><code></code></pre>
+                </div>
+              </div>
+
+              <input type="radio" name="schema_tabs" role="tab" class="tab" aria-label="Explorer" />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                <h2 class="text-xl font-semibold mb-4">Interactive Explorer</h2>
+
+                <!-- Search -->
+                <div class="form-control mb-4">
+                  <input
+                    type="text"
+                    id="searchQuery"
+                    placeholder="Search types, fields, descriptions..."
+                    class="input input-bordered w-full"
+                  />
+                </div>
+
+                <!-- Type List -->
+                <div id="typeList" class="space-y-4 max-h-[600px] overflow-y-auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      import { buildClientSchema, getIntrospectionQuery, printSchema } from 'graphql';
+
+      let schemaData = null;
+      let introspectionData = null;
+
+      let form;
+      let endpointInput;
+      let authHeaderInput;
+      let authValueInput;
+      let fetchBtn;
+      let fetchBtnText;
+      let fetchBtnLoading;
+      let errorAlert;
+      let errorText;
+      let schemaDisplay;
+      let sdlContent;
+      let copyBtn;
+      let searchQuery;
+      let typeList;
+
+      function initializeElements() {
+        form = document.getElementById('schemaForm');
+        endpointInput = document.getElementById('endpoint');
+        authHeaderInput = document.getElementById('authHeader');
+        authValueInput = document.getElementById('authValue');
+        fetchBtn = document.getElementById('fetchBtn');
+        fetchBtnText = document.getElementById('fetchBtnText');
+        fetchBtnLoading = document.getElementById('fetchBtnLoading');
+        errorAlert = document.getElementById('errorAlert');
+        errorText = document.getElementById('errorText');
+        schemaDisplay = document.getElementById('schemaDisplay');
+        sdlContent = document.getElementById('sdlContent');
+        copyBtn = document.getElementById('copyBtn');
+        searchQuery = document.getElementById('searchQuery');
+        typeList = document.getElementById('typeList');
+
+        if (form) {
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await fetchSchema();
+          });
+        }
+
+        if (copyBtn) {
+          copyBtn.addEventListener('click', () => {
+            const sdl = sdlContent?.textContent || '';
+            navigator.clipboard.writeText(sdl);
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => {
+              copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>Copy`;
+            }, 2000);
+          });
+        }
+
+        if (searchQuery) {
+          searchQuery.addEventListener('input', () => {
+            renderTypeList();
+          });
+        }
+      }
+
+      // Initialize on both DOMContentLoaded and astro:page-load for compatibility
+      document.addEventListener('DOMContentLoaded', initializeElements);
+      document.addEventListener('astro:page-load', initializeElements);
+
+      async function fetchSchema() {
+        if (!endpointInput || !authHeaderInput || !authValueInput) return;
+
+        const endpoint = endpointInput.value.trim();
+        const authHeader = authHeaderInput.value.trim();
+        const authValue = authValueInput.value.trim();
+
+        if (!endpoint) {
+          showError('Please enter a GraphQL endpoint URL');
+          return;
+        }
+
+        setLoading(true);
+        hideError();
+        if (schemaDisplay) schemaDisplay.classList.add('hidden');
+
+        try {
+          const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+          };
+
+          if (authHeader && authValue) {
+            headers[authHeader] = authValue;
+          }
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+              query: getIntrospectionQuery(),
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const result = await response.json();
+
+          if (result.errors) {
+            throw new Error(result.errors.map((e: any) => e.message).join(', '));
+          }
+
+          if (!result.data) {
+            throw new Error('No data returned from introspection query');
+          }
+
+          introspectionData = result.data;
+          schemaData = buildClientSchema(introspectionData);
+
+          renderSchema();
+          if (schemaDisplay) schemaDisplay.classList.remove('hidden');
+        } catch (err: any) {
+          showError(err.message || 'Failed to fetch schema');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function renderSchema() {
+        if (!schemaData || !sdlContent) return;
+        const sdl = printSchema(schemaData);
+        sdlContent.textContent = sdl;
+        renderTypeList();
+      }
+
+      function renderTypeList() {
+        if (!schemaData || !typeList || !searchQuery) return;
+
+        const typeMap = schemaData.getTypeMap();
+        const types = Object.values(typeMap).filter(
+          (type: any) => !type.name.startsWith('__')
+        );
+
+        const query = searchQuery.value.toLowerCase();
+        const filtered = types.filter((type: any) =>
+          type.name.toLowerCase().includes(query) ||
+          (type.description && type.description.toLowerCase().includes(query))
+        );
+
+        if (filtered.length === 0) {
+          typeList.innerHTML = `<div class="text-center py-8 text-base-content/60">No types found matching "${searchQuery.value}"</div>`;
+          return;
+        }
+
+        typeList.innerHTML = filtered.map((type: any) => {
+          const typeName = type.constructor.name.replace('GraphQL', '');
+          let fieldsHtml = '';
+
+          if (type.getFields) {
+            const fields = Object.values(type.getFields());
+            fieldsHtml = `
+              <div class="mt-3">
+                <h4 class="text-sm font-semibold mb-2">Fields:</h4>
+                <div class="space-y-2">
+                  ${fields.map((field: any) => `
+                    <div class="pl-4 border-l-2 border-base-300">
+                      <div class="flex items-baseline gap-2">
+                        <code class="text-sm font-medium text-primary">${field.name}</code>
+                        <span class="text-xs">:</span>
+                        <code class="text-sm">${field.type.toString()}</code>
+                      </div>
+                      ${field.description ? `<p class="text-xs text-base-content/60 mt-1">${field.description}</p>` : ''}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+
+          if (type.getValues) {
+            const values = type.getValues();
+            const hasDescriptions = values.some((v: any) => v.description);
+
+            if (hasDescriptions) {
+              // Show detailed view with descriptions
+              fieldsHtml = `
+                <div class="mt-3">
+                  <h4 class="text-sm font-semibold mb-2">Values:</h4>
+                  <div class="space-y-2">
+                    ${values.map((value: any) => `
+                      <div class="pl-4 border-l-2 border-base-300">
+                        <code class="text-sm font-medium text-primary">${value.name}</code>
+                        ${value.description ? `<p class="text-xs text-base-content/60 mt-1">${value.description}</p>` : ''}
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `;
+            } else {
+              // Show compact badge view
+              fieldsHtml = `
+                <div class="mt-3">
+                  <h4 class="text-sm font-semibold mb-2">Values:</h4>
+                  <div class="flex flex-wrap gap-2">
+                    ${values.map((value: any) => `<div class="badge badge-outline">${value.name}</div>`).join('')}
+                  </div>
+                </div>
+              `;
+            }
+          }
+
+          return `
+            <div class="card bg-base-100 border border-base-300 hover:border-primary transition-colors">
+              <div class="card-body">
+                <div class="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 class="card-title text-lg">${type.name}</h3>
+                    <span class="badge badge-sm badge-ghost">${typeName}</span>
+                  </div>
+                </div>
+                ${type.description ? `<p class="text-sm text-base-content/70 mb-3">${type.description}</p>` : ''}
+                ${fieldsHtml}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function setLoading(loading: boolean) {
+        if (!fetchBtn || !fetchBtnText || !fetchBtnLoading) return;
+        (fetchBtn as HTMLButtonElement).disabled = loading;
+        if (loading) {
+          fetchBtnText.textContent = 'Fetching...';
+          fetchBtnLoading.classList.remove('hidden');
+        } else {
+          fetchBtnText.textContent = 'Fetch Schema';
+          fetchBtnLoading.classList.add('hidden');
+        }
+      }
+
+      function showError(message: string) {
+        if (!errorText || !errorAlert) return;
+        errorText.textContent = message;
+        errorAlert.classList.remove('hidden');
+      }
+
+      function hideError() {
+        if (!errorAlert) return;
+        errorAlert.classList.add('hidden');
+      }
+    </script>
+    </div>
+  </div>
+</ToolsLayout>

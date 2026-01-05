@@ -34,6 +34,7 @@
         "@astrojs/vercel": "^9.0.2",
         "@deno/astro-adapter": "^0.3.2",
         "@optimarvin/opti-cmp-client": "^1.2.0",
+        "@optimarvin/opti-graphql-client": "portal:../opti-graphql-client",
         "@optimizely/optimizely-sdk": "^6.0.0",
         "@rollup/plugin-commonjs": "^28.0.3",
         "@splidejs/splide": "^4.1.4",
@@ -58,6 +59,7 @@
         "typescript": "^5.9.3"
     },
     "devDependencies": {
+        "@0no-co/graphqlsp": "^1.15.2",
         "@babel/parser": "^7.27.0",
         "@graphql-codegen/cli": "^5.0.5",
         "@graphql-codegen/introspection": "^4.0.3",
@@ -67,7 +69,7 @@
         "@graphql-codegen/typescript-graphql-request": "6.2.0",
         "@graphql-codegen/typescript-operations": "^4.5.1",
         "@parcel/watcher": "^2.5.1",
-        "@remkoj/optimizely-cms-api": "5.1.1",
+        "@remkoj/optimizely-cms-api": "portal:/home/marvin/Projects/optimizely-dxp-clients/packages/optimizely-cms-api",
         "@tailwindcss/typography": "^0.5.16",
         "@types/node": "^22.13.10",
         "fast-glob": "^3.3.3",

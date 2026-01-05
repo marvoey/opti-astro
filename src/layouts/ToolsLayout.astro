@@ -1,0 +1,81 @@
+---
+import { ASTRO_TRANSITIONS_ENABLED } from 'astro:env/client';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+    title: string;
+    description?: string;
+}
+
+const {
+    title,
+    description = 'Demo Tools',
+} = Astro.props;
+
+const toolsPages = [
+    { name: 'Test', path: '/tools/test' },
+    { name: 'Schema Viewer', path: '/tools/schema-viewer' },
+    { name: 'Enum Viewer', path: '/tools/enum-viewer' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html data-theme="light" lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>{title}</title>
+        {ASTRO_TRANSITIONS_ENABLED && <ClientRouter />}
+    </head>
+    <body class="bg-base-200">
+        <!-- Tools Navigation -->
+        <div class="navbar bg-base-100 shadow-lg">
+            <div class="flex-1">
+                <a href="/tools/test" class="btn btn-ghost text-xl">Demo Tools</a>
+            </div>
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    {toolsPages.map((page) => (
+                        <li>
+                            <a
+                                href={page.path}
+                                class={currentPath === page.path ? 'active' : ''}
+                            >
+                                {page.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            <slot />
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer footer-center p-4 bg-base-100 text-base-content mt-8">
+            <aside>
+                <p>Developer Tools - For internal use only</p>
+            </aside>
+        </footer>
+
+        <script>
+            import Alpine from 'alpinejs';
+
+            // Make Alpine available globally
+            window.Alpine = Alpine;
+
+            // Start Alpine
+            Alpine.start();
+        </script>
+    </body>
+</html>

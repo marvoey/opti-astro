@@ -1,0 +1,370 @@
+---
+import ToolsLayout from '../../layouts/ToolsLayout.astro';
+
+const OPTIMIZELY_GRAPH_GATEWAY = import.meta.env.OPTIMIZELY_GRAPH_GATEWAY || process.env.OPTIMIZELY_GRAPH_GATEWAY;
+const OPTIMIZELY_GRAPH_SINGLE_KEY = import.meta.env.OPTIMIZELY_GRAPH_SINGLE_KEY || process.env.OPTIMIZELY_GRAPH_SINGLE_KEY;
+
+const defaultEndpoint = OPTIMIZELY_GRAPH_GATEWAY && OPTIMIZELY_GRAPH_SINGLE_KEY
+  ? `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2?auth=${OPTIMIZELY_GRAPH_SINGLE_KEY}`
+  : '';
+
+export const prerender = false;
+---
+
+<ToolsLayout title="GraphQL Enum Viewer" description="View all enum types from any GraphQL endpoint">
+  <style>
+    code, pre {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    }
+  </style>
+
+  <div class="min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mb-2">GraphQL Enum Viewer</h1>
+          <p class="text-base-content/70">View all enum types from any GraphQL endpoint</p>
+        </div>
+
+        <!-- Endpoint Form -->
+        <div class="card bg-base-100 shadow-xl mb-6">
+          <div class="card-body">
+            <form id="enumForm">
+              <div class="form-control mb-4">
+                <label class="label">
+                  <span class="label-text font-semibold">GraphQL Endpoint URL</span>
+                </label>
+                <input
+                  type="url"
+                  id="endpoint"
+                  value={defaultEndpoint}
+                  placeholder="https://api.example.com/graphql"
+                  class="input input-bordered w-full"
+                  required
+                />
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text">Auth Header (Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="authHeader"
+                    placeholder="Authorization"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text">Auth Value (Optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="authValue"
+                    placeholder="Bearer YOUR_TOKEN"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" id="fetchBtn">
+                <span id="fetchBtnText">Fetch Enums</span>
+                <span id="fetchBtnLoading" class="loading loading-spinner loading-sm hidden"></span>
+              </button>
+            </form>
+
+            <!-- Error Alert -->
+            <div id="errorAlert" class="alert alert-error mt-4 hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span id="errorText"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enum Display -->
+        <div id="enumDisplay" class="hidden">
+          <!-- Stats -->
+          <div class="stats shadow mb-6 w-full">
+            <div class="stat">
+              <div class="stat-title">Total Enums</div>
+              <div class="stat-value" id="totalEnums">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">Total Values</div>
+              <div class="stat-value" id="totalValues">0</div>
+            </div>
+          </div>
+
+          <!-- Search -->
+          <div class="form-control mb-4">
+            <input
+              type="text"
+              id="searchQuery"
+              placeholder="Search enums by name or description..."
+              class="input input-bordered w-full"
+            />
+          </div>
+
+          <!-- Enum List -->
+          <div id="enumList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="card bg-base-100 shadow-xl hidden">
+            <div class="card-body text-center">
+              <p class="text-base-content/60">No enums found matching your search</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      import { buildClientSchema, getIntrospectionQuery, isEnumType } from 'graphql';
+
+      let schemaData: any = null;
+      let enumTypes: any[] = [];
+
+      let form: HTMLElement | null;
+      let endpointInput: HTMLInputElement | null;
+      let authHeaderInput: HTMLInputElement | null;
+      let authValueInput: HTMLInputElement | null;
+      let fetchBtn: HTMLElement | null;
+      let fetchBtnText: HTMLElement | null;
+      let fetchBtnLoading: HTMLElement | null;
+      let errorAlert: HTMLElement | null;
+      let errorText: HTMLElement | null;
+      let enumDisplay: HTMLElement | null;
+      let totalEnums: HTMLElement | null;
+      let totalValues: HTMLElement | null;
+      let searchQuery: HTMLInputElement | null;
+      let enumList: HTMLElement | null;
+      let emptyState: HTMLElement | null;
+
+      function initializeElements() {
+        form = document.getElementById('enumForm');
+        endpointInput = document.getElementById('endpoint') as HTMLInputElement;
+        authHeaderInput = document.getElementById('authHeader') as HTMLInputElement;
+        authValueInput = document.getElementById('authValue') as HTMLInputElement;
+        fetchBtn = document.getElementById('fetchBtn');
+        fetchBtnText = document.getElementById('fetchBtnText');
+        fetchBtnLoading = document.getElementById('fetchBtnLoading');
+        errorAlert = document.getElementById('errorAlert');
+        errorText = document.getElementById('errorText');
+        enumDisplay = document.getElementById('enumDisplay');
+        totalEnums = document.getElementById('totalEnums');
+        totalValues = document.getElementById('totalValues');
+        searchQuery = document.getElementById('searchQuery') as HTMLInputElement;
+        enumList = document.getElementById('enumList');
+        emptyState = document.getElementById('emptyState');
+
+        if (form) {
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await fetchEnums();
+          });
+        }
+
+        if (searchQuery) {
+          searchQuery.addEventListener('input', () => {
+            renderEnumList();
+          });
+        }
+      }
+
+      // Initialize on both DOMContentLoaded and astro:page-load for compatibility
+      document.addEventListener('DOMContentLoaded', initializeElements);
+      document.addEventListener('astro:page-load', initializeElements);
+
+      async function fetchEnums() {
+        if (!endpointInput || !authHeaderInput || !authValueInput) return;
+
+        const endpoint = endpointInput.value.trim();
+        const authHeader = authHeaderInput.value.trim();
+        const authValue = authValueInput.value.trim();
+
+        if (!endpoint) {
+          showError('Please enter a GraphQL endpoint URL');
+          return;
+        }
+
+        setLoading(true);
+        hideError();
+        if (enumDisplay) enumDisplay.classList.add('hidden');
+
+        try {
+          const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+          };
+
+          if (authHeader && authValue) {
+            headers[authHeader] = authValue;
+          }
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+              query: getIntrospectionQuery(),
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const result = await response.json();
+
+          if (result.errors) {
+            throw new Error(result.errors.map((e: any) => e.message).join(', '));
+          }
+
+          if (!result.data) {
+            throw new Error('No data returned from introspection query');
+          }
+
+          const introspectionData = result.data;
+          schemaData = buildClientSchema(introspectionData);
+
+          // Filter only enum types
+          const typeMap = schemaData.getTypeMap();
+          enumTypes = Object.values(typeMap).filter((type: any) =>
+            isEnumType(type) && !type.name.startsWith('__')
+          );
+
+          if (enumTypes.length === 0) {
+            showError('No enum types found in this schema');
+            return;
+          }
+
+          renderStats();
+          renderEnumList();
+          if (enumDisplay) enumDisplay.classList.remove('hidden');
+        } catch (err: any) {
+          showError(err.message || 'Failed to fetch schema');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function renderStats() {
+        if (!totalEnums || !totalValues) return;
+        totalEnums.textContent = String(enumTypes.length);
+        const valueCount = enumTypes.reduce((sum: number, type: any) => sum + type.getValues().length, 0);
+        totalValues.textContent = String(valueCount);
+      }
+
+      function renderEnumList() {
+        if (!searchQuery || !enumList || !emptyState) return;
+
+        const query = searchQuery.value.toLowerCase();
+        const filtered = enumTypes.filter((type: any) =>
+          type.name.toLowerCase().includes(query) ||
+          (type.description && type.description.toLowerCase().includes(query))
+        );
+
+        if (filtered.length === 0) {
+          enumList.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          return;
+        }
+
+        emptyState.classList.add('hidden');
+
+        enumList.innerHTML = filtered.map((type: any) => {
+          const values = type.getValues();
+          const hasDescriptions = values.some((v: any) => v.description);
+
+          return `
+            <div class="card bg-base-100 shadow-xl border border-base-300 hover:border-primary transition-colors">
+              <div class="card-body">
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex-1">
+                    <h3 class="card-title text-lg">${type.name}</h3>
+                    <div class="badge badge-sm badge-ghost mt-1">Enum • ${values.length} values</div>
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-xs btn-ghost"
+                    onclick="copyEnumValues('${type.name}')"
+                    title="Copy values to clipboard"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                  </button>
+                </div>
+
+                ${type.description ? `<p class="text-sm text-base-content/70 mb-3">${type.description}</p>` : ''}
+
+                <div class="divider my-2"></div>
+
+                ${hasDescriptions ? `
+                  <div class="space-y-2 max-h-60 overflow-y-auto">
+                    ${values.map((value: any) => `
+                      <div class="pl-4 border-l-2 border-base-300">
+                        <code class="text-sm font-medium text-primary">${value.name}</code>
+                        ${value.description ? `<p class="text-xs text-base-content/60 mt-1">${value.description}</p>` : ''}
+                        ${value.deprecationReason ? `<p class="text-xs text-warning mt-1">⚠️ Deprecated: ${value.deprecationReason}</p>` : ''}
+                      </div>
+                    `).join('')}
+                  </div>
+                ` : `
+                  <div class="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
+                    ${values.map((value: any) => `
+                      <div class="badge badge-outline ${value.deprecationReason ? 'badge-warning' : ''}" ${value.deprecationReason ? `title="Deprecated: ${value.deprecationReason}"` : ''}>
+                        ${value.name}
+                      </div>
+                    `).join('')}
+                  </div>
+                `}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      (window as any).copyEnumValues = function(enumName: string) {
+        const enumType = enumTypes.find((t: any) => t.name === enumName);
+        if (!enumType) return;
+
+        const values = enumType.getValues().map((v: any) => v.name).join('\n');
+        navigator.clipboard.writeText(values);
+
+        // Show toast notification
+        const btn = (event as any).target.closest('button');
+        if (!btn) return;
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '✓';
+        btn.classList.add('btn-success');
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('btn-success');
+        }, 1500);
+      };
+
+      function setLoading(loading: boolean) {
+        if (!fetchBtn || !fetchBtnText || !fetchBtnLoading) return;
+        (fetchBtn as HTMLButtonElement).disabled = loading;
+        if (loading) {
+          fetchBtnText.textContent = 'Fetching...';
+          fetchBtnLoading.classList.remove('hidden');
+        } else {
+          fetchBtnText.textContent = 'Fetch Enums';
+          fetchBtnLoading.classList.add('hidden');
+        }
+      }
+
+      function showError(message: string) {
+        if (!errorText || !errorAlert) return;
+        errorText.textContent = message;
+        errorAlert.classList.remove('hidden');
+      }
+
+      function hideError() {
+        if (!errorAlert) return;
+        errorAlert.classList.add('hidden');
+      }
+    </script>
+    </div>
+  </div>
+</ToolsLayout>
