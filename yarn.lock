@@ -3860,15 +3860,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@optimarvin/opti-graphql-client@portal:../opti-graphql-client::locator=opti-astro%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@optimarvin/opti-graphql-client@portal:../opti-graphql-client::locator=opti-astro%40workspace%3A."
+"@optimarvin/opti-graphql-client@npm:^0.1.9":
+  version: 0.1.9
+  resolution: "@optimarvin/opti-graphql-client@npm:0.1.9"
   dependencies:
     crypto-js: "npm:^4.2.0"
     graphql: "npm:^16.8.1"
     graphql-request: "npm:^6.1.0"
+  checksum: 10c0/f7a3ce8b43e0c6e2c7a78832eb4bc56c8c0599e2aa2ea054a408cf6d5566fde593cb33a6322d4b49883cf7a598bacfc35cb17333854580220ada229d26b2e931
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@optimizely/optimizely-sdk@npm:^6.0.0":
   version: 6.3.0
@@ -11309,7 +11310,7 @@ __metadata:
     "@graphql-codegen/typescript-graphql-request": "npm:6.2.0"
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
     "@optimarvin/opti-cmp-client": "npm:^1.2.0"
-    "@optimarvin/opti-graphql-client": "portal:../opti-graphql-client"
+    "@optimarvin/opti-graphql-client": "npm:^0.1.9"
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
     "@remkoj/optimizely-cms-api": "portal:/home/marvin/Projects/optimizely-dxp-clients/packages/optimizely-cms-api"
