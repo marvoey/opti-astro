@@ -1,0 +1,211 @@
+---
+import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
+import ComponentPreviewLayout from '../../../layouts/ComponentPreviewLayout.astro';
+import Components from '../../../cms/components/_Components.astro';
+import Pages from '../../../cms/pages/_Pages.astro';
+
+/**
+ * CMS Preview Render Page
+ *
+ * This page renders previews for content passed via the POST API endpoint.
+ * It accepts a preview ID in the query string and renders the content
+ * based on the stored preview data.
+ *
+ * Usage: /cms/preview/render?id={previewId}
+ */
+
+const previewId = Astro.url.searchParams.get('id');
+
+if (!previewId) {
+    return Astro.redirect('/404', 404);
+}
+
+// Fetch the preview data from the API
+let previewResponse;
+try {
+    const apiUrl = `${Astro.url.origin}/cms/preview?id=${previewId}`;
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+        console.error(`[CMS Preview Render] Failed to fetch preview data: ${response.status}`);
+        return Astro.redirect('/404', 404);
+    }
+
+    previewResponse = await response.json();
+} catch (error) {
+    console.error('[CMS Preview Render] Error fetching preview data:', error);
+    return Astro.redirect('/404', 404);
+}
+
+if (!previewResponse.success || !previewResponse.data) {
+    console.error('[CMS Preview Render] Invalid preview response');
+    return Astro.redirect('/404', 404);
+}
+
+const { contentType, properties, locale = 'en', displayName } = previewResponse.data;
+
+console.log('[CMS Preview Render] Rendering preview:', {
+    contentType,
+    locale,
+    displayName,
+    previewId,
+});
+
+// Build a mock ContentPayload
+const contentPayload: ContentPayload = {
+    key: previewId,
+    loc: locale,
+    ver: 'draft',
+    ctx: 'preview',
+    preview_token: '',
+    types: [contentType],
+};
+
+// Determine if this is a component or page
+const isComponentType = !['ArticlePage', 'LandingPage', 'MockupPage', 'FolderPage'].includes(contentType);
+const isPageType = !isComponentType;
+
+// Build mock metadata structure
+const mockMetadata = {
+    key: previewId,
+    version: 'draft',
+    locale: locale,
+    types: [contentType, isComponentType ? '_Component' : '_Page'],
+    displayName: displayName,
+    published: null,
+    lastModified: new Date().toISOString(),
+};
+
+// Build the component/page data structure
+let componentData = null;
+let pageData = null;
+
+if (isComponentType) {
+    // Build component data structure
+    componentData = {
+        component: {
+            _metadata: mockMetadata,
+            ...properties,
+        },
+        displaySettings: properties.displaySettings || null,
+        displayTemplateKey: properties.displayTemplateKey || null,
+    };
+}
+
+if (isPageType) {
+    // For pages, just pass the contentPayload
+    // The page components will need to fetch their own data
+    // or we can pass mock data directly
+    pageData = {
+        _metadata: mockMetadata,
+        ...properties,
+    };
+}
+---
+
+<!DOCTYPE html>
+<html lang={locale}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview: {displayName}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .preview-banner {
+            background: #f59e0b;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .preview-info {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #f59e0b;
+        }
+        .preview-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .preview-info dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.25rem 1rem;
+            margin: 0;
+            font-size: 0.875rem;
+        }
+        .preview-info dt {
+            font-weight: 600;
+        }
+        .preview-info dd {
+            margin: 0;
+        }
+        .preview-content {
+            padding: 1rem;
+        }
+        .preview-error {
+            background: #fee;
+            color: #c00;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-banner">
+        🔍 PREVIEW MODE - This is a preview of unpublished content
+    </div>
+
+    <div class="preview-info">
+        <h3>Preview Information</h3>
+        <dl>
+            <dt>Content Type:</dt>
+            <dd>{contentType}</dd>
+            <dt>Locale:</dt>
+            <dd>{locale}</dd>
+            <dt>Preview ID:</dt>
+            <dd>{previewId}</dd>
+            <dt>Expires:</dt>
+            <dd>{previewResponse.expiresAt}</dd>
+        </dl>
+    </div>
+
+    <div class="preview-content">
+        {isComponentType && componentData && (
+            <ComponentPreviewLayout>
+                <div data-preview-id={previewId}>
+                    <Components
+                        contentPayload={contentPayload}
+                        data={componentData}
+                    />
+                </div>
+            </ComponentPreviewLayout>
+        )}
+
+        {isPageType && (
+            <Pages data={contentPayload} />
+        )}
+
+        {!isComponentType && !isPageType && (
+            <div class="preview-error">
+                <h3>Unknown Content Type</h3>
+                <p>Content type "{contentType}" is not recognized. Please check your content type configuration.</p>
+            </div>
+        )}
+    </div>
+</body>
+</html>

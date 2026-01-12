@@ -33,6 +33,8 @@
         "@astrojs/ts-plugin": "1.10.5",
         "@astrojs/vercel": "^9.0.2",
         "@deno/astro-adapter": "^0.3.2",
+        "@optimarvin/opti-cmp-client": "portal:/home/marvin/Projects/opti-cmp-client",
+        "@optimarvin/opti-cms-client": "portal:/home/marvin/Projects/opti-cms-client",
         "@optimizely/optimizely-sdk": "^6.0.0",
         "@rollup/plugin-commonjs": "^28.0.3",
         "@splidejs/splide": "^4.1.4",

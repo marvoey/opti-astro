@@ -4032,6 +4032,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@optimarvin/opti-cmp-client@portal:/home/marvin/Projects/opti-cmp-client::locator=opti-astro%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@optimarvin/opti-cmp-client@portal:/home/marvin/Projects/opti-cmp-client::locator=opti-astro%40workspace%3A."
+  languageName: node
+  linkType: soft
+
+"@optimarvin/opti-cms-client@portal:/home/marvin/Projects/opti-cms-client::locator=opti-astro%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@optimarvin/opti-cms-client@portal:/home/marvin/Projects/opti-cms-client::locator=opti-astro%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "@optimizely/optimizely-sdk@npm:^6.0.0":
   version: 6.0.0
   resolution: "@optimizely/optimizely-sdk@npm:6.0.0"
@@ -11519,6 +11531,8 @@ __metadata:
     "@graphql-codegen/typescript-generic-sdk": "npm:^4.0.1"
     "@graphql-codegen/typescript-graphql-request": "npm:6.2.0"
     "@graphql-codegen/typescript-operations": "npm:^4.5.1"
+    "@optimarvin/opti-cmp-client": "portal:/home/marvin/Projects/opti-cmp-client"
+    "@optimarvin/opti-cms-client": "portal:/home/marvin/Projects/opti-cms-client"
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
     "@remkoj/optimizely-cms-api": "npm:5.1.1"

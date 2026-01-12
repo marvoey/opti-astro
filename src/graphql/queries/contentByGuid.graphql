@@ -1,0 +1,7 @@
+query articleByGuid($guid: String!) {
+    ArticlePage(
+        where: { Guid: { eq: $guid } }
+    ) {
+        total
+    }
+}
