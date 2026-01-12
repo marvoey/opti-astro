@@ -4119,11 +4119,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remkoj/optimizely-cms-api@portal:/home/marvin/Projects/optimizely-dxp-clients/packages/optimizely-cms-api::locator=opti-astro%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@remkoj/optimizely-cms-api@portal:/home/marvin/Projects/optimizely-dxp-clients/packages/optimizely-cms-api::locator=opti-astro%40workspace%3A."
+"@remkoj/optimizely-cms-api@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "@remkoj/optimizely-cms-api@npm:5.2.0"
+  checksum: 10c0/34cd30cc62cf7ac751bc193e17920d67e7807cd14ab921dab7b41b7ec6130d90d65ca6b48a3c9a7864b42e04effc9db1271341cf59392fc8939c6fe802af8ee2
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@repeaterjs/repeater@npm:^3.0.4, @repeaterjs/repeater@npm:^3.0.6":
   version: 3.0.6
@@ -11345,7 +11346,7 @@ __metadata:
     "@optimarvin/opti-graphql-client": "npm:^0.1.9"
     "@optimizely/optimizely-sdk": "npm:^6.0.0"
     "@parcel/watcher": "npm:^2.5.1"
-    "@remkoj/optimizely-cms-api": "portal:/home/marvin/Projects/optimizely-dxp-clients/packages/optimizely-cms-api"
+    "@remkoj/optimizely-cms-api": "npm:^5.2.0"
     "@rollup/plugin-commonjs": "npm:^28.0.3"
     "@splidejs/splide": "npm:^4.1.4"
     "@tailwindcss/typography": "npm:^0.5.16"
