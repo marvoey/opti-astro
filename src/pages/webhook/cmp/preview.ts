@@ -1,214 +1,95 @@
 import type { APIRoute } from 'astro';
 import { CMPWebhookHandler } from '@optimarvin/opti-cmp-client';
-import { OptiCmsClient } from '@optimarvin/opti-cms-client';
 import { formatUuid } from '../../../lib/string-utils';
 import {
-    Locales,
-    getSdk as optiGraph,
-    type Requester,
-} from '../../../../__generated/sdk';
-import { GraphQLClient } from 'graphql-request';
-import { print } from 'graphql';
+    CMP_API_BASE_URL,
+    CMP_OAUTH_CLIENT_ID,
+    CMP_OAUTH_CLIENT_SECRET,
+    CMP_AUTH_SERVER_URL,
+    CMP_PREVIEW_URL,
+} from './env-config';
+import { getGraphQLSdk } from './graphql-client';
+import { getCmsClient } from './cms-client';
+import { contentExistsByGuid, createDraftArticle } from './content-operations';
 
 /**
  * Optimizely CMP Preview Webhook Handler
  *
- * This endpoint implements the "Render Preview with Push Strategy" protocol for Optimizely CMP
- * using the @optimarvin/opti-cmp-client library.
+ * This endpoint handles preview request webhooks from Optimizely CMP, creates
+ * draft content in the Optimizely CMS, and submits preview URLs back to CMP.
  *
- * PROTOCOL OVERVIEW:
- * ------------------
- * Step 1: Webhook Delivery
- *   - CMP delivers a preview request webhook when content needs rendering preview
- *   - Webhook contains content data, version info, and preview ID
+ * WEBHOOK FLOW:
+ * -------------
+ * 1. Webhook Delivery
+ *    - CMP delivers a preview request webhook containing content data, version info, and preview ID
+ *    - Webhook includes structured_contents with content type and field values
  *
- * Step 2: Acknowledgment
- *   - Preview generator acknowledges receipt after verifying it can handle the content type
- *   - Acknowledgment includes a content_hash from the webhook payload
- *   - CMP uses this hash as a digest signature to determine if previews have become outdated
+ * 2. Payload Validation
+ *    - Validates structured_contents exists in payload
+ *    - Only processes content with type 'saas_cms_content'
+ *    - Skips other content types with 200 OK response
  *
- * Step 3: Preview Generation
- *   - Generate preview URLs for multiple device types/channels
- *   - Preview types: default, mobile, desktop, tablet, signage
- *   - URLs follow pattern: CMP_PREVIEW_URL/preview/{type}/{contentId}
+ * 3. Preview Acknowledgment
+ *    - Acknowledges receipt with CMP using content_hash, content_id, version_id, and preview_id
+ *    - CMP uses content_hash as digest signature to detect outdated previews
+ *    - Returns 400 if required acknowledgment fields are missing
+ *    - Returns 500 if acknowledgment request to CMP fails
  *
- * Step 4: Completion
- *   - Submit preview links via the completion endpoint
- *   - Provide keyed_previews dictionary mapping preview types to URLs
+ * 4. Content GUID & Locale Extraction
+ *    - Extracts content_guid and field values from webhook payload
+ *    - Formats GUID to match CMS format (with hyphens)
+ *    - Extracts locale from webhook field values (defaults to 'en')
  *
- * Step 5: Cleanup (TODO - not yet implemented)
- *   - Allow ~15 minutes before cleaning up draft content
- *   - CMP caches the URL for an indefinite period
+ * 5. Duplicate Check
+ *    - Queries Optimizely Graph to check if content with GUID already exists
+ *    - Skips draft creation if content already exists in CMS
+ *
+ * 6. Draft Content Creation
+ *    - Creates draft ArticlePage in CMS with content from CMP fields:
+ *      * Heading (displayName and Heading property)
+ *      * SubHeading
+ *      * Body (rich text)
+ *      * Featured Image (as PromoImage)
+ *      * GUID (for tracking)
+ *    - Sets status to 'draft' and locale from webhook
+ *    - Places content in configured container
+ *    - Returns the created content with ID and URL
+ *
+ * 7. Task Details Retrieval
+ *    - Extracts task ID from webhook payload (data.task.id)
+ *    - Calls CMP API GET /tasks/{id} to fetch task details
+ *    - Extracts preview domain from task data (checks multiple field names)
+ *    - Validates domain includes protocol, normalizes if needed
+ *    - Returns 400 if task ID missing, 500 if API call fails
+ *
+ * 8. Preview URL Generation & Submission
+ *    - Uses domain from task data to generate preview URLs:
+ *      * Draft: {domain}/preview?key={contentId}&ver=&loc={locale}&ctx=edit
+ *      * Published: {domain}{contentUrl} (from CMS response)
+ *    - Submits preview URLs to CMP with keys 'draft' and 'published'
+ *    - Non-blocking: Does not fail request if preview submission fails
+ *
+ * 9. Success Response
+ *    - Returns 200 OK with content_id, preview_id, and formatted GUID
  *
  * IMPLEMENTATION NOTES:
  * ---------------------
- * This implementation uses the @optimarvin/opti-cmp-client library which handles:
- * - OAuth token management with automatic caching
- * - Webhook payload parsing and validation
- * - Preview acknowledgment with CMP
- * - Preview URL generation for multiple device types
- * - Completion submission to CMP
+ * This implementation uses the @optimarvin/opti-cmp-client library which provides:
+ * - CMPWebhookHandler: Handles OAuth token management and webhook payload parsing
+ * - CMPClient: Provides acknowledgePreview() and submitPreviewCompletion() methods
  *
- * For the original 410-line implementation, see: cmp-preview-webhook.old.ts
+ * Additionally uses:
+ * - @optimarvin/opti-cms-client: OptiCmsClient for creating draft content in CMS
+ * - GraphQL SDK: Queries Optimizely Graph to check for existing content
+ *
+ * LIMITATIONS:
+ * ------------
+ * - Currently only creates ArticlePage content type
+ * - Only processes 'saas_cms_content' type from CMP
+ * - Does not generate device-specific preview URLs (mobile, desktop, tablet, etc.)
+ * - Does not clean up draft content after preview period
  */
 
-// ============================================================================
-// ENVIRONMENT VALIDATION
-// ============================================================================
-
-function validateEnvVar(name: string, value: string | undefined): string {
-    if (!value) {
-        throw new Error(`${name} is not defined in .env file.`);
-    }
-    return value;
-}
-
-const CMP_API_BASE_URL = validateEnvVar(
-    'CMP_API_BASE_URL',
-    import.meta.env.CMP_API_BASE_URL
-);
-const CMP_OAUTH_CLIENT_ID = validateEnvVar(
-    'CMP_OAUTH_CLIENT_ID',
-    import.meta.env.CMP_OAUTH_CLIENT_ID
-);
-const CMP_OAUTH_CLIENT_SECRET = validateEnvVar(
-    'CMP_OAUTH_CLIENT_SECRET',
-    import.meta.env.CMP_OAUTH_CLIENT_SECRET
-);
-const CMP_AUTH_SERVER_URL = validateEnvVar(
-    'CMP_AUTH_SERVER_URL',
-    import.meta.env.CMP_AUTH_SERVER_URL
-);
-const CMP_PREVIEW_URL = validateEnvVar(
-    'CMP_PREVIEW_URL',
-    import.meta.env.CMP_PREVIEW_URL
-);
-const OPTIMIZELY_GRAPH_APP_KEY = validateEnvVar(
-    'OPTIMIZELY_GRAPH_APP_KEY',
-    import.meta.env.OPTIMIZELY_GRAPH_APP_KEY
-);
-const OPTIMIZELY_GRAPH_SECRET = validateEnvVar(
-    'OPTIMIZELY_GRAPH_SECRET',
-    import.meta.env.OPTIMIZELY_GRAPH_SECRET
-);
-const OPTIMIZELY_GRAPH_GATEWAY = validateEnvVar(
-    'OPTIMIZELY_GRAPH_GATEWAY',
-    import.meta.env.OPTIMIZELY_GRAPH_GATEWAY
-);
-const OPTIMIZELY_CLIENT_ID = validateEnvVar(
-    'OPTIMIZELY_CLIENT_ID',
-    import.meta.env.OPTIMIZELY_CLIENT_ID
-);
-const OPTIMIZELY_CLIENT_SECRET = validateEnvVar(
-    'OPTIMIZELY_CLIENT_SECRET',
-    import.meta.env.OPTIMIZELY_CLIENT_SECRET
-);
-
-// ============================================================================
-// HELPER FUNCTIONS
-// ============================================================================
-
-/**
- * Initialize and return a GraphQL SDK instance for querying Optimizely Graph
- */
-function getGraphQLSdk() {
-    const token = Buffer.from(
-        `${OPTIMIZELY_GRAPH_APP_KEY}:${OPTIMIZELY_GRAPH_SECRET}`
-    ).toString('base64');
-
-    const client = new GraphQLClient(
-        `${OPTIMIZELY_GRAPH_GATEWAY}/content/v2?stored=true`,
-        {
-            headers: {
-                Authorization: `Basic ${token}`,
-                'Content-Type': 'application/json',
-                'cg-stored-query': 'template',
-            },
-        }
-    );
-
-    const requester: Requester = async (doc, vars) => {
-        const response = await client.rawRequest(print(doc), vars as any);
-        return response.data as any;
-    };
-
-    return optiGraph(requester);
-}
-
-/**
- * Initialize and return a CMS client instance
- */
-function getCmsClient(): OptiCmsClient {
-    return new OptiCmsClient({
-        credentials: {
-            clientId: OPTIMIZELY_CLIENT_ID,
-            clientSecret: OPTIMIZELY_CLIENT_SECRET,
-        },
-        version: 'preview3',
-    });
-}
-
-/**
- * Check if content already exists in the CMS by GUID
- */
-async function contentExistsByGuid(
-    sdk: ReturnType<typeof getGraphQLSdk>,
-    guid: string
-): Promise<boolean> {
-    const formattedGuid = formatUuid(guid);
-    const content = await sdk.articleByGuid({ guid: formattedGuid });
-    return (content.ArticlePage?.total ?? 0) > 0;
-}
-
-/**
- * Create a draft ArticlePage in the CMS from CMP webhook fields
- */
-async function createDraftArticle(
-    cmsClient: OptiCmsClient,
-    fields: any,
-    contentGuid: string
-): Promise<void> {
-    const formattedGuid = formatUuid(contentGuid);
-
-    const articlePageData = {
-        contentType: 'ArticlePage',
-        displayName:
-            fields.heading?.[0]?.field_values?.[0]?.text_value || 'Untitled',
-        status: 'draft',
-        locale: Locales.En,
-        owner: null,
-        // container: '66876bb6a3504576a654e7ae5c05e789',
-        container: 'ffc6498c45bc47c5a150e6e7d2a1d931',
-        properties: {
-            Heading: fields.heading?.[0]?.field_values?.[0]?.text_value || '',
-            SubHeading:
-                fields.subHeading?.[0]?.field_values?.[0]?.text_value || '',
-            Body: fields.body?.[0]?.field_values?.[0]?.rich_text_value || '',
-            Guid: formattedGuid,
-            PromoImage: `cms://content/${fields.featuredImage?.[0]?.field_values?.[0]?.asset_guid}`,
-            SeoSettings: {
-                GraphType: '-',
-            },
-        },
-    };
-
-    console.log(
-        'Creating draft ArticlePage:',
-        JSON.stringify(articlePageData, null, 2)
-    );
-
-    const response = await cmsClient.createContent(articlePageData);
-
-    if (response.status >= 400) {
-        throw new Error(
-            `Failed to create draft: ${response.status} - ${JSON.stringify(response.data)}`
-        );
-    }
-
-    console.log(
-        `Successfully created draft ArticlePage with GUID ${formattedGuid}`
-    );
-}
 
 // ============================================================================
 // CMP WEBHOOK HANDLER INITIALIZATION
@@ -237,13 +118,15 @@ const webhookHandler = new CMPWebhookHandler({
  * 2. Validate structured_contents exists
  * 3. Validate content type is 'saas_cms_content'
  * 3.5. Acknowledge preview request with CMP
- * 4. Extract content GUID and fields
+ * 4. Extract content GUID, fields, and locale
  * 5. Check if content already exists in CMS by GUID
  * 6. Create draft ArticlePage if it doesn't exist
- * 7. Return success response
+ * 7. Fetch task details from CMP API to get preview domain
+ * 8. Generate preview URLs using task domain and submit to CMP
+ * 9. Return success response
  *
  * Returns:
- * - 200: Success - webhook processed and acknowledged
+ * - 200: Success - webhook processed, draft created, and preview URLs submitted
  * - 400: Invalid payload or missing required fields
  * - 500: Internal error during processing
  */
@@ -304,15 +187,15 @@ export const POST: APIRoute = async ({ request }) => {
                 structuredContent.content_body?.fields_version?.content_hash;
 
             // Log the extracted values for debugging
-            console.log('Extracted acknowledgment fields:', {
-                contentId,
-                versionId,
-                previewId,
-                acknowledgedBy,
-                contentHash: contentHash
-                    ? `${contentHash.substring(0, 20)}...`
-                    : undefined,
-            });
+            // console.log('Extracted acknowledgment fields:', {
+            //     contentId,
+            //     versionId,
+            //     previewId,
+            //     acknowledgedBy,
+            //     contentHash: contentHash
+            //         ? `${contentHash.substring(0, 20)}...`
+            //         : undefined,
+            // });
 
             // Validate all required fields are present
             if (
@@ -437,11 +320,27 @@ export const POST: APIRoute = async ({ request }) => {
         console.log('Content GUID:', contentGuid);
         console.log('Formatted Content GUID:', formatUuid(contentGuid));
 
+        // Extract locale from webhook fields (default to 'en' if not found)
+        let locale =
+            fields.heading?.[0]?.locale ||
+            fields.subHeading?.[0]?.locale ||
+            fields.body?.[0]?.locale ||
+            'en';
+
+        // Transform en_US to en for CMS compatibility
+        if (locale === 'en_US') {
+            locale = 'en';
+        }
+
+        console.log('Extracted locale:', locale);
+
         // ========================================================================
         // STEP 5: Check if content already exists
         // ========================================================================
         const sdk = getGraphQLSdk();
         const exists = await contentExistsByGuid(sdk, contentGuid);
+
+        let createdContent: any = null;
 
         if (exists) {
             console.log(
@@ -456,11 +355,139 @@ export const POST: APIRoute = async ({ request }) => {
             // STEP 6: Create draft ArticlePage
             // ====================================================================
             const cmsClient = getCmsClient();
-            await createDraftArticle(cmsClient, fields, contentGuid);
+            // container: '66876bb6a3504576a654e7ae5c05e789',
+            // container: 'ffc6498c45bc47c5a150e6e7d2a1d931',
+            const containerId = '2f85d26075e54a168a74b10a9c33fbdd';
+            createdContent = await createDraftArticle(
+                cmsClient,
+                fields,
+                contentGuid,
+                locale,
+                containerId
+            );
+            console.log('Draft content created:', JSON.stringify(createdContent, null, 2));
+            const contentCreatedId = createdContent.id;
+            console.log('Draft content ID:', contentCreatedId); 
+            const contentCreatedRouteSegment = createdContent.routeSegment;
+            console.log('Draft content route segment:', contentCreatedRouteSegment);
         }
 
         // ========================================================================
-        // STEP 7: Return success response
+        // STEP 7: Fetch task details to get preview domain
+        // ========================================================================
+        const taskId = parsedPayload.data?.task?.id;
+
+        if (!taskId) {
+            console.error('Task ID is missing from webhook payload');
+            return new Response(
+                JSON.stringify({
+                    error: 'Invalid webhook payload: Missing task ID',
+                }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        console.log('Fetching task details for ID:', taskId);
+
+        let taskData;
+        try {
+            const cmpClient = webhookHandler.getClient();
+            taskData = await cmpClient.getTask(taskId);
+            console.log('Task data received - checking for domain field', JSON.stringify(taskData, null, 2));
+        } catch (error) {
+            console.error('Failed to fetch task details:', error);
+            return new Response(
+                JSON.stringify({
+                    error: 'Failed to fetch task details from CMP',
+                    message:
+                        error instanceof Error ? error.message : String(error),
+                    taskId: taskId,
+                }),
+                {
+                    status: 500,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        // Extract domain from task data labels
+        // Find the label with group.name === "Saas CMS Domain"
+        const domainLabel = taskData.labels?.find(
+            (label: any) => label.group?.name === 'Saas CMS Domain'
+        );
+
+        const previewDomain: unknown = domainLabel?.values?.[0]?.name;
+
+        if (!previewDomain || typeof previewDomain !== 'string') {
+            console.error(
+                'Preview domain not found in task labels. Looking for label with group.name = "Saas CMS Domain"',
+                { labels: taskData.labels }
+            );
+            return new Response(
+                JSON.stringify({
+                    error: 'Task data does not contain a valid preview domain in labels',
+                    taskId: taskId,
+                    labels: taskData.labels,
+                }),
+                {
+                    status: 500,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        // Ensure domain includes protocol (previewDomain is now confirmed to be a string)
+        const normalizedDomain = (previewDomain as string).startsWith('http')
+            ? previewDomain
+            : `https://${previewDomain}`;
+
+        console.log('Using preview domain:', normalizedDomain);
+
+        // ========================================================================
+        // STEP 8: Generate and submit preview URLs to CMP
+        // ========================================================================
+
+        if (createdContent) {
+            console.log('Generating preview URLs...');
+
+            const key = createdContent.key;
+            const version = createdContent.version;
+            const loc = createdContent.locale;
+            const ctx = "ext_preview";
+            
+            // Build preview URLs using domain from task data
+            // {host}/preview?key={key}&ver={version}&loc={locale}&ctx={context}
+            const draftPreviewUrl = `${normalizedDomain}/preview?key=${key}&ver=${version}&loc=${loc}&ctx=${ctx}`;
+            const publishedPreviewUrl = `${normalizedDomain}/cmp/${createdContent.routeSegment}`;
+            
+            console.log('Draft preview URL:', draftPreviewUrl);
+            
+            // Submit preview completion to CMP
+            try {
+                const cmpClient = webhookHandler.getClient();
+                await cmpClient.submitPreviewCompletion(
+                    structuredContent.id,
+                    structuredContent.version_id,
+                    parsedPayload.data?.preview_id,
+                    {
+                        draft: draftPreviewUrl,
+                        published: publishedPreviewUrl,
+                    }
+                );
+
+                console.log('Preview completion submitted successfully to CMP');
+            } catch (error) {
+                console.error('Failed to submit preview completion:', error);
+                // Don't fail the entire request if preview submission fails
+                // The content has already been created successfully
+            }
+        }
+
+        // ========================================================================
+        // STEP 9: Return success response
         // ========================================================================
         return new Response(
             JSON.stringify({

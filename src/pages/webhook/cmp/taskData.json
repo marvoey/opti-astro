@@ -1,0 +1,78 @@
+ {
+  "id": "695d7b5f5b928f04149f82ac",
+  "title": "Development testing",
+  "reference_id": "TSK-12",
+  "start_at": null,
+  "due_at": null,
+  "is_completed": false,
+  "is_archived": false,
+  "labels": [
+    {
+      "group": {
+        "id": "362c134cf01a11f08b5d3af908aba328",
+        "name": "Saas CMS Domain"
+      },
+      "values": [
+        {
+          "id": "362c7710f01a11f08b5d3af908aba328",
+          "name": "dell--optimarvin.netlify.app"
+        }
+      ]
+    }
+  ],
+  "steps": [],
+  "links": {
+    "self": "https://api.cmp.optimizely.com/v3/tasks/695d7b5f5b928f04149f82ac",
+    "campaign": "https://api.cmp.optimizely.com/v3/campaigns/68f14364eed1bced7af069bc",
+    "milestone": null,
+    "assets": "https://api.cmp.optimizely.com/v3/tasks/695d7b5f5b928f04149f82ac/assets",
+    "custom_fields": null,
+    "brief": null,
+    "attachments": "https://api.cmp.optimizely.com/v3/tasks/695d7b5f5b928f04149f82ac/attachments",
+    "web_urls": {
+      "self": "https://app.welcomesoftware.com/cloud/taskv3/695d7b5f5b928f04149f82ac",
+      "brief": "https://app.welcomesoftware.com/cloud/taskv3/695d7b5f5b928f04149f82ac?activeTab=brief"
+    }
+  },
+  "status": "Not Started",
+  "workflow_id": "68f14363eed1bced7af0699e"
+}
+Task data received - checking for domain field {
+  "id": "695d7b5f5b928f04149f82ac",
+  "title": "Development testing",
+  "reference_id": "TSK-12",
+  "start_at": null,
+  "due_at": null,
+  "is_completed": false,
+  "is_archived": false,
+  "labels": [
+    {
+      "group": {
+        "id": "362c134cf01a11f08b5d3af908aba328",
+        "name": "Saas CMS Domain"
+      },
+      "values": [
+        {
+          "id": "362c7710f01a11f08b5d3af908aba328",
+          "name": "dell--optimarvin.netlify.app"
+        }
+      ]
+    }
+  ],
+  "steps": [],
+  "links": {
+    "self": "https://api.cmp.optimizely.com/v3/tasks/695d7b5f5b928f04149f82ac",
+    "campaign": "https://api.cmp.optimizely.com/v3/campaigns/68f14364eed1bced7af069bc",
+    "milestone": null,
+    "assets": "https://api.cmp.optimizely.com/v3/tasks/695d7b5f5b928f04149f82ac/assets",
+    "custom_fields": null,
+    "brief": null,
+    "attachments": "https://api.cmp.optimizely.com/v3/tasks/695d7b5f5b928f04149f82ac/attachments",
+    "web_urls": {
+      "self": "https://app.welcomesoftware.com/cloud/taskv3/695d7b5f5b928f04149f82ac",
+      "brief": "https://app.welcomesoftware.com/cloud/taskv3/695d7b5f5b928f04149f82ac?activeTab=brief"
+    }
+  },
+  "status": "Not Started",
+  "workflow_id": "68f14363eed1bced7af0699e"
+}
