@@ -33,7 +33,7 @@ import { contentExistsByGuid, createDraftArticle } from './content-operations';
  *    - Acknowledges receipt with CMP using content_hash, content_id, version_id, and preview_id
  *    - CMP uses content_hash as digest signature to detect outdated previews
  *    - Returns 400 if required acknowledgment fields are missing
- *    - Returns 500 if acknowledgment request to CMP fails
+ *    - Logs error but continues processing if acknowledgment request to CMP fails
  *
  * 4. Content GUID & Locale Extraction
  *    - Extracts content_guid and field values from webhook payload
@@ -269,20 +269,8 @@ export const POST: APIRoute = async ({ request }) => {
                 }
             );
 
-            return new Response(
-                JSON.stringify({
-                    error: 'Failed to acknowledge preview with CMP',
-                    message:
-                        error instanceof Error ? error.message : String(error),
-                    statusCode:
-                        (error as any)?.statusCode || (error as any)?.status,
-                    details: (error as any)?.details,
-                }),
-                {
-                    status: 500,
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
+            // Log error but continue processing webhook
+            console.warn('Continuing webhook processing despite acknowledgment failure');
         }
 
         // ========================================================================
@@ -346,6 +334,13 @@ export const POST: APIRoute = async ({ request }) => {
             console.log(
                 `Content with GUID ${formatUuid(contentGuid)} already exists. Skipping draft creation.`
             );
+            const fetchedContent = await sdk.articleByGuid({ guid: formatUuid(contentGuid) });
+            createdContent = {
+                key: fetchedContent.ArticlePage?.item?._metadata?.key,
+                version: fetchedContent.ArticlePage?.item?._metadata?.version,
+                locale: fetchedContent.ArticlePage?.item?._metadata?.locale,
+                routeSegment: fetchedContent.ArticlePage?.item?._metadata?.url?.default
+            }
         } else {
             console.log(
                 `No content with GUID ${formatUuid(contentGuid)} exists. Creating draft.`
@@ -461,9 +456,10 @@ export const POST: APIRoute = async ({ request }) => {
             // Build preview URLs using domain from task data
             // {host}/preview?key={key}&ver={version}&loc={locale}&ctx={context}
             const draftPreviewUrl = `${normalizedDomain}/preview?key=${key}&ver=${version}&loc=${loc}&ctx=${ctx}`;
-            const publishedPreviewUrl = `${normalizedDomain}/cmp/${createdContent.routeSegment}`;
+            const publishedPreviewUrl = `${normalizedDomain}${createdContent.routeSegment}`;
             
             console.log('Draft preview URL:', draftPreviewUrl);
+            console.log('Published preview URL:', publishedPreviewUrl);
             
             // Submit preview completion to CMP
             try {

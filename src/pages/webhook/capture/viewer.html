@@ -406,9 +406,6 @@
         // Load webhooks on page load
         loadWebhooks();
 
-        // Auto-refresh every 10 seconds (only updates list, preserves detail view state)
-        setInterval(loadWebhooks, 10000);
-
         async function loadWebhooks() {
             try {
                 const response = await fetch('/webhook/capture');
