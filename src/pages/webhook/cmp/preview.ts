@@ -13,89 +13,6 @@ import { getCmsClient } from './cms-client';
 import { contentExistsByGuid, createDraftArticle } from './content-operations';
 
 /**
- * Optimizely CMP Preview Webhook Handler
- *
- * This endpoint handles preview request webhooks from Optimizely CMP, creates
- * draft content in the Optimizely CMS, and submits preview URLs back to CMP.
- *
- * WEBHOOK FLOW:
- * -------------
- * 1. Webhook Delivery
- *    - CMP delivers a preview request webhook containing content data, version info, and preview ID
- *    - Webhook includes structured_contents with content type and field values
- *
- * 2. Payload Validation
- *    - Validates structured_contents exists in payload
- *    - Only processes content with type 'saas_cms_content'
- *    - Skips other content types with 200 OK response
- *
- * 3. Preview Acknowledgment
- *    - Acknowledges receipt with CMP using content_hash, content_id, version_id, and preview_id
- *    - CMP uses content_hash as digest signature to detect outdated previews
- *    - Returns 400 if required acknowledgment fields are missing
- *    - Logs error but continues processing if acknowledgment request to CMP fails
- *
- * 4. Content GUID & Locale Extraction
- *    - Extracts content_guid and field values from webhook payload
- *    - Formats GUID to match CMS format (with hyphens)
- *    - Extracts locale from webhook field values (defaults to 'en')
- *
- * 5. Duplicate Check
- *    - Queries Optimizely Graph to check if content with GUID already exists
- *    - Skips draft creation if content already exists in CMS
- *
- * 6. Draft Content Creation
- *    - Creates draft ArticlePage in CMS with content from CMP fields:
- *      * Heading (displayName and Heading property)
- *      * SubHeading
- *      * Body (rich text)
- *      * Featured Image (as PromoImage)
- *      * GUID (for tracking)
- *    - Sets status to 'draft' and locale from webhook
- *    - Places content in configured container
- *    - Returns the created content with ID and URL
- *
- * 7. Task Details Retrieval
- *    - Extracts task ID from webhook payload (data.task.id)
- *    - Calls CMP API GET /tasks/{id} to fetch task details
- *    - Extracts preview domain from task data (checks multiple field names)
- *    - Validates domain includes protocol, normalizes if needed
- *    - Returns 400 if task ID missing, 500 if API call fails
- *
- * 8. Preview URL Generation & Submission
- *    - Uses domain from task data to generate preview URLs:
- *      * Draft: {domain}/preview?key={contentId}&ver=&loc={locale}&ctx=edit
- *      * Published: {domain}{contentUrl} (from CMS response)
- *    - Submits preview URLs to CMP with keys 'draft' and 'published'
- *    - Non-blocking: Does not fail request if preview submission fails
- *
- * 9. Success Response
- *    - Returns 200 OK with content_id, preview_id, and formatted GUID
- *
- * IMPLEMENTATION NOTES:
- * ---------------------
- * This implementation uses the @optimarvin/opti-cmp-client library which provides:
- * - CMPWebhookHandler: Handles OAuth token management and webhook payload parsing
- * - CMPClient: Provides acknowledgePreview() and submitPreviewCompletion() methods
- *
- * Additionally uses:
- * - @optimarvin/opti-cms-client: OptiCmsClient for creating draft content in CMS
- * - GraphQL SDK: Queries Optimizely Graph to check for existing content
- *
- * LIMITATIONS:
- * ------------
- * - Currently only creates ArticlePage content type
- * - Only processes 'saas_cms_content' type from CMP
- * - Does not generate device-specific preview URLs (mobile, desktop, tablet, etc.)
- * - Does not clean up draft content after preview period
- */
-
-
-// ============================================================================
-// CMP WEBHOOK HANDLER INITIALIZATION
-// ============================================================================
-
-/**
  * Initialize the CMP webhook handler with configuration from environment variables
  */
 const webhookHandler = new CMPWebhookHandler({
@@ -105,10 +22,6 @@ const webhookHandler = new CMPWebhookHandler({
     apiBaseUrl: CMP_API_BASE_URL,
     previewUrl: CMP_PREVIEW_URL,
 });
-
-// ============================================================================
-// WEBHOOK ENDPOINT
-// ============================================================================
 
 /**
  * POST endpoint handler for CMP preview webhooks
@@ -173,6 +86,100 @@ export const POST: APIRoute = async ({ request }) => {
         }
 
         console.log('Processing saas_cms_content type');
+
+        // ========================================================================
+        // STEP 4: Extract content GUID and fields
+        // ========================================================================
+        const contentGuid = structuredContent.content_body.content_guid;
+        const fields = structuredContent.content_body?.fields_version?.fields;
+
+        if (!contentGuid) {
+            console.error('Content GUID is missing from webhook payload');
+            return new Response(
+                JSON.stringify({
+                    error: 'Invalid webhook payload: Missing content_guid',
+                }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        if (!fields) {
+            console.error('Fields are missing from webhook payload');
+            return new Response(
+                JSON.stringify({
+                    error: 'Invalid webhook payload: Missing fields',
+                }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        console.log('Content GUID:', contentGuid);
+        console.log('Formatted Content GUID:', formatUuid(contentGuid));
+
+        // Extract locale from webhook fields (default to 'en' if not found)
+        let locale =
+            fields.heading?.[0]?.locale ||
+            fields.subHeading?.[0]?.locale ||
+            fields.body?.[0]?.locale ||
+            'en';
+
+        // Transform en_US to en for CMS compatibility
+        if (locale === 'en_US') {
+            locale = 'en';
+        }
+
+        console.log('Extracted locale:', locale);
+
+        // ========================================================================
+        // STEP 5: Check if content already exists
+        // ========================================================================
+        const sdk = getGraphQLSdk();
+        const exists = await contentExistsByGuid(sdk, contentGuid);
+
+        let createdContent: any = null;
+
+        if (exists) {
+            console.log(
+                `Content with GUID ${formatUuid(contentGuid)} already exists. Skipping draft creation.`
+            );
+            const fetchedContent = await sdk.articleByGuid({ guid: formatUuid(contentGuid) });
+            createdContent = {
+                key: fetchedContent.ArticlePage?.item?._metadata?.key,
+                version: fetchedContent.ArticlePage?.item?._metadata?.version,
+                locale: fetchedContent.ArticlePage?.item?._metadata?.locale,
+                routeSegment: fetchedContent.ArticlePage?.item?._metadata?.url?.default
+            }
+        } else {
+            console.log(
+                `No content with GUID ${formatUuid(contentGuid)} exists. Creating draft.`
+            );
+
+            // ====================================================================
+            // STEP 6: Create draft ArticlePage
+            // ====================================================================
+            const cmsClient = getCmsClient();
+            // container: '66876bb6a3504576a654e7ae5c05e789',
+            // container: 'ffc6498c45bc47c5a150e6e7d2a1d931',
+            const containerId = '2f85d26075e54a168a74b10a9c33fbdd';
+            createdContent = await createDraftArticle(
+                cmsClient,
+                fields,
+                contentGuid,
+                locale,
+                containerId
+            );
+            console.log('Draft content created:', JSON.stringify(createdContent, null, 2));
+            const contentCreatedId = createdContent.id;
+            console.log('Draft content ID:', contentCreatedId); 
+            const contentCreatedRouteSegment = createdContent.routeSegment;
+            console.log('Draft content route segment:', contentCreatedRouteSegment);
+        }
 
         // ========================================================================
         // STEP 3.5: Acknowledge preview request with CMP
@@ -274,100 +281,6 @@ export const POST: APIRoute = async ({ request }) => {
         }
 
         // ========================================================================
-        // STEP 4: Extract content GUID and fields
-        // ========================================================================
-        const contentGuid = structuredContent.content_body.content_guid;
-        const fields = structuredContent.content_body?.fields_version?.fields;
-
-        if (!contentGuid) {
-            console.error('Content GUID is missing from webhook payload');
-            return new Response(
-                JSON.stringify({
-                    error: 'Invalid webhook payload: Missing content_guid',
-                }),
-                {
-                    status: 400,
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
-        }
-
-        if (!fields) {
-            console.error('Fields are missing from webhook payload');
-            return new Response(
-                JSON.stringify({
-                    error: 'Invalid webhook payload: Missing fields',
-                }),
-                {
-                    status: 400,
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
-        }
-
-        console.log('Content GUID:', contentGuid);
-        console.log('Formatted Content GUID:', formatUuid(contentGuid));
-
-        // Extract locale from webhook fields (default to 'en' if not found)
-        let locale =
-            fields.heading?.[0]?.locale ||
-            fields.subHeading?.[0]?.locale ||
-            fields.body?.[0]?.locale ||
-            'en';
-
-        // Transform en_US to en for CMS compatibility
-        if (locale === 'en_US') {
-            locale = 'en';
-        }
-
-        console.log('Extracted locale:', locale);
-
-        // ========================================================================
-        // STEP 5: Check if content already exists
-        // ========================================================================
-        const sdk = getGraphQLSdk();
-        const exists = await contentExistsByGuid(sdk, contentGuid);
-
-        let createdContent: any = null;
-
-        if (exists) {
-            console.log(
-                `Content with GUID ${formatUuid(contentGuid)} already exists. Skipping draft creation.`
-            );
-            const fetchedContent = await sdk.articleByGuid({ guid: formatUuid(contentGuid) });
-            createdContent = {
-                key: fetchedContent.ArticlePage?.item?._metadata?.key,
-                version: fetchedContent.ArticlePage?.item?._metadata?.version,
-                locale: fetchedContent.ArticlePage?.item?._metadata?.locale,
-                routeSegment: fetchedContent.ArticlePage?.item?._metadata?.url?.default
-            }
-        } else {
-            console.log(
-                `No content with GUID ${formatUuid(contentGuid)} exists. Creating draft.`
-            );
-
-            // ====================================================================
-            // STEP 6: Create draft ArticlePage
-            // ====================================================================
-            const cmsClient = getCmsClient();
-            // container: '66876bb6a3504576a654e7ae5c05e789',
-            // container: 'ffc6498c45bc47c5a150e6e7d2a1d931',
-            const containerId = '2f85d26075e54a168a74b10a9c33fbdd';
-            createdContent = await createDraftArticle(
-                cmsClient,
-                fields,
-                contentGuid,
-                locale,
-                containerId
-            );
-            console.log('Draft content created:', JSON.stringify(createdContent, null, 2));
-            const contentCreatedId = createdContent.id;
-            console.log('Draft content ID:', contentCreatedId); 
-            const contentCreatedRouteSegment = createdContent.routeSegment;
-            console.log('Draft content route segment:', contentCreatedRouteSegment);
-        }
-
-        // ========================================================================
         // STEP 7: Fetch task details to get preview domain
         // ========================================================================
         const taskId = parsedPayload.data?.task?.id;
@@ -456,7 +369,7 @@ export const POST: APIRoute = async ({ request }) => {
             // Build preview URLs using domain from task data
             // {host}/preview?key={key}&ver={version}&loc={locale}&ctx={context}
             const draftPreviewUrl = `${normalizedDomain}/preview?key=${key}&ver=${version}&loc=${loc}&ctx=${ctx}`;
-            const publishedPreviewUrl = `${normalizedDomain}${createdContent.routeSegment}`;
+            const publishedPreviewUrl = `${normalizedDomain}/${createdContent.routeSegment}`;
             
             console.log('Draft preview URL:', draftPreviewUrl);
             console.log('Published preview URL:', publishedPreviewUrl);
@@ -464,13 +377,19 @@ export const POST: APIRoute = async ({ request }) => {
             // Submit preview completion to CMP
             try {
                 const cmpClient = webhookHandler.getClient();
+                const previewId = parsedPayload.data?.preview_id;
+                const keyedPreviews = {
+                    [`draft-${previewId}`]: draftPreviewUrl,
+                    // [`published-${previewId}`]: publishedPreviewUrl,
+                }
+                console.log('Submitting preview completion with URLs:', keyedPreviews);
                 await cmpClient.submitPreviewCompletion(
                     structuredContent.id,
                     structuredContent.version_id,
-                    parsedPayload.data?.preview_id,
+                    previewId,
                     {
-                        draft: draftPreviewUrl,
-                        published: publishedPreviewUrl,
+                        [`draft-${previewId}`]: draftPreviewUrl,
+                        [`published-${previewId}`]: publishedPreviewUrl,
                     }
                 );
 
