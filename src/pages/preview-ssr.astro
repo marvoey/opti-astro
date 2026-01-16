@@ -3,11 +3,11 @@ import qs from 'query-string';
 
 import type { Locales } from 'astro';
 import Component from '../cms/components/_Component.astro';
-import Experiences from '../cms/experiences/_Experiences.astro';
+import Experiences from '../cms/experiences/_Experiences_ssr.astro';
 import { getOptimizelySdk } from '../graphql/getSdk';
 import type { ContentPayload } from '../graphql/shared/ContentPayload';
 import { localeToSdkLocale } from '../lib/locale-helpers';
-import Pages from '../cms/pages/_Pages.astro';
+import Pages from '../cms/pages/_Pages_ssr.astro';
 
 const previewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
 previewPayload.loc = localeToSdkLocale(previewPayload.loc);
