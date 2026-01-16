@@ -1,28 +1,7 @@
 {
-	"folders": [
-		{
-			"name": "opti-astro",
-			"path": "."
-		},
-		{
-			"name": "cmp-preview-generator",
-			"path": "../cmp-preview-generator"
-		},
-		{
-			"name": "demo-content-creator",
-			"path": "../demo-content-creator"
-		},
-		{
-			"name": "opti-cmp-client",
-			"path": "../opti-cmp-client"
-		},
-		{
-			"name": "opti-cms-client",
-			"path": "../opti-cms-client"
-		}
-	],
-	"settings": {
-		"typescript.tsdk": "/home/marvin/Projects/opti-astro/node_modules/typescript/lib",
-		"typescript.enablePromptUseWorkspaceTsdk": true
-	}
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
 }
