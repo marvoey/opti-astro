@@ -117,6 +117,7 @@ export type ArticlePage = IData & _IContent & _IPage & {
   Author?: Maybe<Scalars['String']['output']>;
   AuthorEmail?: Maybe<Scalars['String']['output']>;
   Body?: Maybe<SearchableRichText>;
+  Guid?: Maybe<Scalars['String']['output']>;
   Heading?: Maybe<Scalars['String']['output']>;
   PageAdminSettings?: Maybe<PageAdminSettingsProperty>;
   PromoImage?: Maybe<ContentReference>;
@@ -142,6 +143,11 @@ export type ArticlePageAuthorArgs = {
 
 
 export type ArticlePageAuthorEmailArgs = {
+  highlight?: InputMaybe<HighlightOptions>;
+};
+
+
+export type ArticlePageGuidArgs = {
   highlight?: InputMaybe<HighlightOptions>;
 };
 
@@ -177,6 +183,7 @@ export type ArticlePageFacet = {
   Author?: Maybe<Array<Maybe<StringFacet>>>;
   AuthorEmail?: Maybe<Array<Maybe<StringFacet>>>;
   Body?: Maybe<SearchableRichTextFacet>;
+  Guid?: Maybe<Array<Maybe<StringFacet>>>;
   Heading?: Maybe<Array<Maybe<StringFacet>>>;
   PageAdminSettings?: Maybe<Array<Maybe<StringFacet>>>;
   PromoImage?: Maybe<ContentReferenceFacet>;
@@ -195,6 +202,14 @@ export type ArticlePageFacetAuthorArgs = {
 
 
 export type ArticlePageFacetAuthorEmailArgs = {
+  filters?: InputMaybe<Array<Scalars['String']['input']>>;
+  limit?: Scalars['Int']['input'];
+  orderBy?: InputMaybe<OrderBy>;
+  orderType?: InputMaybe<OrderByFacetType>;
+};
+
+
+export type ArticlePageFacetGuidArgs = {
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
   limit?: Scalars['Int']['input'];
   orderBy?: InputMaybe<OrderBy>;
@@ -229,6 +244,7 @@ export type ArticlePageOrderByInput = {
   Author?: InputMaybe<OrderBy>;
   AuthorEmail?: InputMaybe<OrderBy>;
   Body?: InputMaybe<SearchableRichTextOrderByInput>;
+  Guid?: InputMaybe<OrderBy>;
   Heading?: InputMaybe<OrderBy>;
   PageAdminSettings?: InputMaybe<OrderBy>;
   PromoImage?: InputMaybe<ContentReferenceOrderByInput>;
@@ -261,6 +277,7 @@ export type ArticlePageWhereInput = {
   Author?: InputMaybe<SearchableStringFilterInput>;
   AuthorEmail?: InputMaybe<SearchableStringFilterInput>;
   Body?: InputMaybe<SearchableRichTextWhereInput>;
+  Guid?: InputMaybe<SearchableStringFilterInput>;
   Heading?: InputMaybe<SearchableStringFilterInput>;
   PageAdminSettings?: InputMaybe<StringFilterInput>;
   PromoImage?: InputMaybe<ContentReferenceWhereInput>;
@@ -3277,8 +3294,10 @@ export type LinkWhereInput = {
 export enum Locales {
   All = 'ALL',
   Neutral = 'NEUTRAL',
+  De = 'de',
   En = 'en',
   EnGb = 'en_GB',
+  EnNz = 'en_NZ',
   NlBe = 'nl_BE',
   Sv = 'sv'
 }

@@ -8,7 +8,7 @@ const contentPayload = Astro.props.data as ContentPayload;
 const pageType = contentPayload.types[0];
 ---
 
-{pageType === 'ArticlePageSSR' && <ArticlePage contentPayload={contentPayload} />}
+{pageType === 'ArticlePage' && <ArticlePage contentPayload={contentPayload} />}
 {pageType === 'LandingPage' && <LandingPage contentPayload={contentPayload} />}
 {pageType === 'MockupPage' && <MockupPage contentPayload={contentPayload} />}
 {pageType === 'FolderPage' && <FolderPage />}

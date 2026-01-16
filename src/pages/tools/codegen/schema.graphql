@@ -74,6 +74,7 @@ type ArticlePage implements IData & _IContent & _IPage {
   Author(highlight: HighlightOptions): String
   AuthorEmail(highlight: HighlightOptions): String
   Body: SearchableRichText
+  Guid(highlight: HighlightOptions): String
   Heading(highlight: HighlightOptions): String
   PageAdminSettings: PageAdminSettingsProperty
   PromoImage: ContentReference
@@ -101,6 +102,7 @@ type ArticlePageFacet {
   Author(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   AuthorEmail(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Body: SearchableRichTextFacet
+  Guid(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Heading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   PageAdminSettings(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   PromoImage: ContentReferenceFacet
@@ -113,6 +115,7 @@ input ArticlePageOrderByInput {
   Author: OrderBy
   AuthorEmail: OrderBy
   Body: SearchableRichTextOrderByInput
+  Guid: OrderBy
   Heading: OrderBy
   PageAdminSettings: OrderBy
   PromoImage: ContentReferenceOrderByInput
@@ -141,6 +144,7 @@ input ArticlePageWhereInput {
   Author: SearchableStringFilterInput
   AuthorEmail: SearchableStringFilterInput
   Body: SearchableRichTextWhereInput
+  Guid: SearchableStringFilterInput
   Heading: SearchableStringFilterInput
   PageAdminSettings: StringFilterInput
   PromoImage: ContentReferenceWhereInput
@@ -2039,8 +2043,10 @@ input LinkWhereInput {
 enum Locales {
   ALL
   NEUTRAL
+  de
   en
   en_GB
+  en_NZ
   nl_BE
   sv
 }

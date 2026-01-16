@@ -11,12 +11,14 @@ import Pages from '../cms/pages/_Pages_ssr.astro';
 
 const previewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
 previewPayload.loc = localeToSdkLocale(previewPayload.loc);
+console.log('Preview Payload:', previewPayload);
 
 const optiResponse = await getOptimizelySdk(previewPayload).contentById({
     key: previewPayload.key,
     loc: previewPayload.loc as Locales,
     ver: previewPayload.ver,
 });
+console.log('Optimizely Preview SSR Response:', JSON.stringify(optiResponse, null, 2));
 const types = optiResponse?._Content?.item?._metadata?.types;
 //@ts-ignore
 previewPayload.types = types;
