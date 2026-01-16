@@ -1,0 +1,34 @@
+---
+import qs from 'query-string';
+
+import type { Locales } from 'astro';
+import Component from '../cms/components/_Component.astro';
+import Experiences from '../cms/experiences/_Experiences.astro';
+import { getOptimizelySdk } from '../graphql/getSdk';
+import type { ContentPayload } from '../graphql/shared/ContentPayload';
+import { localeToSdkLocale } from '../lib/locale-helpers';
+import Pages from '../cms/pages/_Pages.astro';
+
+const previewPayload = qs.parse(Astro.url.search) as unknown as ContentPayload;
+previewPayload.loc = localeToSdkLocale(previewPayload.loc);
+
+const optiResponse = await getOptimizelySdk(previewPayload).contentById({
+    key: previewPayload.key,
+    loc: previewPayload.loc as Locales,
+    ver: previewPayload.ver,
+});
+const types = optiResponse?._Content?.item?._metadata?.types;
+//@ts-ignore
+previewPayload.types = types;
+
+const isComponentType = types?.includes('_Component');
+const isExperienceType = types?.includes('_Experience');
+const isPageType = types?.includes('_Page') && isExperienceType === false;
+---
+
+<>
+    {!types && <h1 class="text-center text-5xl">Let's create some content</h1>}
+    {isComponentType && <Component data={previewPayload} />}
+    {isExperienceType && <Experiences data={previewPayload} />}
+    {isPageType && <Pages data={previewPayload} />}
+</>
