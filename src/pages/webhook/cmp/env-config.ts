@@ -67,3 +67,13 @@ export const OPTIMIZELY_CLIENT_SECRET = validateEnvVar(
     'OPTIMIZELY_CLIENT_SECRET',
     import.meta.env.OPTIMIZELY_CLIENT_SECRET
 );
+
+// CMP Content Types Configuration
+// Comma-separated list of content types to process (e.g., "saas_cms_content,article,blog_post")
+export const CMP_CONTENT_TYPES = validateEnvVar(
+    'CMP_CONTENT_TYPES',
+    import.meta.env.CMP_CONTENT_TYPES
+)
+    .split(',')
+    .map((type) => type.trim())
+    .filter((type) => type.length > 0);

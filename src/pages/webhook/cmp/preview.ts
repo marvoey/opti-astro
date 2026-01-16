@@ -7,6 +7,7 @@ import {
     CMP_OAUTH_CLIENT_SECRET,
     CMP_AUTH_SERVER_URL,
     CMP_PREVIEW_URL,
+    CMP_CONTENT_TYPES,
 } from './env-config';
 import { getGraphQLSdk } from './graphql-client';
 import { getCmsClient } from './cms-client';
@@ -73,22 +74,22 @@ export const POST: APIRoute = async ({ request }) => {
             parsedPayload.data.assets.structured_contents[0];
 
         // ========================================================================
-        // STEP 3: Only process saas_cms_content type
+        // STEP 3: Only process allowed content types
         // ========================================================================
-        if (
-            structuredContent?.content_body?.content_type?.api_identifier !==
-            'saas_cms_content'
-        ) {
+        const contentType =
+            structuredContent?.content_body?.content_type?.api_identifier;
+
+        if (!contentType || !CMP_CONTENT_TYPES.includes(contentType)) {
             console.log(
-                'Skipping webhook: content type is not saas_cms_content'
+                `Skipping webhook: content type '${contentType}' is not in allowed types: [${CMP_CONTENT_TYPES.join(', ')}]`
             );
             return new Response(null, { status: 200 });
         }
 
-        console.log('Processing saas_cms_content type');
+        console.log(`Processing content type: ${contentType}`);
 
         // ========================================================================
-        // STEP 4: Extract content GUID and fields
+        // STEP 4: Extract content GUID and fields from the webhook payload
         // ========================================================================
         const contentGuid = structuredContent.content_body.content_guid;
         const fields = structuredContent.content_body?.fields_version?.fields;
@@ -379,18 +380,23 @@ export const POST: APIRoute = async ({ request }) => {
                 const cmpClient = webhookHandler.getClient();
                 const previewId = parsedPayload.data?.preview_id;
                 const keyedPreviews = {
-                    [`draft-${previewId}`]: draftPreviewUrl,
+                    [`draft-${previewId}`]: {
+                        orderIndex: 0,
+                        mimeType: "text/html",
+                        locale: loc,
+                        completed: draftPreviewUrl,
+                        error: null,
+                        name: `Draft Preview`
+                    }
                     // [`published-${previewId}`]: publishedPreviewUrl,
                 }
+                    
                 console.log('Submitting preview completion with URLs:', keyedPreviews);
                 await cmpClient.submitPreviewCompletion(
                     structuredContent.id,
                     structuredContent.version_id,
                     previewId,
-                    {
-                        [`draft-${previewId}`]: draftPreviewUrl,
-                        [`published-${previewId}`]: publishedPreviewUrl,
-                    }
+                    keyedPreviews,
                 );
 
                 console.log('Preview completion submitted successfully to CMP');
