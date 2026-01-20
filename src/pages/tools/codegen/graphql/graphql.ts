@@ -21,7 +21,7 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
-export type ArticleList = IData & _IComponent & _IContent & {
+export type ArticleList = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'ArticleList';
   ArticleRoot?: Maybe<ContentReference>;
   IncludeAllSites?: Maybe<Scalars['Boolean']['output']>;
@@ -32,6 +32,7 @@ export type ArticleList = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -57,6 +58,7 @@ export type ArticleList_LinkArgs = {
 export type ArticleListAutocomplete = {
   __typename?: 'ArticleListAutocomplete';
   ArticleRoot?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -64,6 +66,7 @@ export type ArticleListFacet = {
   __typename?: 'ArticleListFacet';
   ArticleRoot?: Maybe<ContentReferenceFacet>;
   Title?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -78,6 +81,7 @@ export type ArticleListFacetTitleArgs = {
 export type ArticleListOrderByInput = {
   ArticleRoot?: InputMaybe<ContentReferenceOrderByInput>;
   Title?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -106,29 +110,29 @@ export type ArticleListWhereInput = {
   Title?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<ArticleListWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<ArticleListWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<ArticleListWhereInput>>>;
 };
 
-export type ArticlePage = IData & _IContent & _IPage & {
+export type ArticlePage = IData & _IContent & _IItem & _IPage & {
   __typename?: 'ArticlePage';
   Author?: Maybe<Scalars['String']['output']>;
   AuthorEmail?: Maybe<Scalars['String']['output']>;
   Body?: Maybe<SearchableRichText>;
-  Guid?: Maybe<Scalars['String']['output']>;
   Heading?: Maybe<Scalars['String']['output']>;
   PageAdminSettings?: Maybe<PageAdminSettingsProperty>;
   PromoImage?: Maybe<ContentReference>;
   SeoSettings?: Maybe<PageSeoSettingsProperty>;
   SubHeading?: Maybe<Scalars['String']['output']>;
-  Tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -143,11 +147,6 @@ export type ArticlePageAuthorArgs = {
 
 
 export type ArticlePageAuthorEmailArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type ArticlePageGuidArgs = {
   highlight?: InputMaybe<HighlightOptions>;
 };
 
@@ -175,6 +174,7 @@ export type ArticlePageAutocomplete = {
   __typename?: 'ArticlePageAutocomplete';
   PromoImage?: Maybe<ContentReferenceAutocomplete>;
   SeoSettings?: Maybe<PageSeoSettingsPropertyAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -183,12 +183,12 @@ export type ArticlePageFacet = {
   Author?: Maybe<Array<Maybe<StringFacet>>>;
   AuthorEmail?: Maybe<Array<Maybe<StringFacet>>>;
   Body?: Maybe<SearchableRichTextFacet>;
-  Guid?: Maybe<Array<Maybe<StringFacet>>>;
   Heading?: Maybe<Array<Maybe<StringFacet>>>;
   PageAdminSettings?: Maybe<Array<Maybe<StringFacet>>>;
   PromoImage?: Maybe<ContentReferenceFacet>;
   SeoSettings?: Maybe<PageSeoSettingsPropertyFacet>;
   SubHeading?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -202,14 +202,6 @@ export type ArticlePageFacetAuthorArgs = {
 
 
 export type ArticlePageFacetAuthorEmailArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type ArticlePageFacetGuidArgs = {
   filters?: InputMaybe<Array<Scalars['String']['input']>>;
   limit?: Scalars['Int']['input'];
   orderBy?: InputMaybe<OrderBy>;
@@ -244,12 +236,12 @@ export type ArticlePageOrderByInput = {
   Author?: InputMaybe<OrderBy>;
   AuthorEmail?: InputMaybe<OrderBy>;
   Body?: InputMaybe<SearchableRichTextOrderByInput>;
-  Guid?: InputMaybe<OrderBy>;
   Heading?: InputMaybe<OrderBy>;
   PageAdminSettings?: InputMaybe<OrderBy>;
   PromoImage?: InputMaybe<ContentReferenceOrderByInput>;
   SeoSettings?: InputMaybe<PageSeoSettingsPropertyOrderByInput>;
   SubHeading?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -277,7 +269,6 @@ export type ArticlePageWhereInput = {
   Author?: InputMaybe<SearchableStringFilterInput>;
   AuthorEmail?: InputMaybe<SearchableStringFilterInput>;
   Body?: InputMaybe<SearchableRichTextWhereInput>;
-  Guid?: InputMaybe<SearchableStringFilterInput>;
   Heading?: InputMaybe<SearchableStringFilterInput>;
   PageAdminSettings?: InputMaybe<StringFilterInput>;
   PromoImage?: InputMaybe<ContentReferenceWhereInput>;
@@ -285,13 +276,14 @@ export type ArticlePageWhereInput = {
   SubHeading?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<ArticlePageWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<ArticlePageWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<ArticlePageWhereInput>>>;
 };
 
-export type BlankExperience = IData & _IContent & _IExperience & _IPage & {
+export type BlankExperience = IData & _IContent & _IExperience & _IItem & _IPage & {
   __typename?: 'BlankExperience';
   BlankExperienceSeoSettings?: Maybe<PageSeoSettingsProperty>;
   PageAdminSettings?: Maybe<PageAdminSettingsProperty>;
@@ -300,6 +292,7 @@ export type BlankExperience = IData & _IContent & _IExperience & _IPage & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -321,6 +314,7 @@ export type BlankExperience_LinkArgs = {
 export type BlankExperienceAutocomplete = {
   __typename?: 'BlankExperienceAutocomplete';
   BlankExperienceSeoSettings?: Maybe<PageSeoSettingsPropertyAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
   composition?: Maybe<CompositionStructureNodeAutocomplete>;
 };
@@ -329,6 +323,7 @@ export type BlankExperienceFacet = {
   __typename?: 'BlankExperienceFacet';
   BlankExperienceSeoSettings?: Maybe<PageSeoSettingsPropertyFacet>;
   PageAdminSettings?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
   composition?: Maybe<CompositionStructureNodeFacet>;
 };
@@ -344,6 +339,7 @@ export type BlankExperienceFacetPageAdminSettingsArgs = {
 export type BlankExperienceOrderByInput = {
   BlankExperienceSeoSettings?: InputMaybe<PageSeoSettingsPropertyOrderByInput>;
   PageAdminSettings?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -373,6 +369,7 @@ export type BlankExperienceWhereInput = {
   PageAdminSettings?: InputMaybe<StringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<BlankExperienceWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<BlankExperienceWhereInput>>>;
@@ -380,13 +377,14 @@ export type BlankExperienceWhereInput = {
   composition?: InputMaybe<CompositionStructureNodeWhereInput>;
 };
 
-export type BlankSection = IData & _IComponent & _IContent & _ISection & {
+export type BlankSection = IData & _IComponent & _IContent & _IItem & _ISection & {
   __typename?: 'BlankSection';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -407,17 +405,20 @@ export type BlankSection_LinkArgs = {
 
 export type BlankSectionAutocomplete = {
   __typename?: 'BlankSectionAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
   composition?: Maybe<CompositionStructureNodeAutocomplete>;
 };
 
 export type BlankSectionFacet = {
   __typename?: 'BlankSectionFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
   composition?: Maybe<CompositionStructureNodeFacet>;
 };
 
 export type BlankSectionOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -445,6 +446,7 @@ export type BlankSectionOutputTotalArgs = {
 export type BlankSectionWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<BlankSectionWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<BlankSectionWhereInput>>>;
@@ -452,18 +454,7 @@ export type BlankSectionWhereInput = {
   composition?: InputMaybe<CompositionStructureNodeWhereInput>;
 };
 
-export type BoolFilterInput = {
-  /** `boost` influences the weight of a field by boosting a match with a number (default: 1) — counts more towards the eventual relevance score which can be projected with `_score` — at query time. Note that `boost` cannot be a negative number. */
-  boost?: InputMaybe<Scalars['Int']['input']>;
-  /** `eq` matches on an exact value, but the value is case-insensitive. */
-  eq?: InputMaybe<Scalars['Boolean']['input']>;
-  /** `exist` matches results that have this field. */
-  exist?: InputMaybe<Scalars['Boolean']['input']>;
-  /** `not_eq` retrieves results not matching with an exact (but case-insensitive) value. */
-  notEq?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Button = IData & _IComponent & _IContent & {
+export type Button = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Button';
   ButtonLabel?: Maybe<Scalars['String']['output']>;
   ButtonLink?: Maybe<Link>;
@@ -472,6 +463,7 @@ export type Button = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -497,6 +489,7 @@ export type Button_LinkArgs = {
 export type ButtonAutocomplete = {
   __typename?: 'ButtonAutocomplete';
   ButtonLink?: Maybe<LinkAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -504,6 +497,7 @@ export type ButtonFacet = {
   __typename?: 'ButtonFacet';
   ButtonLabel?: Maybe<Array<Maybe<StringFacet>>>;
   ButtonLink?: Maybe<LinkFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -518,6 +512,7 @@ export type ButtonFacetButtonLabelArgs = {
 export type ButtonOrderByInput = {
   ButtonLabel?: InputMaybe<OrderBy>;
   ButtonLink?: InputMaybe<LinkOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -546,13 +541,14 @@ export type ButtonWhereInput = {
   ButtonLink?: InputMaybe<LinkWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<ButtonWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<ButtonWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<ButtonWhereInput>>>;
 };
 
-export type CallToAction = IData & _IComponent & _IContent & {
+export type CallToAction = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'CallToAction';
   Links?: Maybe<Array<Maybe<Link>>>;
   /** @deprecated Use `_link` field instead */
@@ -560,6 +556,7 @@ export type CallToAction = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -580,17 +577,20 @@ export type CallToAction_LinkArgs = {
 export type CallToActionAutocomplete = {
   __typename?: 'CallToActionAutocomplete';
   Links?: Maybe<LinkAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type CallToActionFacet = {
   __typename?: 'CallToActionFacet';
   Links?: Maybe<LinkFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type CallToActionOrderByInput = {
   Links?: InputMaybe<LinkOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -618,13 +618,14 @@ export type CallToActionWhereInput = {
   Links?: InputMaybe<LinkWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<CallToActionWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<CallToActionWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<CallToActionWhereInput>>>;
 };
 
-export type Card = IData & _IComponent & _IContent & {
+export type Card = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Card';
   Asset?: Maybe<ContentReference>;
   Body?: Maybe<SearchableRichText>;
@@ -637,6 +638,7 @@ export type Card = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -668,6 +670,7 @@ export type CardAutocomplete = {
   __typename?: 'CardAutocomplete';
   Asset?: Maybe<ContentReferenceAutocomplete>;
   Links?: Maybe<LinkAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -678,6 +681,7 @@ export type CardFacet = {
   Heading?: Maybe<Array<Maybe<StringFacet>>>;
   Links?: Maybe<LinkFacet>;
   SubHeading?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -703,6 +707,7 @@ export type CardOrderByInput = {
   Heading?: InputMaybe<OrderBy>;
   Links?: InputMaybe<LinkOrderByInput>;
   SubHeading?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -734,13 +739,14 @@ export type CardWhereInput = {
   SubHeading?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<CardWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<CardWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<CardWhereInput>>>;
 };
 
-export type Carousel = IData & _IComponent & _IContent & {
+export type Carousel = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Carousel';
   Assets?: Maybe<Array<Maybe<Link>>>;
   Heading?: Maybe<Scalars['String']['output']>;
@@ -750,6 +756,7 @@ export type Carousel = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -776,6 +783,7 @@ export type CarouselAutocomplete = {
   __typename?: 'CarouselAutocomplete';
   Assets?: Maybe<LinkAutocomplete>;
   Link?: Maybe<LinkAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -784,6 +792,7 @@ export type CarouselFacet = {
   Assets?: Maybe<LinkFacet>;
   Heading?: Maybe<Array<Maybe<StringFacet>>>;
   Link?: Maybe<LinkFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -799,6 +808,7 @@ export type CarouselOrderByInput = {
   Assets?: InputMaybe<LinkOrderByInput>;
   Heading?: InputMaybe<OrderBy>;
   Link?: InputMaybe<LinkOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -828,13 +838,14 @@ export type CarouselWhereInput = {
   Link?: InputMaybe<LinkWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<CarouselWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<CarouselWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<CarouselWhereInput>>>;
 };
 
-export type Collapse = IData & _IComponent & _IContent & {
+export type Collapse = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Collapse';
   Body?: Maybe<SearchableRichText>;
   Heading?: Maybe<Scalars['String']['output']>;
@@ -843,6 +854,7 @@ export type Collapse = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -867,6 +879,7 @@ export type Collapse_LinkArgs = {
 
 export type CollapseAutocomplete = {
   __typename?: 'CollapseAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -874,6 +887,7 @@ export type CollapseFacet = {
   __typename?: 'CollapseFacet';
   Body?: Maybe<SearchableRichTextFacet>;
   Heading?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -888,6 +902,7 @@ export type CollapseFacetHeadingArgs = {
 export type CollapseOrderByInput = {
   Body?: InputMaybe<SearchableRichTextOrderByInput>;
   Heading?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -916,6 +931,7 @@ export type CollapseWhereInput = {
   Heading?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<CollapseWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<CollapseWhereInput>>>;
@@ -1353,13 +1369,15 @@ export type ContentUrlWhereInput = {
   type?: InputMaybe<StringFilterInput>;
 };
 
-export type CssMedia = IData & _IContent & _IMedia & {
+export type CssMedia = IData & _IAssetItem & _IContent & _IItem & _IMedia & {
   __typename?: 'CssMedia';
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1379,15 +1397,21 @@ export type CssMedia_LinkArgs = {
 
 export type CssMediaAutocomplete = {
   __typename?: 'CssMediaAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type CssMediaFacet = {
   __typename?: 'CssMediaFacet';
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type CssMediaOrderByInput = {
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -1413,7 +1437,9 @@ export type CssMediaOutputTotalArgs = {
 
 export type CssMediaWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<CssMediaWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<CssMediaWhereInput>>>;
@@ -1515,7 +1541,7 @@ export type Decay = {
   scale?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type Divider = IData & _IComponent & _IContent & {
+export type Divider = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Divider';
   DividerDirection?: Maybe<Scalars['String']['output']>;
   DividerText?: Maybe<Scalars['String']['output']>;
@@ -1524,6 +1550,7 @@ export type Divider = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1543,15 +1570,18 @@ export type Divider_LinkArgs = {
 
 export type DividerAutocomplete = {
   __typename?: 'DividerAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type DividerFacet = {
   __typename?: 'DividerFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type DividerOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -1578,13 +1608,14 @@ export type DividerOutputTotalArgs = {
 export type DividerWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<DividerWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<DividerWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<DividerWhereInput>>>;
 };
 
-export type FacetedSearch = IData & _IComponent & _IContent & {
+export type FacetedSearch = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'FacetedSearch';
   DefaultFiltersState?: Maybe<Scalars['String']['output']>;
   DefaultSortOrder?: Maybe<Scalars['String']['output']>;
@@ -1605,6 +1636,7 @@ export type FacetedSearch = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1639,6 +1671,7 @@ export type FacetedSearch_LinkArgs = {
 
 export type FacetedSearchAutocomplete = {
   __typename?: 'FacetedSearchAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -1648,6 +1681,7 @@ export type FacetedSearchFacet = {
   NoResultsMessage?: Maybe<Array<Maybe<StringFacet>>>;
   SearchPlaceholder?: Maybe<Array<Maybe<StringFacet>>>;
   Title?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -1680,6 +1714,7 @@ export type FacetedSearchOrderByInput = {
   NoResultsMessage?: InputMaybe<OrderBy>;
   SearchPlaceholder?: InputMaybe<OrderBy>;
   Title?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -1710,6 +1745,7 @@ export type FacetedSearchWhereInput = {
   Title?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<FacetedSearchWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<FacetedSearchWhereInput>>>;
@@ -1729,7 +1765,32 @@ export enum FactorModifier {
   Square = 'SQUARE'
 }
 
-export type FolderPage = IData & _IContent & _IPage & {
+export type FloatFilterInput = {
+  /** `boost` influences the weight of a field by boosting a match with a number (default: 1) — counts more towards the eventual relevance score which can be projected with `_score` — at query time. Note that `boost` cannot be a negative number. */
+  boost?: InputMaybe<Scalars['Float']['input']>;
+  /** `eq` matches on an exact value, but the value is case-insensitive. */
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  /** `exist` matches results that have this field. */
+  exist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** `Factor` allows you to use a number value in a field to influence the `_score` directly. If used on a multi-valued field, then only the lowest value of the field is used in calculations. Default for `value` is `1`. Default for `modifier` is `NONE`. */
+  factor?: InputMaybe<NumberFactor>;
+  /** `gt` retrieves results with matches that have a value which is `greater than` it. */
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  /** `gte` retrieves results with matches that have a value which is `greater than or equal to` it. */
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  /** `in` matches with 1 or more exact values in a list. Example: `in: ["word1", "word2", "this is a phrase"]` */
+  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+  /** `lt` retrieves results with matches that have a value which is `lower than` it. */
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  /** `lte` retrieves results with matches that have a value which is `lower than or equal to` it. */
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  /** `not_eq` retrieves results not matching with an exact (but case-insensitive) value. */
+  notEq?: InputMaybe<Scalars['Float']['input']>;
+  /** `not_in` returns results that do not match with 1 or more exact values in a list. Example: `not_in: ["word1", "word2", "this is a phrase"]` */
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+};
+
+export type FolderPage = IData & _IContent & _IItem & _IPage & {
   __typename?: 'FolderPage';
   FolderDescription?: Maybe<Scalars['String']['output']>;
   /** @deprecated Use `_link` field instead */
@@ -1737,6 +1798,7 @@ export type FolderPage = IData & _IContent & _IPage & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1756,15 +1818,18 @@ export type FolderPage_LinkArgs = {
 
 export type FolderPageAutocomplete = {
   __typename?: 'FolderPageAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type FolderPageFacet = {
   __typename?: 'FolderPageFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type FolderPageOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -1791,19 +1856,22 @@ export type FolderPageOutputTotalArgs = {
 export type FolderPageWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<FolderPageWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<FolderPageWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<FolderPageWhereInput>>>;
 };
 
-export type GenericMedia = IData & _IContent & _IMedia & {
+export type GenericMedia = IData & _IAssetItem & _IContent & _IItem & _IMedia & {
   __typename?: 'GenericMedia';
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1823,15 +1891,21 @@ export type GenericMedia_LinkArgs = {
 
 export type GenericMediaAutocomplete = {
   __typename?: 'GenericMediaAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type GenericMediaFacet = {
   __typename?: 'GenericMediaFacet';
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type GenericMediaOrderByInput = {
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -1857,14 +1931,16 @@ export type GenericMediaOutputTotalArgs = {
 
 export type GenericMediaWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<GenericMediaWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<GenericMediaWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<GenericMediaWhereInput>>>;
 };
 
-export type Grid = IData & _IComponent & _IContent & {
+export type Grid = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Grid';
   Items?: Maybe<Array<Maybe<_IContent>>>;
   RichText?: Maybe<SearchableRichText>;
@@ -1873,6 +1949,7 @@ export type Grid = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1893,6 +1970,7 @@ export type Grid_LinkArgs = {
 export type GridAutocomplete = {
   __typename?: 'GridAutocomplete';
   Items?: Maybe<_IContentAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -1900,12 +1978,14 @@ export type GridFacet = {
   __typename?: 'GridFacet';
   Items?: Maybe<_IContentFacet>;
   RichText?: Maybe<SearchableRichTextFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type GridOrderByInput = {
   Items?: InputMaybe<_IContentOrderByInput>;
   RichText?: InputMaybe<SearchableRichTextOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -1934,13 +2014,14 @@ export type GridWhereInput = {
   RichText?: InputMaybe<SearchableRichTextWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<GridWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<GridWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<GridWhereInput>>>;
 };
 
-export type Hero = IData & _IComponent & _IContent & {
+export type Hero = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Hero';
   Body?: Maybe<SearchableRichText>;
   Heading?: Maybe<Scalars['String']['output']>;
@@ -1953,6 +2034,7 @@ export type Hero = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -1985,6 +2067,7 @@ export type HeroAutocomplete = {
   Image?: Maybe<ContentReferenceAutocomplete>;
   Links?: Maybe<LinkAutocomplete>;
   Video?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -1996,6 +2079,7 @@ export type HeroFacet = {
   Links?: Maybe<LinkFacet>;
   SubHeading?: Maybe<Array<Maybe<StringFacet>>>;
   Video?: Maybe<ContentReferenceFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -2022,6 +2106,7 @@ export type HeroOrderByInput = {
   Links?: InputMaybe<LinkOrderByInput>;
   SubHeading?: InputMaybe<OrderBy>;
   Video?: InputMaybe<ContentReferenceOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -2054,6 +2139,7 @@ export type HeroWhereInput = {
   Video?: InputMaybe<ContentReferenceWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<HeroWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<HeroWhereInput>>>;
@@ -2573,173 +2659,7 @@ export type IMediaMetadataDisplayNameArgs = {
   highlight?: InputMaybe<HighlightOptions>;
 };
 
-export type Icmp_Asset = {
-  DateCreated?: Maybe<Scalars['Date']['output']>;
-  DateModified?: Maybe<Scalars['Date']['output']>;
-  ExpiryDate?: Maybe<Scalars['Date']['output']>;
-  Fields?: Maybe<Array<Maybe<Icmp_Field>>>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Labels?: Maybe<Array<Maybe<Cmp_AssetLabel>>>;
-  LibraryPath?: Maybe<Scalars['String']['output']>;
-  MimeType?: Maybe<Scalars['String']['output']>;
-  ParentFolderGuid?: Maybe<Scalars['String']['output']>;
-  Tags?: Maybe<Array<Maybe<Cmp_Tag>>>;
-  Title?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Icmp_AssetIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Icmp_AssetTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Icmp_Asset_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Icmp_Asset_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Icmp_Field = {
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Icmp_Field_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Icmp_Field_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Icmp_FieldAutocomplete = {
-  __typename?: 'Icmp_FieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Icmp_FieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Icmp_FieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Icmp_FieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Icmp_FieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Icmp_FieldFacet = {
-  __typename?: 'Icmp_FieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Icmp_FieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Icmp_FieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Icmp_FieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Icmp_FieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Icmp_FieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Icmp_FieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Icmp_FieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Icmp_FieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Icmp_FieldWhereInput>>>;
-};
-
-export type Iframe = IData & _IComponent & _IContent & {
+export type Iframe = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Iframe';
   IframePageUrl?: Maybe<Scalars['String']['output']>;
   ManualHeight?: Maybe<Scalars['Int']['output']>;
@@ -2750,6 +2670,7 @@ export type Iframe = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -2774,12 +2695,14 @@ export type Iframe_LinkArgs = {
 
 export type IframeAutocomplete = {
   __typename?: 'IframeAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type IframeFacet = {
   __typename?: 'IframeFacet';
   Title?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -2793,6 +2716,7 @@ export type IframeFacetTitleArgs = {
 
 export type IframeOrderByInput = {
   Title?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -2820,13 +2744,14 @@ export type IframeWhereInput = {
   Title?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<IframeWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<IframeWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<IframeWhereInput>>>;
 };
 
-export type Image = IData & _IComponent & _IContent & {
+export type Image = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Image';
   AltText?: Maybe<Scalars['String']['output']>;
   Image?: Maybe<ContentReference>;
@@ -2835,6 +2760,7 @@ export type Image = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -2860,6 +2786,7 @@ export type Image_LinkArgs = {
 export type ImageAutocomplete = {
   __typename?: 'ImageAutocomplete';
   Image?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -2867,6 +2794,7 @@ export type ImageFacet = {
   __typename?: 'ImageFacet';
   AltText?: Maybe<Array<Maybe<StringFacet>>>;
   Image?: Maybe<ContentReferenceFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -2878,14 +2806,17 @@ export type ImageFacetAltTextArgs = {
   orderType?: InputMaybe<OrderByFacetType>;
 };
 
-export type ImageMedia = IData & _IContent & _IImage & _IMedia & {
+export type ImageMedia = IData & _IAssetItem & _IContent & _IImage & _IImageItem & _IItem & _IMedia & {
   __typename?: 'ImageMedia';
   AltText?: Maybe<Scalars['String']['output']>;
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _imageMetadata?: Maybe<_ImageMetadata>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -2910,12 +2841,17 @@ export type ImageMedia_LinkArgs = {
 
 export type ImageMediaAutocomplete = {
   __typename?: 'ImageMediaAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type ImageMediaFacet = {
   __typename?: 'ImageMediaFacet';
   AltText?: Maybe<Array<Maybe<StringFacet>>>;
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _imageMetadata?: Maybe<_ImageMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -2929,6 +2865,9 @@ export type ImageMediaFacetAltTextArgs = {
 
 export type ImageMediaOrderByInput = {
   AltText?: InputMaybe<OrderBy>;
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _imageMetadata?: InputMaybe<_ImageMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -2955,7 +2894,10 @@ export type ImageMediaOutputTotalArgs = {
 export type ImageMediaWhereInput = {
   AltText?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<ImageMediaWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _imageMetadata?: InputMaybe<_ImageMetadataWhereInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<ImageMediaWhereInput>>>;
@@ -2965,6 +2907,7 @@ export type ImageMediaWhereInput = {
 export type ImageOrderByInput = {
   AltText?: InputMaybe<OrderBy>;
   Image?: InputMaybe<ContentReferenceOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -2993,6 +2936,7 @@ export type ImageWhereInput = {
   Image?: InputMaybe<ContentReferenceWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<ImageWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<ImageWhereInput>>>;
@@ -3079,7 +3023,7 @@ export type ItemMetadataDisplayNameArgs = {
   highlight?: InputMaybe<HighlightOptions>;
 };
 
-export type LandingPage = IData & _IContent & _IPage & {
+export type LandingPage = IData & _IContent & _IItem & _IPage & {
   __typename?: 'LandingPage';
   MainContentArea?: Maybe<Array<Maybe<_IContent>>>;
   PageAdminSettings?: Maybe<PageAdminSettingsProperty>;
@@ -3090,6 +3034,7 @@ export type LandingPage = IData & _IContent & _IPage & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3112,6 +3057,7 @@ export type LandingPageAutocomplete = {
   MainContentArea?: Maybe<_IContentAutocomplete>;
   SeoSettings?: Maybe<PageSeoSettingsPropertyAutocomplete>;
   TopContentArea?: Maybe<_IContentAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -3121,6 +3067,7 @@ export type LandingPageFacet = {
   PageAdminSettings?: Maybe<Array<Maybe<StringFacet>>>;
   SeoSettings?: Maybe<PageSeoSettingsPropertyFacet>;
   TopContentArea?: Maybe<_IContentFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -3137,6 +3084,7 @@ export type LandingPageOrderByInput = {
   PageAdminSettings?: InputMaybe<OrderBy>;
   SeoSettings?: InputMaybe<PageSeoSettingsPropertyOrderByInput>;
   TopContentArea?: InputMaybe<_IContentOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3167,6 +3115,7 @@ export type LandingPageWhereInput = {
   TopContentArea?: InputMaybe<_IContentWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<LandingPageWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<LandingPageWhereInput>>>;
@@ -3262,8 +3211,8 @@ export enum LinkTypes {
    *
    * | *Direction* | &nbsp; | *Field*     |
    * | ----------: | ------ | :---------- |
-   * | *from*      |        | `ContentLink.GuidValue` |
-   * | *to*        |        | `ParentLink.GuidValue`   |
+   * | *from*      |        | `_metadata.key` |
+   * | *to*        |        | `_metadata.container`   |
    */
   Default = 'DEFAULT',
   /**
@@ -3294,119 +3243,8 @@ export type LinkWhereInput = {
 export enum Locales {
   All = 'ALL',
   Neutral = 'NEUTRAL',
-  De = 'de',
-  En = 'en',
-  EnGb = 'en_GB',
-  EnNz = 'en_NZ',
-  NlBe = 'nl_BE',
-  Sv = 'sv'
+  En = 'en'
 }
-
-export type Marvin5Experience = IData & _IContent & _IExperience & _IPage & {
-  __typename?: 'Marvin5Experience';
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _metadata?: Maybe<IContentMetadata>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  composition?: Maybe<CompositionStructureNode>;
-  field1?: Maybe<Scalars['String']['output']>;
-  field2?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Marvin5Experience_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Marvin5Experience_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Marvin5ExperienceField1Args = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Marvin5ExperienceField2Args = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Marvin5ExperienceAutocomplete = {
-  __typename?: 'Marvin5ExperienceAutocomplete';
-  _metadata?: Maybe<IContentMetadataAutocomplete>;
-  composition?: Maybe<CompositionStructureNodeAutocomplete>;
-};
-
-export type Marvin5ExperienceFacet = {
-  __typename?: 'Marvin5ExperienceFacet';
-  _metadata?: Maybe<IContentMetadataFacet>;
-  composition?: Maybe<CompositionStructureNodeFacet>;
-  field1?: Maybe<Array<Maybe<StringFacet>>>;
-  field2?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Marvin5ExperienceFacetField1Args = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Marvin5ExperienceFacetField2Args = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Marvin5ExperienceOrderByInput = {
-  _metadata?: InputMaybe<IContentMetadataOrderByInput>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  composition?: InputMaybe<CompositionStructureNodeOrderByInput>;
-  field1?: InputMaybe<OrderBy>;
-  field2?: InputMaybe<OrderBy>;
-};
-
-export type Marvin5ExperienceOutput = {
-  __typename?: 'Marvin5ExperienceOutput';
-  autocomplete?: Maybe<Marvin5ExperienceAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Marvin5ExperienceFacet>;
-  item?: Maybe<Marvin5Experience>;
-  items?: Maybe<Array<Maybe<Marvin5Experience>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Marvin5ExperienceOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Marvin5ExperienceWhereInput = {
-  _and?: InputMaybe<Array<InputMaybe<Marvin5ExperienceWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _metadata?: InputMaybe<IContentMetadataWhereInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Marvin5ExperienceWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Marvin5ExperienceWhereInput>>>;
-  composition?: InputMaybe<CompositionStructureNodeWhereInput>;
-  field1?: InputMaybe<SearchableStringFilterInput>;
-  field2?: InputMaybe<SearchableStringFilterInput>;
-};
 
 export type MediaMetadata = IContentMetadata & IInstanceMetadata & IMediaMetadata & {
   __typename?: 'MediaMetadata';
@@ -3447,7 +3285,7 @@ export type MediaMetadataDisplayNameArgs = {
   highlight?: InputMaybe<HighlightOptions>;
 };
 
-export type MenuItem = IData & _IComponent & _IContent & {
+export type MenuItem = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'MenuItem';
   Link?: Maybe<Link>;
   LinkText?: Maybe<Scalars['String']['output']>;
@@ -3457,6 +3295,7 @@ export type MenuItem = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3478,6 +3317,7 @@ export type MenuItemAutocomplete = {
   __typename?: 'MenuItemAutocomplete';
   Link?: Maybe<LinkAutocomplete>;
   SubMenuItems?: Maybe<_IContentAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -3485,12 +3325,14 @@ export type MenuItemFacet = {
   __typename?: 'MenuItemFacet';
   Link?: Maybe<LinkFacet>;
   SubMenuItems?: Maybe<_IContentFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type MenuItemOrderByInput = {
   Link?: InputMaybe<LinkOrderByInput>;
   SubMenuItems?: InputMaybe<_IContentOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3519,13 +3361,14 @@ export type MenuItemWhereInput = {
   SubMenuItems?: InputMaybe<_IContentWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<MenuItemWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<MenuItemWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<MenuItemWhereInput>>>;
 };
 
-export type MockupPage = IData & _IContent & _IPage & {
+export type MockupPage = IData & _IContent & _IItem & _IPage & {
   __typename?: 'MockupPage';
   HtmlMockup?: Maybe<Scalars['String']['output']>;
   /** @deprecated Use `_link` field instead */
@@ -3533,6 +3376,7 @@ export type MockupPage = IData & _IContent & _IPage & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3552,15 +3396,18 @@ export type MockupPage_LinkArgs = {
 
 export type MockupPageAutocomplete = {
   __typename?: 'MockupPageAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type MockupPageFacet = {
   __typename?: 'MockupPageFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type MockupPageOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3587,6 +3434,7 @@ export type MockupPageOutputTotalArgs = {
 export type MockupPageWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<MockupPageWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<MockupPageWhereInput>>>;
@@ -3605,7 +3453,7 @@ export type NumberFactor = {
   value?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type OdpForm = IData & _IComponent & _IContent & {
+export type OdpForm = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OdpForm';
   SelectorName?: Maybe<Scalars['String']['output']>;
   SelectorType?: Maybe<Scalars['String']['output']>;
@@ -3614,6 +3462,7 @@ export type OdpForm = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3633,15 +3482,18 @@ export type OdpForm_LinkArgs = {
 
 export type OdpFormAutocomplete = {
   __typename?: 'OdpFormAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OdpFormFacet = {
   __typename?: 'OdpFormFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OdpFormOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3668,13 +3520,14 @@ export type OdpFormOutputTotalArgs = {
 export type OdpFormWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OdpFormWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OdpFormWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OdpFormWhereInput>>>;
 };
 
-export type OptiFormsChoiceElement = IData & _IComponent & _IContent & {
+export type OptiFormsChoiceElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsChoiceElement';
   AllowMultiSelect?: Maybe<Scalars['Boolean']['output']>;
   Label?: Maybe<Scalars['String']['output']>;
@@ -3686,6 +3539,7 @@ export type OptiFormsChoiceElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3705,15 +3559,18 @@ export type OptiFormsChoiceElement_LinkArgs = {
 
 export type OptiFormsChoiceElementAutocomplete = {
   __typename?: 'OptiFormsChoiceElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsChoiceElementFacet = {
   __typename?: 'OptiFormsChoiceElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsChoiceElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3740,13 +3597,14 @@ export type OptiFormsChoiceElementOutputTotalArgs = {
 export type OptiFormsChoiceElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsChoiceElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsChoiceElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsChoiceElementWhereInput>>>;
 };
 
-export type OptiFormsContainerData = IData & _IComponent & _IContent & _ISection & {
+export type OptiFormsContainerData = IData & _IComponent & _IContent & _IItem & _ISection & {
   __typename?: 'OptiFormsContainerData';
   Description?: Maybe<Scalars['String']['output']>;
   ResetConfirmationMessage?: Maybe<Scalars['String']['output']>;
@@ -3759,6 +3617,7 @@ export type OptiFormsContainerData = IData & _IComponent & _IContent & _ISection
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3780,6 +3639,7 @@ export type OptiFormsContainerData_LinkArgs = {
 export type OptiFormsContainerDataAutocomplete = {
   __typename?: 'OptiFormsContainerDataAutocomplete';
   SubmitUrl?: Maybe<ContentUrlAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
   composition?: Maybe<CompositionStructureNodeAutocomplete>;
 };
@@ -3787,12 +3647,14 @@ export type OptiFormsContainerDataAutocomplete = {
 export type OptiFormsContainerDataFacet = {
   __typename?: 'OptiFormsContainerDataFacet';
   SubmitUrl?: Maybe<ContentUrlFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
   composition?: Maybe<CompositionStructureNodeFacet>;
 };
 
 export type OptiFormsContainerDataOrderByInput = {
   SubmitUrl?: InputMaybe<ContentUrlOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3821,6 +3683,7 @@ export type OptiFormsContainerDataWhereInput = {
   SubmitUrl?: InputMaybe<ContentUrlWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<OptiFormsContainerDataWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsContainerDataWhereInput>>>;
@@ -3828,7 +3691,7 @@ export type OptiFormsContainerDataWhereInput = {
   composition?: InputMaybe<CompositionStructureNodeWhereInput>;
 };
 
-export type OptiFormsNumberElement = IData & _IComponent & _IContent & {
+export type OptiFormsNumberElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsNumberElement';
   AutoComplete?: Maybe<Scalars['String']['output']>;
   Label?: Maybe<Scalars['String']['output']>;
@@ -3841,6 +3704,7 @@ export type OptiFormsNumberElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3860,15 +3724,18 @@ export type OptiFormsNumberElement_LinkArgs = {
 
 export type OptiFormsNumberElementAutocomplete = {
   __typename?: 'OptiFormsNumberElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsNumberElementFacet = {
   __typename?: 'OptiFormsNumberElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsNumberElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3895,13 +3762,14 @@ export type OptiFormsNumberElementOutputTotalArgs = {
 export type OptiFormsNumberElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsNumberElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsNumberElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsNumberElementWhereInput>>>;
 };
 
-export type OptiFormsRangeElement = IData & _IComponent & _IContent & {
+export type OptiFormsRangeElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsRangeElement';
   Increment?: Maybe<Scalars['Int']['output']>;
   Label?: Maybe<Scalars['String']['output']>;
@@ -3914,6 +3782,7 @@ export type OptiFormsRangeElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -3933,15 +3802,18 @@ export type OptiFormsRangeElement_LinkArgs = {
 
 export type OptiFormsRangeElementAutocomplete = {
   __typename?: 'OptiFormsRangeElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsRangeElementFacet = {
   __typename?: 'OptiFormsRangeElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsRangeElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -3968,13 +3840,14 @@ export type OptiFormsRangeElementOutputTotalArgs = {
 export type OptiFormsRangeElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsRangeElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsRangeElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsRangeElementWhereInput>>>;
 };
 
-export type OptiFormsResetElement = IData & _IComponent & _IContent & {
+export type OptiFormsResetElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsResetElement';
   Label?: Maybe<Scalars['String']['output']>;
   Tooltip?: Maybe<Scalars['String']['output']>;
@@ -3983,6 +3856,7 @@ export type OptiFormsResetElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4002,15 +3876,18 @@ export type OptiFormsResetElement_LinkArgs = {
 
 export type OptiFormsResetElementAutocomplete = {
   __typename?: 'OptiFormsResetElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsResetElementFacet = {
   __typename?: 'OptiFormsResetElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsResetElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4037,13 +3914,14 @@ export type OptiFormsResetElementOutputTotalArgs = {
 export type OptiFormsResetElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsResetElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsResetElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsResetElementWhereInput>>>;
 };
 
-export type OptiFormsSelectionElement = IData & _IComponent & _IContent & {
+export type OptiFormsSelectionElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsSelectionElement';
   AllowMultiSelect?: Maybe<Scalars['Boolean']['output']>;
   AutoComplete?: Maybe<Scalars['String']['output']>;
@@ -4057,6 +3935,7 @@ export type OptiFormsSelectionElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4076,15 +3955,18 @@ export type OptiFormsSelectionElement_LinkArgs = {
 
 export type OptiFormsSelectionElementAutocomplete = {
   __typename?: 'OptiFormsSelectionElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsSelectionElementFacet = {
   __typename?: 'OptiFormsSelectionElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsSelectionElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4111,13 +3993,14 @@ export type OptiFormsSelectionElementOutputTotalArgs = {
 export type OptiFormsSelectionElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsSelectionElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsSelectionElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsSelectionElementWhereInput>>>;
 };
 
-export type OptiFormsSubmitElement = IData & _IComponent & _IContent & {
+export type OptiFormsSubmitElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsSubmitElement';
   Label?: Maybe<Scalars['String']['output']>;
   Tooltip?: Maybe<Scalars['String']['output']>;
@@ -4126,6 +4009,7 @@ export type OptiFormsSubmitElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4145,15 +4029,18 @@ export type OptiFormsSubmitElement_LinkArgs = {
 
 export type OptiFormsSubmitElementAutocomplete = {
   __typename?: 'OptiFormsSubmitElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsSubmitElementFacet = {
   __typename?: 'OptiFormsSubmitElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsSubmitElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4180,13 +4067,14 @@ export type OptiFormsSubmitElementOutputTotalArgs = {
 export type OptiFormsSubmitElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsSubmitElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsSubmitElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsSubmitElementWhereInput>>>;
 };
 
-export type OptiFormsTextareaElement = IData & _IComponent & _IContent & {
+export type OptiFormsTextareaElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsTextareaElement';
   AutoComplete?: Maybe<Scalars['String']['output']>;
   Label?: Maybe<Scalars['String']['output']>;
@@ -4199,6 +4087,7 @@ export type OptiFormsTextareaElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4218,15 +4107,18 @@ export type OptiFormsTextareaElement_LinkArgs = {
 
 export type OptiFormsTextareaElementAutocomplete = {
   __typename?: 'OptiFormsTextareaElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsTextareaElementFacet = {
   __typename?: 'OptiFormsTextareaElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsTextareaElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4253,13 +4145,14 @@ export type OptiFormsTextareaElementOutputTotalArgs = {
 export type OptiFormsTextareaElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsTextareaElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsTextareaElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsTextareaElementWhereInput>>>;
 };
 
-export type OptiFormsTextboxElement = IData & _IComponent & _IContent & {
+export type OptiFormsTextboxElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsTextboxElement';
   AutoComplete?: Maybe<Scalars['String']['output']>;
   Label?: Maybe<Scalars['String']['output']>;
@@ -4272,6 +4165,7 @@ export type OptiFormsTextboxElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4291,15 +4185,18 @@ export type OptiFormsTextboxElement_LinkArgs = {
 
 export type OptiFormsTextboxElementAutocomplete = {
   __typename?: 'OptiFormsTextboxElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsTextboxElementFacet = {
   __typename?: 'OptiFormsTextboxElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsTextboxElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4326,13 +4223,14 @@ export type OptiFormsTextboxElementOutputTotalArgs = {
 export type OptiFormsTextboxElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsTextboxElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsTextboxElementWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<OptiFormsTextboxElementWhereInput>>>;
 };
 
-export type OptiFormsUrlElement = IData & _IComponent & _IContent & {
+export type OptiFormsUrlElement = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'OptiFormsUrlElement';
   Label?: Maybe<Scalars['String']['output']>;
   Placeholder?: Maybe<Scalars['String']['output']>;
@@ -4344,6 +4242,7 @@ export type OptiFormsUrlElement = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4363,15 +4262,18 @@ export type OptiFormsUrlElement_LinkArgs = {
 
 export type OptiFormsUrlElementAutocomplete = {
   __typename?: 'OptiFormsUrlElementAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type OptiFormsUrlElementFacet = {
   __typename?: 'OptiFormsUrlElementFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type OptiFormsUrlElementOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4398,6 +4300,7 @@ export type OptiFormsUrlElementOutputTotalArgs = {
 export type OptiFormsUrlElementWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<OptiFormsUrlElementWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<OptiFormsUrlElementWhereInput>>>;
@@ -4414,7 +4317,7 @@ export enum OrderByFacetType {
   Value = 'VALUE'
 }
 
-export type PageAdminSettings = IData & _IComponent & _IContent & {
+export type PageAdminSettings = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'PageAdminSettings';
   EnableExternalPreview?: Maybe<Scalars['Boolean']['output']>;
   /** @deprecated Use `_link` field instead */
@@ -4422,6 +4325,7 @@ export type PageAdminSettings = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4441,15 +4345,18 @@ export type PageAdminSettings_LinkArgs = {
 
 export type PageAdminSettingsAutocomplete = {
   __typename?: 'PageAdminSettingsAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type PageAdminSettingsFacet = {
   __typename?: 'PageAdminSettingsFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type PageAdminSettingsOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4481,13 +4388,14 @@ export type PageAdminSettingsProperty = {
 export type PageAdminSettingsWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<PageAdminSettingsWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<PageAdminSettingsWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<PageAdminSettingsWhereInput>>>;
 };
 
-export type PageSeoSettings = IData & _IComponent & _IContent & {
+export type PageSeoSettings = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'PageSeoSettings';
   DisplayInMenu?: Maybe<Scalars['Boolean']['output']>;
   GraphType?: Maybe<Scalars['String']['output']>;
@@ -4500,14 +4408,12 @@ export type PageSeoSettings = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
   _modified?: Maybe<Scalars['Date']['output']>;
   _score?: Maybe<Scalars['Float']['output']>;
-  canonical?: Maybe<Scalars['String']['output']>;
-  newMetaTag?: Maybe<Scalars['String']['output']>;
-  new_property?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -4533,6 +4439,7 @@ export type PageSeoSettings_LinkArgs = {
 export type PageSeoSettingsAutocomplete = {
   __typename?: 'PageSeoSettingsAutocomplete';
   SharingImage?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -4541,6 +4448,7 @@ export type PageSeoSettingsFacet = {
   MetaDescription?: Maybe<Array<Maybe<StringFacet>>>;
   MetaTitle?: Maybe<Array<Maybe<StringFacet>>>;
   SharingImage?: Maybe<ContentReferenceFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -4564,6 +4472,7 @@ export type PageSeoSettingsOrderByInput = {
   MetaDescription?: InputMaybe<OrderBy>;
   MetaTitle?: InputMaybe<OrderBy>;
   SharingImage?: InputMaybe<ContentReferenceOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4595,9 +4504,6 @@ export type PageSeoSettingsProperty = {
   MetaDescription?: Maybe<Scalars['String']['output']>;
   MetaTitle?: Maybe<Scalars['String']['output']>;
   SharingImage?: Maybe<ContentReference>;
-  canonical?: Maybe<Scalars['String']['output']>;
-  newMetaTag?: Maybe<Scalars['String']['output']>;
-  new_property?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -4656,13 +4562,14 @@ export type PageSeoSettingsWhereInput = {
   SharingImage?: InputMaybe<ContentReferenceWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<PageSeoSettingsWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<PageSeoSettingsWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<PageSeoSettingsWhereInput>>>;
 };
 
-export type Paragraph = IData & _IComponent & _IContent & {
+export type Paragraph = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Paragraph';
   Text?: Maybe<SearchableRichText>;
   /** @deprecated Use `_link` field instead */
@@ -4670,6 +4577,7 @@ export type Paragraph = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4689,17 +4597,20 @@ export type Paragraph_LinkArgs = {
 
 export type ParagraphAutocomplete = {
   __typename?: 'ParagraphAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type ParagraphFacet = {
   __typename?: 'ParagraphFacet';
   Text?: Maybe<SearchableRichTextFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type ParagraphOrderByInput = {
   Text?: InputMaybe<SearchableRichTextOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4727,6 +4638,7 @@ export type ParagraphWhereInput = {
   Text?: InputMaybe<SearchableRichTextWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<ParagraphWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<ParagraphWhereInput>>>;
@@ -4739,7 +4651,7 @@ export type PinnedInput = {
   phrase?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type PlaceholderItem = IData & _IComponent & _IContent & {
+export type PlaceholderItem = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'PlaceholderItem';
   Key?: Maybe<Scalars['String']['output']>;
   Value?: Maybe<Scalars['String']['output']>;
@@ -4748,6 +4660,7 @@ export type PlaceholderItem = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4767,15 +4680,18 @@ export type PlaceholderItem_LinkArgs = {
 
 export type PlaceholderItemAutocomplete = {
   __typename?: 'PlaceholderItemAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type PlaceholderItemFacet = {
   __typename?: 'PlaceholderItemFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type PlaceholderItemOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4802,13 +4718,14 @@ export type PlaceholderItemOutputTotalArgs = {
 export type PlaceholderItemWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<PlaceholderItemWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<PlaceholderItemWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<PlaceholderItemWhereInput>>>;
 };
 
-export type PlaceholdersConfiguration = IData & _IComponent & _IContent & {
+export type PlaceholdersConfiguration = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'PlaceholdersConfiguration';
   Domain?: Maybe<Scalars['String']['output']>;
   Placeholders?: Maybe<Array<Maybe<_IContent>>>;
@@ -4817,6 +4734,7 @@ export type PlaceholdersConfiguration = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -4838,6 +4756,7 @@ export type PlaceholdersConfigurationAutocomplete = {
   __typename?: 'PlaceholdersConfigurationAutocomplete';
   Domain?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   Placeholders?: Maybe<_IContentAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -4851,6 +4770,7 @@ export type PlaceholdersConfigurationFacet = {
   __typename?: 'PlaceholdersConfigurationFacet';
   Domain?: Maybe<Array<Maybe<StringFacet>>>;
   Placeholders?: Maybe<_IContentFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -4865,6 +4785,7 @@ export type PlaceholdersConfigurationFacetDomainArgs = {
 export type PlaceholdersConfigurationOrderByInput = {
   Domain?: InputMaybe<OrderBy>;
   Placeholders?: InputMaybe<_IContentOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -4893,132 +4814,11 @@ export type PlaceholdersConfigurationWhereInput = {
   Placeholders?: InputMaybe<_IContentWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<PlaceholdersConfigurationWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<PlaceholdersConfigurationWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<PlaceholdersConfigurationWhereInput>>>;
-};
-
-export type PressRelease = IData & _IContent & _IPage & {
-  __typename?: 'PressRelease';
-  Author?: Maybe<Scalars['String']['output']>;
-  BodyContent?: Maybe<SearchableRichText>;
-  Summary?: Maybe<Scalars['String']['output']>;
-  Title?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _metadata?: Maybe<IContentMetadata>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type PressReleaseAuthorArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type PressReleaseSummaryArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type PressReleaseTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type PressRelease_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type PressRelease_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type PressReleaseAutocomplete = {
-  __typename?: 'PressReleaseAutocomplete';
-  _metadata?: Maybe<IContentMetadataAutocomplete>;
-};
-
-export type PressReleaseFacet = {
-  __typename?: 'PressReleaseFacet';
-  Author?: Maybe<Array<Maybe<StringFacet>>>;
-  BodyContent?: Maybe<SearchableRichTextFacet>;
-  Summary?: Maybe<Array<Maybe<StringFacet>>>;
-  Title?: Maybe<Array<Maybe<StringFacet>>>;
-  _metadata?: Maybe<IContentMetadataFacet>;
-};
-
-
-export type PressReleaseFacetAuthorArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type PressReleaseFacetSummaryArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type PressReleaseFacetTitleArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type PressReleaseOrderByInput = {
-  Author?: InputMaybe<OrderBy>;
-  BodyContent?: InputMaybe<SearchableRichTextOrderByInput>;
-  Summary?: InputMaybe<OrderBy>;
-  Title?: InputMaybe<OrderBy>;
-  _metadata?: InputMaybe<IContentMetadataOrderByInput>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type PressReleaseOutput = {
-  __typename?: 'PressReleaseOutput';
-  autocomplete?: Maybe<PressReleaseAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<PressReleaseFacet>;
-  item?: Maybe<PressRelease>;
-  items?: Maybe<Array<Maybe<PressRelease>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type PressReleaseOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type PressReleaseWhereInput = {
-  Author?: InputMaybe<SearchableStringFilterInput>;
-  BodyContent?: InputMaybe<SearchableRichTextWhereInput>;
-  Summary?: InputMaybe<SearchableStringFilterInput>;
-  Title?: InputMaybe<SearchableStringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<PressReleaseWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _metadata?: InputMaybe<IContentMetadataWhereInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<PressReleaseWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<PressReleaseWhereInput>>>;
 };
 
 export type Query = {
@@ -5044,7 +4844,6 @@ export type Query = {
   Image?: Maybe<ImageOutput>;
   ImageMedia?: Maybe<ImageMediaOutput>;
   LandingPage?: Maybe<LandingPageOutput>;
-  Marvin5Experience?: Maybe<Marvin5ExperienceOutput>;
   MenuItem?: Maybe<MenuItemOutput>;
   MockupPage?: Maybe<MockupPageOutput>;
   OdpForm?: Maybe<OdpFormOutput>;
@@ -5063,7 +4862,6 @@ export type Query = {
   Paragraph?: Maybe<ParagraphOutput>;
   PlaceholderItem?: Maybe<PlaceholderItemOutput>;
   PlaceholdersConfiguration?: Maybe<PlaceholdersConfigurationOutput>;
-  PressRelease?: Maybe<PressReleaseOutput>;
   SiteSettings?: Maybe<SiteSettingsOutput>;
   SiteStyles?: Maybe<SiteStylesOutput>;
   SysContentFolder?: Maybe<SysContentFolderOutput>;
@@ -5083,26 +4881,6 @@ export type Query = {
   _Page?: Maybe<_PageOutput>;
   _Section?: Maybe<_SectionOutput>;
   _Video?: Maybe<_VideoOutput>;
-  cmp_Asset?: Maybe<Cmp_AssetOutput>;
-  cmp_CheckboxField?: Maybe<Cmp_CheckboxFieldOutput>;
-  cmp_CurrencyField?: Maybe<Cmp_CurrencyFieldOutput>;
-  cmp_DateField?: Maybe<Cmp_DateFieldOutput>;
-  cmp_DropdownField?: Maybe<Cmp_DropdownFieldOutput>;
-  cmp_Field?: Maybe<Cmp_FieldOutput>;
-  cmp_ImageField?: Maybe<Cmp_ImageFieldOutput>;
-  cmp_LabelField?: Maybe<Cmp_LabelFieldOutput>;
-  cmp_NumberField?: Maybe<Cmp_NumberFieldOutput>;
-  cmp_PercentField?: Maybe<Cmp_PercentFieldOutput>;
-  cmp_PublicImageAsset?: Maybe<Cmp_PublicImageAssetOutput>;
-  cmp_PublicRawFileAsset?: Maybe<Cmp_PublicRawFileAssetOutput>;
-  cmp_PublicVideoAsset?: Maybe<Cmp_PublicVideoAssetOutput>;
-  cmp_RadioField?: Maybe<Cmp_RadioFieldOutput>;
-  cmp_RichTextField?: Maybe<Cmp_RichTextFieldOutput>;
-  cmp_StructuredContentAsset?: Maybe<Cmp_StructuredContentAssetOutput>;
-  cmp_TextAreaField?: Maybe<Cmp_TextAreaFieldOutput>;
-  cmp_TextField?: Maybe<Cmp_TextFieldOutput>;
-  cmp_VideoField?: Maybe<Cmp_VideoFieldOutput>;
-  marvinBlock?: Maybe<MarvinBlockOutput>;
 };
 
 
@@ -5379,19 +5157,6 @@ export type QueryLandingPageArgs = {
 };
 
 
-export type QueryMarvin5ExperienceArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
-  orderBy?: InputMaybe<Marvin5ExperienceOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Marvin5ExperienceWhereInput>;
-};
-
-
 export type QueryMenuItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -5626,19 +5391,6 @@ export type QueryPlaceholdersConfigurationArgs = {
 };
 
 
-export type QueryPressReleaseArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
-  orderBy?: InputMaybe<PressReleaseOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<PressReleaseWhereInput>;
-};
-
-
 export type QuerySiteSettingsArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -5734,7 +5486,7 @@ export type Query_AssetItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
+  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
   orderBy?: InputMaybe<_AssetItemOrderByInput>;
   pinned?: InputMaybe<PinnedInput>;
   skip?: Scalars['Int']['input'];
@@ -5812,7 +5564,7 @@ export type Query_ImageItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
+  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
   orderBy?: InputMaybe<_ImageItemOrderByInput>;
   pinned?: InputMaybe<PinnedInput>;
   skip?: Scalars['Int']['input'];
@@ -5825,7 +5577,7 @@ export type Query_ItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
+  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
   orderBy?: InputMaybe<_ItemOrderByInput>;
   pinned?: InputMaybe<PinnedInput>;
   skip?: Scalars['Int']['input'];
@@ -5885,266 +5637,6 @@ export type Query_VideoArgs = {
   where?: InputMaybe<_VideoWhereInput>;
 };
 
-
-export type QueryCmp_AssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_AssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_AssetWhereInput>;
-};
-
-
-export type QueryCmp_CheckboxFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_CheckboxFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_CheckboxFieldWhereInput>;
-};
-
-
-export type QueryCmp_CurrencyFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_CurrencyFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_CurrencyFieldWhereInput>;
-};
-
-
-export type QueryCmp_DateFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_DateFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_DateFieldWhereInput>;
-};
-
-
-export type QueryCmp_DropdownFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_DropdownFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_DropdownFieldWhereInput>;
-};
-
-
-export type QueryCmp_FieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_FieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_FieldWhereInput>;
-};
-
-
-export type QueryCmp_ImageFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_ImageFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_ImageFieldWhereInput>;
-};
-
-
-export type QueryCmp_LabelFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_LabelFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_LabelFieldWhereInput>;
-};
-
-
-export type QueryCmp_NumberFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_NumberFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_NumberFieldWhereInput>;
-};
-
-
-export type QueryCmp_PercentFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PercentFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PercentFieldWhereInput>;
-};
-
-
-export type QueryCmp_PublicImageAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PublicImageAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PublicImageAssetWhereInput>;
-};
-
-
-export type QueryCmp_PublicRawFileAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PublicRawFileAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PublicRawFileAssetWhereInput>;
-};
-
-
-export type QueryCmp_PublicVideoAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PublicVideoAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PublicVideoAssetWhereInput>;
-};
-
-
-export type QueryCmp_RadioFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_RadioFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_RadioFieldWhereInput>;
-};
-
-
-export type QueryCmp_RichTextFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_RichTextFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_RichTextFieldWhereInput>;
-};
-
-
-export type QueryCmp_StructuredContentAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_StructuredContentAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_StructuredContentAssetWhereInput>;
-};
-
-
-export type QueryCmp_TextAreaFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_TextAreaFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_TextAreaFieldWhereInput>;
-};
-
-
-export type QueryCmp_TextFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_TextFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_TextFieldWhereInput>;
-};
-
-
-export type QueryCmp_VideoFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_VideoFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_VideoFieldWhereInput>;
-};
-
-
-export type QueryMarvinBlockArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
-  orderBy?: InputMaybe<MarvinBlockOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<MarvinBlockWhereInput>;
-};
-
 export type QueryRef = {
   __typename?: 'QueryRef';
   ArticleList?: Maybe<ArticleListOutput>;
@@ -6168,7 +5660,6 @@ export type QueryRef = {
   Image?: Maybe<ImageOutput>;
   ImageMedia?: Maybe<ImageMediaOutput>;
   LandingPage?: Maybe<LandingPageOutput>;
-  Marvin5Experience?: Maybe<Marvin5ExperienceOutput>;
   MenuItem?: Maybe<MenuItemOutput>;
   MockupPage?: Maybe<MockupPageOutput>;
   OdpForm?: Maybe<OdpFormOutput>;
@@ -6187,7 +5678,6 @@ export type QueryRef = {
   Paragraph?: Maybe<ParagraphOutput>;
   PlaceholderItem?: Maybe<PlaceholderItemOutput>;
   PlaceholdersConfiguration?: Maybe<PlaceholdersConfigurationOutput>;
-  PressRelease?: Maybe<PressReleaseOutput>;
   SiteSettings?: Maybe<SiteSettingsOutput>;
   SiteStyles?: Maybe<SiteStylesOutput>;
   SysContentFolder?: Maybe<SysContentFolderOutput>;
@@ -6207,26 +5697,6 @@ export type QueryRef = {
   _Page?: Maybe<_PageOutput>;
   _Section?: Maybe<_SectionOutput>;
   _Video?: Maybe<_VideoOutput>;
-  cmp_Asset?: Maybe<Cmp_AssetOutput>;
-  cmp_CheckboxField?: Maybe<Cmp_CheckboxFieldOutput>;
-  cmp_CurrencyField?: Maybe<Cmp_CurrencyFieldOutput>;
-  cmp_DateField?: Maybe<Cmp_DateFieldOutput>;
-  cmp_DropdownField?: Maybe<Cmp_DropdownFieldOutput>;
-  cmp_Field?: Maybe<Cmp_FieldOutput>;
-  cmp_ImageField?: Maybe<Cmp_ImageFieldOutput>;
-  cmp_LabelField?: Maybe<Cmp_LabelFieldOutput>;
-  cmp_NumberField?: Maybe<Cmp_NumberFieldOutput>;
-  cmp_PercentField?: Maybe<Cmp_PercentFieldOutput>;
-  cmp_PublicImageAsset?: Maybe<Cmp_PublicImageAssetOutput>;
-  cmp_PublicRawFileAsset?: Maybe<Cmp_PublicRawFileAssetOutput>;
-  cmp_PublicVideoAsset?: Maybe<Cmp_PublicVideoAssetOutput>;
-  cmp_RadioField?: Maybe<Cmp_RadioFieldOutput>;
-  cmp_RichTextField?: Maybe<Cmp_RichTextFieldOutput>;
-  cmp_StructuredContentAsset?: Maybe<Cmp_StructuredContentAssetOutput>;
-  cmp_TextAreaField?: Maybe<Cmp_TextAreaFieldOutput>;
-  cmp_TextField?: Maybe<Cmp_TextFieldOutput>;
-  cmp_VideoField?: Maybe<Cmp_VideoFieldOutput>;
-  marvinBlock?: Maybe<MarvinBlockOutput>;
 };
 
 
@@ -6503,19 +5973,6 @@ export type QueryRefLandingPageArgs = {
 };
 
 
-export type QueryRefMarvin5ExperienceArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
-  orderBy?: InputMaybe<Marvin5ExperienceOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Marvin5ExperienceWhereInput>;
-};
-
-
 export type QueryRefMenuItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -6750,19 +6207,6 @@ export type QueryRefPlaceholdersConfigurationArgs = {
 };
 
 
-export type QueryRefPressReleaseArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
-  orderBy?: InputMaybe<PressReleaseOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<PressReleaseWhereInput>;
-};
-
-
 export type QueryRefSiteSettingsArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -6858,7 +6302,7 @@ export type QueryRef_AssetItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
+  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
   orderBy?: InputMaybe<_AssetItemOrderByInput>;
   pinned?: InputMaybe<PinnedInput>;
   skip?: Scalars['Int']['input'];
@@ -6936,7 +6380,7 @@ export type QueryRef_ImageItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
+  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
   orderBy?: InputMaybe<_ImageItemOrderByInput>;
   pinned?: InputMaybe<PinnedInput>;
   skip?: Scalars['Int']['input'];
@@ -6949,7 +6393,7 @@ export type QueryRef_ItemArgs = {
   cursor?: InputMaybe<Scalars['String']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
+  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
   orderBy?: InputMaybe<_ItemOrderByInput>;
   pinned?: InputMaybe<PinnedInput>;
   skip?: Scalars['Int']['input'];
@@ -7007,266 +6451,6 @@ export type QueryRef_VideoArgs = {
   skip?: Scalars['Int']['input'];
   variation?: InputMaybe<VariationInput>;
   where?: InputMaybe<_VideoWhereInput>;
-};
-
-
-export type QueryRefCmp_AssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_AssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_AssetWhereInput>;
-};
-
-
-export type QueryRefCmp_CheckboxFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_CheckboxFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_CheckboxFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_CurrencyFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_CurrencyFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_CurrencyFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_DateFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_DateFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_DateFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_DropdownFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_DropdownFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_DropdownFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_FieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_FieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_FieldWhereInput>;
-};
-
-
-export type QueryRefCmp_ImageFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_ImageFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_ImageFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_LabelFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_LabelFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_LabelFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_NumberFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_NumberFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_NumberFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_PercentFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PercentFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PercentFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_PublicImageAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PublicImageAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PublicImageAssetWhereInput>;
-};
-
-
-export type QueryRefCmp_PublicRawFileAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PublicRawFileAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PublicRawFileAssetWhereInput>;
-};
-
-
-export type QueryRefCmp_PublicVideoAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_PublicVideoAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_PublicVideoAssetWhereInput>;
-};
-
-
-export type QueryRefCmp_RadioFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_RadioFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_RadioFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_RichTextFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_RichTextFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_RichTextFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_StructuredContentAssetArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_StructuredContentAssetOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_StructuredContentAssetWhereInput>;
-};
-
-
-export type QueryRefCmp_TextAreaFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_TextAreaFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_TextAreaFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_TextFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_TextFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_TextFieldWhereInput>;
-};
-
-
-export type QueryRefCmp_VideoFieldArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Cmp_Locales>>>;
-  orderBy?: InputMaybe<Cmp_VideoFieldOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<Cmp_VideoFieldWhereInput>;
-};
-
-
-export type QueryRefMarvinBlockArgs = {
-  cursor?: InputMaybe<Scalars['String']['input']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  limit?: Scalars['Int']['input'];
-  locale?: InputMaybe<Array<InputMaybe<Locales>>>;
-  orderBy?: InputMaybe<MarvinBlockOrderByInput>;
-  pinned?: InputMaybe<PinnedInput>;
-  skip?: Scalars['Int']['input'];
-  variation?: InputMaybe<VariationInput>;
-  where?: InputMaybe<MarvinBlockWhereInput>;
 };
 
 export type RangeFacetsInput = {
@@ -7340,7 +6524,7 @@ export type SearchableStringFilterInput = {
   synonyms?: InputMaybe<Array<InputMaybe<SynonymSlot>>>;
 };
 
-export type SiteSettings = IData & _IComponent & _IContent & {
+export type SiteSettings = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'SiteSettings';
   FooterLinks?: Maybe<Array<Maybe<_IContent>>>;
   FooterText?: Maybe<Scalars['String']['output']>;
@@ -7360,6 +6544,7 @@ export type SiteSettings = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -7417,6 +6602,7 @@ export type SiteSettingsAutocomplete = {
   FooterLinks?: Maybe<_IContentAutocomplete>;
   HeaderLinks?: Maybe<_IContentAutocomplete>;
   Logo?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -7432,6 +6618,7 @@ export type SiteSettingsFacet = {
   SocialInstagram?: Maybe<Array<Maybe<StringFacet>>>;
   SocialTikTok?: Maybe<Array<Maybe<StringFacet>>>;
   SocialTwitter?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -7502,6 +6689,7 @@ export type SiteSettingsOrderByInput = {
   SocialInstagram?: InputMaybe<OrderBy>;
   SocialTikTok?: InputMaybe<OrderBy>;
   SocialTwitter?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -7538,13 +6726,14 @@ export type SiteSettingsWhereInput = {
   SocialTwitter?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<SiteSettingsWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<SiteSettingsWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<SiteSettingsWhereInput>>>;
 };
 
-export type SiteStyles = IData & _IComponent & _IContent & {
+export type SiteStyles = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'SiteStyles';
   SiteStylesDomain?: Maybe<Scalars['String']['output']>;
   /** @deprecated Use `_link` field instead */
@@ -7552,6 +6741,7 @@ export type SiteStyles = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -7621,6 +6811,7 @@ export type SiteStyles_LinkArgs = {
 
 export type SiteStylesAutocomplete = {
   __typename?: 'SiteStylesAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
   cssFile?: Maybe<_IContentAutocomplete>;
 };
@@ -7628,6 +6819,7 @@ export type SiteStylesAutocomplete = {
 export type SiteStylesFacet = {
   __typename?: 'SiteStylesFacet';
   SiteStylesDomain?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
   cssFile?: Maybe<_IContentFacet>;
 };
@@ -7642,6 +6834,7 @@ export type SiteStylesFacetSiteStylesDomainArgs = {
 
 export type SiteStylesOrderByInput = {
   SiteStylesDomain?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -7670,6 +6863,7 @@ export type SiteStylesWhereInput = {
   SiteStylesDomain?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<SiteStylesWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<SiteStylesWhereInput>>>;
@@ -7715,13 +6909,14 @@ export enum SynonymSlot {
   Two = 'TWO'
 }
 
-export type SysContentFolder = IData & _IContent & _IFolder & {
+export type SysContentFolder = IData & _IContent & _IFolder & _IItem & {
   __typename?: 'SysContentFolder';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -7741,15 +6936,18 @@ export type SysContentFolder_LinkArgs = {
 
 export type SysContentFolderAutocomplete = {
   __typename?: 'SysContentFolderAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type SysContentFolderFacet = {
   __typename?: 'SysContentFolderFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type SysContentFolderOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -7776,13 +6974,14 @@ export type SysContentFolderOutputTotalArgs = {
 export type SysContentFolderWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<SysContentFolderWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<SysContentFolderWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<SysContentFolderWhereInput>>>;
 };
 
-export type Text = IData & _IComponent & _IContent & {
+export type Text = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Text';
   Content?: Maybe<Scalars['String']['output']>;
   /** @deprecated Use `_link` field instead */
@@ -7790,6 +6989,7 @@ export type Text = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -7814,12 +7014,14 @@ export type Text_LinkArgs = {
 
 export type TextAutocomplete = {
   __typename?: 'TextAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type TextFacet = {
   __typename?: 'TextFacet';
   Content?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -7833,6 +7035,7 @@ export type TextFacetContentArgs = {
 
 export type TextOrderByInput = {
   Content?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -7860,6 +7063,7 @@ export type TextWhereInput = {
   Content?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<TextWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<TextWhereInput>>>;
@@ -7878,7 +7082,7 @@ export type VariationInput = {
   value?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type Video = IData & _IComponent & _IContent & {
+export type Video = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'Video';
   Video?: Maybe<ContentReference>;
   VideoPosterImage?: Maybe<ContentReference>;
@@ -7887,6 +7091,7 @@ export type Video = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -7908,10 +7113,11 @@ export type VideoAutocomplete = {
   __typename?: 'VideoAutocomplete';
   Video?: Maybe<ContentReferenceAutocomplete>;
   VideoPosterImage?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
-export type VideoExternal = IData & _IComponent & _IContent & {
+export type VideoExternal = IData & _IComponent & _IContent & _IItem & {
   __typename?: 'VideoExternal';
   DisplayWidth?: Maybe<Scalars['String']['output']>;
   Params?: Maybe<Scalars['String']['output']>;
@@ -7924,6 +7130,7 @@ export type VideoExternal = IData & _IComponent & _IContent & {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -7954,6 +7161,7 @@ export type VideoExternal_LinkArgs = {
 export type VideoExternalAutocomplete = {
   __typename?: 'VideoExternalAutocomplete';
   Poster?: Maybe<ContentReferenceAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
@@ -7962,6 +7170,7 @@ export type VideoExternalFacet = {
   PlayLabel?: Maybe<Array<Maybe<StringFacet>>>;
   Poster?: Maybe<ContentReferenceFacet>;
   Video?: Maybe<Array<Maybe<StringFacet>>>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -7985,6 +7194,7 @@ export type VideoExternalOrderByInput = {
   PlayLabel?: InputMaybe<OrderBy>;
   Poster?: InputMaybe<ContentReferenceOrderByInput>;
   Video?: InputMaybe<OrderBy>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8014,6 +7224,7 @@ export type VideoExternalWhereInput = {
   Video?: InputMaybe<SearchableStringFilterInput>;
   _and?: InputMaybe<Array<InputMaybe<VideoExternalWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<VideoExternalWhereInput>>>;
@@ -8024,16 +7235,19 @@ export type VideoFacet = {
   __typename?: 'VideoFacet';
   Video?: Maybe<ContentReferenceFacet>;
   VideoPosterImage?: Maybe<ContentReferenceFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
-export type VideoMedia = IData & _IContent & _IMedia & _IVideo & {
+export type VideoMedia = IData & _IAssetItem & _IContent & _IItem & _IMedia & _IVideo & {
   __typename?: 'VideoMedia';
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8053,15 +7267,21 @@ export type VideoMedia_LinkArgs = {
 
 export type VideoMediaAutocomplete = {
   __typename?: 'VideoMediaAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type VideoMediaFacet = {
   __typename?: 'VideoMediaFacet';
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type VideoMediaOrderByInput = {
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8087,7 +7307,9 @@ export type VideoMediaOutputTotalArgs = {
 
 export type VideoMediaWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<VideoMediaWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<VideoMediaWhereInput>>>;
@@ -8097,6 +7319,7 @@ export type VideoMediaWhereInput = {
 export type VideoOrderByInput = {
   Video?: InputMaybe<ContentReferenceOrderByInput>;
   VideoPosterImage?: InputMaybe<ContentReferenceOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8125,6 +7348,7 @@ export type VideoWhereInput = {
   VideoPosterImage?: InputMaybe<ContentReferenceWhereInput>;
   _and?: InputMaybe<Array<InputMaybe<VideoWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<VideoWhereInput>>>;
@@ -8205,7 +7429,7 @@ export type _AssetItemWhereInput = {
 
 export type _AssetMetadata = {
   __typename?: '_AssetMetadata';
-  fileSize?: Maybe<Scalars['Int']['output']>;
+  fileSize?: Maybe<Scalars['Float']['output']>;
   mimeType?: Maybe<Scalars['String']['output']>;
   url?: Maybe<Scalars['String']['output']>;
 };
@@ -8267,18 +7491,19 @@ export type _AssetMetadataOrderByInput = {
 };
 
 export type _AssetMetadataWhereInput = {
-  fileSize?: InputMaybe<IntFilterInput>;
+  fileSize?: InputMaybe<FloatFilterInput>;
   mimeType?: InputMaybe<StringFilterInput>;
   url?: InputMaybe<StringFilterInput>;
 };
 
-export type _Component = IData & _IComponent & _IContent & {
+export type _Component = IData & _IComponent & _IContent & _IItem & {
   __typename?: '_Component';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8298,15 +7523,18 @@ export type _Component_LinkArgs = {
 
 export type _ComponentAutocomplete = {
   __typename?: '_ComponentAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _ComponentFacet = {
   __typename?: '_ComponentFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _ComponentOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8333,19 +7561,21 @@ export type _ComponentOutputTotalArgs = {
 export type _ComponentWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_ComponentWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_ComponentWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<_ComponentWhereInput>>>;
 };
 
-export type _Content = IData & _IContent & {
+export type _Content = IData & _IContent & _IItem & {
   __typename?: '_Content';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8365,15 +7595,18 @@ export type _Content_LinkArgs = {
 
 export type _ContentAutocomplete = {
   __typename?: '_ContentAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _ContentFacet = {
   __typename?: '_ContentFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _ContentOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8400,19 +7633,21 @@ export type _ContentOutputTotalArgs = {
 export type _ContentWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_ContentWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_ContentWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<_ContentWhereInput>>>;
 };
 
-export type _Experience = IData & _IContent & _IExperience & _IPage & {
+export type _Experience = IData & _IContent & _IExperience & _IItem & _IPage & {
   __typename?: '_Experience';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8433,17 +7668,20 @@ export type _Experience_LinkArgs = {
 
 export type _ExperienceAutocomplete = {
   __typename?: '_ExperienceAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
   composition?: Maybe<CompositionStructureNodeAutocomplete>;
 };
 
 export type _ExperienceFacet = {
   __typename?: '_ExperienceFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
   composition?: Maybe<CompositionStructureNodeFacet>;
 };
 
 export type _ExperienceOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8471,6 +7709,7 @@ export type _ExperienceOutputTotalArgs = {
 export type _ExperienceWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_ExperienceWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_ExperienceWhereInput>>>;
@@ -8478,13 +7717,14 @@ export type _ExperienceWhereInput = {
   composition?: InputMaybe<CompositionStructureNodeWhereInput>;
 };
 
-export type _Folder = IData & _IContent & _IFolder & {
+export type _Folder = IData & _IContent & _IFolder & _IItem & {
   __typename?: '_Folder';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8504,15 +7744,18 @@ export type _Folder_LinkArgs = {
 
 export type _FolderAutocomplete = {
   __typename?: '_FolderAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _FolderFacet = {
   __typename?: '_FolderFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _FolderOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8539,6 +7782,7 @@ export type _FolderOutputTotalArgs = {
 export type _FolderWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_FolderWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_FolderWhereInput>>>;
@@ -8575,6 +7819,7 @@ export type _IComponent = {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8594,10 +7839,12 @@ export type _IComponent_LinkArgs = {
 
 export type _IComponentFacet = {
   __typename?: '_IComponentFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _IComponentOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8609,6 +7856,7 @@ export type _IComponentOrderByInput = {
 export type _IComponentWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_IComponentWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_IComponentWhereInput>>>;
@@ -8621,6 +7869,7 @@ export type _IContent = {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8640,15 +7889,18 @@ export type _IContent_LinkArgs = {
 
 export type _IContentAutocomplete = {
   __typename?: '_IContentAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _IContentFacet = {
   __typename?: '_IContentFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _IContentOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -8660,6 +7912,7 @@ export type _IContentOrderByInput = {
 export type _IContentWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_IContentWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_IContentWhereInput>>>;
@@ -8672,6 +7925,7 @@ export type _IExperience = {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8696,6 +7950,7 @@ export type _IFolder = {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8714,11 +7969,14 @@ export type _IFolder_LinkArgs = {
 };
 
 export type _IImage = {
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _imageMetadata?: Maybe<_ImageMetadata>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8785,11 +8043,13 @@ export type _IItem_LinkArgs = {
 };
 
 export type _IMedia = {
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8813,6 +8073,7 @@ export type _IPage = {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8836,6 +8097,7 @@ export type _ISection = {
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8855,11 +8117,13 @@ export type _ISection_LinkArgs = {
 };
 
 export type _IVideo = {
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8877,13 +8141,16 @@ export type _IVideo_LinkArgs = {
   type?: InputMaybe<LinkTypes>;
 };
 
-export type _Image = IData & _IContent & _IImage & _IMedia & {
+export type _Image = IData & _IAssetItem & _IContent & _IImage & _IImageItem & _IItem & _IMedia & {
   __typename?: '_Image';
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _imageMetadata?: Maybe<_ImageMetadata>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -8903,11 +8170,16 @@ export type _Image_LinkArgs = {
 
 export type _ImageAutocomplete = {
   __typename?: '_ImageAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _ImageFacet = {
   __typename?: '_ImageFacet';
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _imageMetadata?: Maybe<_ImageMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
@@ -9028,6 +8300,9 @@ export type _ImageMetadataWhereInput = {
 };
 
 export type _ImageOrderByInput = {
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _imageMetadata?: InputMaybe<_ImageMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -9053,7 +8328,10 @@ export type _ImageOutputTotalArgs = {
 
 export type _ImageWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_ImageWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _imageMetadata?: InputMaybe<_ImageMetadataWhereInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_ImageWhereInput>>>;
@@ -9127,13 +8405,15 @@ export type _ItemWhereInput = {
   _or?: InputMaybe<Array<InputMaybe<_ItemWhereInput>>>;
 };
 
-export type _Media = IData & _IContent & _IMedia & {
+export type _Media = IData & _IAssetItem & _IContent & _IItem & _IMedia & {
   __typename?: '_Media';
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -9153,15 +8433,21 @@ export type _Media_LinkArgs = {
 
 export type _MediaAutocomplete = {
   __typename?: '_MediaAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _MediaFacet = {
   __typename?: '_MediaFacet';
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _MediaOrderByInput = {
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -9187,7 +8473,9 @@ export type _MediaOutputTotalArgs = {
 
 export type _MediaWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_MediaWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_MediaWhereInput>>>;
@@ -9198,7 +8486,7 @@ export type _Metadata = {
   __typename?: '_Metadata';
   displayName?: Maybe<Scalars['String']['output']>;
   key?: Maybe<Scalars['String']['output']>;
-  lastModified?: Maybe<Scalars['Date']['output']>;
+  lastModified?: Maybe<Scalars['DateTime']['output']>;
   type?: Maybe<Scalars['String']['output']>;
 };
 
@@ -9277,13 +8565,14 @@ export type _MetadataWhereInput = {
   type?: InputMaybe<StringFilterInput>;
 };
 
-export type _Page = IData & _IContent & _IPage & {
+export type _Page = IData & _IContent & _IItem & _IPage & {
   __typename?: '_Page';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -9303,15 +8592,18 @@ export type _Page_LinkArgs = {
 
 export type _PageAutocomplete = {
   __typename?: '_PageAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _PageFacet = {
   __typename?: '_PageFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _PageOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -9338,19 +8630,21 @@ export type _PageOutputTotalArgs = {
 export type _PageWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_PageWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_PageWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<_PageWhereInput>>>;
 };
 
-export type _Section = IData & _IComponent & _IContent & _ISection & {
+export type _Section = IData & _IComponent & _IContent & _IItem & _ISection & {
   __typename?: '_Section';
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -9371,17 +8665,20 @@ export type _Section_LinkArgs = {
 
 export type _SectionAutocomplete = {
   __typename?: '_SectionAutocomplete';
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
   composition?: Maybe<CompositionStructureNodeAutocomplete>;
 };
 
 export type _SectionFacet = {
   __typename?: '_SectionFacet';
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
   composition?: Maybe<CompositionStructureNodeFacet>;
 };
 
 export type _SectionOrderByInput = {
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -9409,6 +8706,7 @@ export type _SectionOutputTotalArgs = {
 export type _SectionWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_SectionWhereInput>>>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_SectionWhereInput>>>;
@@ -9416,13 +8714,15 @@ export type _SectionWhereInput = {
   composition?: InputMaybe<CompositionStructureNodeWhereInput>;
 };
 
-export type _Video = IData & _IContent & _IMedia & _IVideo & {
+export type _Video = IData & _IAssetItem & _IContent & _IItem & _IMedia & _IVideo & {
   __typename?: '_Video';
+  _assetMetadata?: Maybe<_AssetMetadata>;
   /** @deprecated Use `_link` field instead */
   _children?: Maybe<QueryRef>;
   _deleted?: Maybe<Scalars['Bool']['output']>;
   _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   _id?: Maybe<Scalars['String']['output']>;
+  _itemMetadata?: Maybe<_Metadata>;
   _json?: Maybe<Scalars['JSON']['output']>;
   _link?: Maybe<QueryRef>;
   _metadata?: Maybe<IContentMetadata>;
@@ -9442,15 +8742,21 @@ export type _Video_LinkArgs = {
 
 export type _VideoAutocomplete = {
   __typename?: '_VideoAutocomplete';
+  _assetMetadata?: Maybe<_AssetMetadataAutocomplete>;
+  _itemMetadata?: Maybe<_MetadataAutocomplete>;
   _metadata?: Maybe<IContentMetadataAutocomplete>;
 };
 
 export type _VideoFacet = {
   __typename?: '_VideoFacet';
+  _assetMetadata?: Maybe<_AssetMetadataFacet>;
+  _itemMetadata?: Maybe<_MetadataFacet>;
   _metadata?: Maybe<IContentMetadataFacet>;
 };
 
 export type _VideoOrderByInput = {
+  _assetMetadata?: InputMaybe<_AssetMetadataOrderByInput>;
+  _itemMetadata?: InputMaybe<_MetadataOrderByInput>;
   _metadata?: InputMaybe<IContentMetadataOrderByInput>;
   _minimumScore?: InputMaybe<Scalars['Float']['input']>;
   _modified?: InputMaybe<OrderBy>;
@@ -9476,3905 +8782,13 @@ export type _VideoOutputTotalArgs = {
 
 export type _VideoWhereInput = {
   _and?: InputMaybe<Array<InputMaybe<_VideoWhereInput>>>;
+  _assetMetadata?: InputMaybe<_AssetMetadataWhereInput>;
   _fulltext?: InputMaybe<SearchableStringFilterInput>;
+  _itemMetadata?: InputMaybe<_MetadataWhereInput>;
   _metadata?: InputMaybe<IContentMetadataWhereInput>;
   _modified?: InputMaybe<DateFilterInput>;
   _not?: InputMaybe<Array<InputMaybe<_VideoWhereInput>>>;
   _or?: InputMaybe<Array<InputMaybe<_VideoWhereInput>>>;
-};
-
-export type Cmp_Asset = IData & Icmp_Asset & {
-  __typename?: 'cmp_Asset';
-  DateCreated?: Maybe<Scalars['Date']['output']>;
-  DateModified?: Maybe<Scalars['Date']['output']>;
-  ExpiryDate?: Maybe<Scalars['Date']['output']>;
-  Fields?: Maybe<Array<Maybe<Icmp_Field>>>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Labels?: Maybe<Array<Maybe<Cmp_AssetLabel>>>;
-  LibraryPath?: Maybe<Scalars['String']['output']>;
-  MimeType?: Maybe<Scalars['String']['output']>;
-  ParentFolderGuid?: Maybe<Scalars['String']['output']>;
-  Tags?: Maybe<Array<Maybe<Cmp_Tag>>>;
-  Title?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_AssetIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_AssetTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_Asset_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_Asset_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_AssetAutocomplete = {
-  __typename?: 'cmp_AssetAutocomplete';
-  Fields?: Maybe<Icmp_FieldAutocomplete>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Labels?: Maybe<Cmp_AssetLabelAutocomplete>;
-  LibraryPath?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  MimeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Tags?: Maybe<Cmp_TagAutocomplete>;
-};
-
-
-export type Cmp_AssetAutocompleteFolderGuidsArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_AssetAutocompleteLibraryPathArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_AssetAutocompleteMimeTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_AssetAutocompleteParentFolderGuidArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_AssetFacet = {
-  __typename?: 'cmp_AssetFacet';
-  DateCreated?: Maybe<Array<Maybe<DateFacet>>>;
-  DateModified?: Maybe<Array<Maybe<DateFacet>>>;
-  ExpiryDate?: Maybe<Array<Maybe<DateFacet>>>;
-  Fields?: Maybe<Icmp_FieldFacet>;
-  FolderGuids?: Maybe<Array<Maybe<StringFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Labels?: Maybe<Cmp_AssetLabelFacet>;
-  LibraryPath?: Maybe<Array<Maybe<StringFacet>>>;
-  MimeType?: Maybe<Array<Maybe<StringFacet>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<StringFacet>>>;
-  Tags?: Maybe<Cmp_TagFacet>;
-  Title?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_AssetFacetDateCreatedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_AssetFacetDateModifiedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_AssetFacetExpiryDateArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_AssetFacetFolderGuidsArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetFacetLibraryPathArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetFacetMimeTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetFacetParentFolderGuidArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetFacetTitleArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_AssetLabel = {
-  __typename?: 'cmp_AssetLabel';
-  Group?: Maybe<Cmp_AssetLabelGroup>;
-  Values?: Maybe<Array<Maybe<Cmp_AssetLabelValue>>>;
-};
-
-export type Cmp_AssetLabelAutocomplete = {
-  __typename?: 'cmp_AssetLabelAutocomplete';
-  Group?: Maybe<Cmp_AssetLabelGroupAutocomplete>;
-};
-
-export type Cmp_AssetLabelFacet = {
-  __typename?: 'cmp_AssetLabelFacet';
-  Group?: Maybe<Cmp_AssetLabelGroupFacet>;
-  Values?: Maybe<Cmp_AssetLabelValueFacet>;
-};
-
-export type Cmp_AssetLabelGroup = {
-  __typename?: 'cmp_AssetLabelGroup';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-};
-
-export type Cmp_AssetLabelGroupAutocomplete = {
-  __typename?: 'cmp_AssetLabelGroupAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_AssetLabelGroupAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_AssetLabelGroupAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_AssetLabelGroupFacet = {
-  __typename?: 'cmp_AssetLabelGroupFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_AssetLabelGroupFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetLabelGroupFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_AssetLabelGroupOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_AssetLabelGroupWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-};
-
-export type Cmp_AssetLabelOrderByInput = {
-  Group?: InputMaybe<Cmp_AssetLabelGroupOrderByInput>;
-  Values?: InputMaybe<Cmp_AssetLabelValueOrderByInput>;
-};
-
-export type Cmp_AssetLabelValue = {
-  __typename?: 'cmp_AssetLabelValue';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-};
-
-export type Cmp_AssetLabelValueFacet = {
-  __typename?: 'cmp_AssetLabelValueFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_AssetLabelValueFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_AssetLabelValueFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_AssetLabelValueOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_AssetLabelValueWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-};
-
-export type Cmp_AssetLabelWhereInput = {
-  Group?: InputMaybe<Cmp_AssetLabelGroupWhereInput>;
-  Values?: InputMaybe<Cmp_AssetLabelValueWhereInput>;
-};
-
-export type Cmp_AssetOrderByInput = {
-  DateCreated?: InputMaybe<OrderBy>;
-  DateModified?: InputMaybe<OrderBy>;
-  ExpiryDate?: InputMaybe<OrderBy>;
-  Fields?: InputMaybe<Icmp_FieldOrderByInput>;
-  FolderGuids?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Labels?: InputMaybe<Cmp_AssetLabelOrderByInput>;
-  LibraryPath?: InputMaybe<OrderBy>;
-  MimeType?: InputMaybe<OrderBy>;
-  ParentFolderGuid?: InputMaybe<OrderBy>;
-  Tags?: InputMaybe<Cmp_TagOrderByInput>;
-  Title?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_AssetOutput = {
-  __typename?: 'cmp_AssetOutput';
-  autocomplete?: Maybe<Cmp_AssetAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_AssetFacet>;
-  item?: Maybe<Icmp_Asset>;
-  items?: Maybe<Array<Maybe<Icmp_Asset>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_AssetOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_AssetWhereInput = {
-  DateCreated?: InputMaybe<DateFilterInput>;
-  DateModified?: InputMaybe<DateFilterInput>;
-  ExpiryDate?: InputMaybe<DateFilterInput>;
-  Fields?: InputMaybe<Icmp_FieldWhereInput>;
-  FolderGuids?: InputMaybe<StringFilterInput>;
-  Id?: InputMaybe<SearchableStringFilterInput>;
-  Labels?: InputMaybe<Cmp_AssetLabelWhereInput>;
-  LibraryPath?: InputMaybe<StringFilterInput>;
-  MimeType?: InputMaybe<StringFilterInput>;
-  ParentFolderGuid?: InputMaybe<StringFilterInput>;
-  Tags?: InputMaybe<Cmp_TagWhereInput>;
-  Title?: InputMaybe<SearchableStringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_AssetWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_AssetWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_AssetWhereInput>>>;
-};
-
-export type Cmp_CheckboxField = IData & Icmp_Field & {
-  __typename?: 'cmp_CheckboxField';
-  Choices?: Maybe<Array<Maybe<Cmp_FieldChoiceProperty>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_CheckboxField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_CheckboxField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_CheckboxFieldAutocomplete = {
-  __typename?: 'cmp_CheckboxFieldAutocomplete';
-  Choices?: Maybe<Cmp_FieldChoicePropertyAutocomplete>;
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_CheckboxFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CheckboxFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CheckboxFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CheckboxFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_CheckboxFieldFacet = {
-  __typename?: 'cmp_CheckboxFieldFacet';
-  Choices?: Maybe<Cmp_FieldChoicePropertyFacet>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_CheckboxFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CheckboxFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CheckboxFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CheckboxFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_CheckboxFieldOrderByInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyOrderByInput>;
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_CheckboxFieldOutput = {
-  __typename?: 'cmp_CheckboxFieldOutput';
-  autocomplete?: Maybe<Cmp_CheckboxFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_CheckboxFieldFacet>;
-  item?: Maybe<Cmp_CheckboxField>;
-  items?: Maybe<Array<Maybe<Cmp_CheckboxField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_CheckboxFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_CheckboxFieldWhereInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyWhereInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_CheckboxFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_CheckboxFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_CheckboxFieldWhereInput>>>;
-};
-
-export type Cmp_CurrencyField = IData & Icmp_Field & {
-  __typename?: 'cmp_CurrencyField';
-  CurrencyCode?: Maybe<Scalars['String']['output']>;
-  DecimalPlaces?: Maybe<Scalars['Int']['output']>;
-  HasThousandSeparator?: Maybe<Scalars['Boolean']['output']>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_CurrencyField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_CurrencyField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_CurrencyFieldAutocomplete = {
-  __typename?: 'cmp_CurrencyFieldAutocomplete';
-  CurrencyCode?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_CurrencyFieldAutocompleteCurrencyCodeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CurrencyFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CurrencyFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CurrencyFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_CurrencyFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_CurrencyFieldFacet = {
-  __typename?: 'cmp_CurrencyFieldFacet';
-  CurrencyCode?: Maybe<Array<Maybe<StringFacet>>>;
-  DecimalPlaces?: Maybe<Array<Maybe<NumberFacet>>>;
-  HasThousandSeparator?: Maybe<Array<Maybe<StringFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_CurrencyFieldFacetCurrencyCodeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CurrencyFieldFacetDecimalPlacesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-
-export type Cmp_CurrencyFieldFacetHasThousandSeparatorArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CurrencyFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CurrencyFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CurrencyFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_CurrencyFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_CurrencyFieldOrderByInput = {
-  CurrencyCode?: InputMaybe<OrderBy>;
-  DecimalPlaces?: InputMaybe<OrderBy>;
-  HasThousandSeparator?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_CurrencyFieldOutput = {
-  __typename?: 'cmp_CurrencyFieldOutput';
-  autocomplete?: Maybe<Cmp_CurrencyFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_CurrencyFieldFacet>;
-  item?: Maybe<Cmp_CurrencyField>;
-  items?: Maybe<Array<Maybe<Cmp_CurrencyField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_CurrencyFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_CurrencyFieldWhereInput = {
-  CurrencyCode?: InputMaybe<StringFilterInput>;
-  DecimalPlaces?: InputMaybe<IntFilterInput>;
-  HasThousandSeparator?: InputMaybe<BoolFilterInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_CurrencyFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_CurrencyFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_CurrencyFieldWhereInput>>>;
-};
-
-export type Cmp_DateField = IData & Icmp_Field & {
-  __typename?: 'cmp_DateField';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_DateField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_DateField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_DateFieldNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_DateFieldAutocomplete = {
-  __typename?: 'cmp_DateFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_DateFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_DateFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_DateFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_DateFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_DateFieldFacet = {
-  __typename?: 'cmp_DateFieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_DateFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DateFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DateFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DateFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DateFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_DateFieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_DateFieldOutput = {
-  __typename?: 'cmp_DateFieldOutput';
-  autocomplete?: Maybe<Cmp_DateFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_DateFieldFacet>;
-  item?: Maybe<Cmp_DateField>;
-  items?: Maybe<Array<Maybe<Cmp_DateField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_DateFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_DateFieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_DateFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_DateFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_DateFieldWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type Cmp_DropdownField = IData & Icmp_Field & {
-  __typename?: 'cmp_DropdownField';
-  Choices?: Maybe<Array<Maybe<Cmp_FieldChoiceProperty>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  IsMultiSelect?: Maybe<Scalars['Boolean']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_DropdownField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_DropdownField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_DropdownFieldAutocomplete = {
-  __typename?: 'cmp_DropdownFieldAutocomplete';
-  Choices?: Maybe<Cmp_FieldChoicePropertyAutocomplete>;
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_DropdownFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_DropdownFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_DropdownFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_DropdownFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_DropdownFieldFacet = {
-  __typename?: 'cmp_DropdownFieldFacet';
-  Choices?: Maybe<Cmp_FieldChoicePropertyFacet>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  IsMultiSelect?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_DropdownFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DropdownFieldFacetIsMultiSelectArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DropdownFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DropdownFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_DropdownFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_DropdownFieldOrderByInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyOrderByInput>;
-  Id?: InputMaybe<OrderBy>;
-  IsMultiSelect?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_DropdownFieldOutput = {
-  __typename?: 'cmp_DropdownFieldOutput';
-  autocomplete?: Maybe<Cmp_DropdownFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_DropdownFieldFacet>;
-  item?: Maybe<Cmp_DropdownField>;
-  items?: Maybe<Array<Maybe<Cmp_DropdownField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_DropdownFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_DropdownFieldWhereInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyWhereInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  IsMultiSelect?: InputMaybe<BoolFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_DropdownFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_DropdownFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_DropdownFieldWhereInput>>>;
-};
-
-export type Cmp_Field = IData & Icmp_Field & {
-  __typename?: 'cmp_Field';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_Field_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_Field_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_FieldAutocomplete = {
-  __typename?: 'cmp_FieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_FieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_FieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_FieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_FieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_FieldChoiceProperty = {
-  __typename?: 'cmp_FieldChoiceProperty';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-};
-
-export type Cmp_FieldChoicePropertyAutocomplete = {
-  __typename?: 'cmp_FieldChoicePropertyAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_FieldChoicePropertyAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_FieldChoicePropertyAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_FieldChoicePropertyFacet = {
-  __typename?: 'cmp_FieldChoicePropertyFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_FieldChoicePropertyFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_FieldChoicePropertyFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_FieldChoicePropertyOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_FieldChoicePropertyWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-};
-
-export type Cmp_FieldFacet = {
-  __typename?: 'cmp_FieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_FieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_FieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_FieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_FieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_FieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_FieldOutput = {
-  __typename?: 'cmp_FieldOutput';
-  autocomplete?: Maybe<Cmp_FieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_FieldFacet>;
-  item?: Maybe<Icmp_Field>;
-  items?: Maybe<Array<Maybe<Icmp_Field>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_FieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_FieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_FieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_FieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_FieldWhereInput>>>;
-};
-
-export type Cmp_FocalPoint = {
-  __typename?: 'cmp_FocalPoint';
-  X?: Maybe<Scalars['Int']['output']>;
-  Y?: Maybe<Scalars['Int']['output']>;
-};
-
-export type Cmp_FocalPointFacet = {
-  __typename?: 'cmp_FocalPointFacet';
-  X?: Maybe<Array<Maybe<NumberFacet>>>;
-  Y?: Maybe<Array<Maybe<NumberFacet>>>;
-};
-
-
-export type Cmp_FocalPointFacetXArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-
-export type Cmp_FocalPointFacetYArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-export type Cmp_FocalPointOrderByInput = {
-  X?: InputMaybe<OrderBy>;
-  Y?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_FocalPointWhereInput = {
-  X?: InputMaybe<IntFilterInput>;
-  Y?: InputMaybe<IntFilterInput>;
-};
-
-export type Cmp_ImageField = IData & Icmp_Field & {
-  __typename?: 'cmp_ImageField';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_ImageField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_ImageField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_ImageFieldNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_ImageFieldAutocomplete = {
-  __typename?: 'cmp_ImageFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_ImageFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_ImageFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_ImageFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_ImageFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_ImageFieldFacet = {
-  __typename?: 'cmp_ImageFieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_ImageFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_ImageFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_ImageFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_ImageFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_ImageFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_ImageFieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_ImageFieldOutput = {
-  __typename?: 'cmp_ImageFieldOutput';
-  autocomplete?: Maybe<Cmp_ImageFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_ImageFieldFacet>;
-  item?: Maybe<Cmp_ImageField>;
-  items?: Maybe<Array<Maybe<Cmp_ImageField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_ImageFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_ImageFieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_ImageFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_ImageFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_ImageFieldWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type Cmp_LabelField = IData & Icmp_Field & {
-  __typename?: 'cmp_LabelField';
-  Choices?: Maybe<Array<Maybe<Cmp_FieldChoiceProperty>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  IsMultiSelect?: Maybe<Scalars['Boolean']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_LabelField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_LabelField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_LabelFieldAutocomplete = {
-  __typename?: 'cmp_LabelFieldAutocomplete';
-  Choices?: Maybe<Cmp_FieldChoicePropertyAutocomplete>;
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_LabelFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_LabelFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_LabelFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_LabelFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_LabelFieldFacet = {
-  __typename?: 'cmp_LabelFieldFacet';
-  Choices?: Maybe<Cmp_FieldChoicePropertyFacet>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  IsMultiSelect?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_LabelFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_LabelFieldFacetIsMultiSelectArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_LabelFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_LabelFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_LabelFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_LabelFieldOrderByInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyOrderByInput>;
-  Id?: InputMaybe<OrderBy>;
-  IsMultiSelect?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_LabelFieldOutput = {
-  __typename?: 'cmp_LabelFieldOutput';
-  autocomplete?: Maybe<Cmp_LabelFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_LabelFieldFacet>;
-  item?: Maybe<Cmp_LabelField>;
-  items?: Maybe<Array<Maybe<Cmp_LabelField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_LabelFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_LabelFieldWhereInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyWhereInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  IsMultiSelect?: InputMaybe<BoolFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_LabelFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_LabelFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_LabelFieldWhereInput>>>;
-};
-
-export enum Cmp_Locales {
-  All = 'ALL',
-  Neutral = 'NEUTRAL',
-  En = 'en'
-}
-
-export type Cmp_NumberField = IData & Icmp_Field & {
-  __typename?: 'cmp_NumberField';
-  DecimalPlaces?: Maybe<Scalars['Int']['output']>;
-  HasThousandSeparator?: Maybe<Scalars['Boolean']['output']>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_NumberField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_NumberField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_NumberFieldAutocomplete = {
-  __typename?: 'cmp_NumberFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_NumberFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_NumberFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_NumberFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_NumberFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_NumberFieldFacet = {
-  __typename?: 'cmp_NumberFieldFacet';
-  DecimalPlaces?: Maybe<Array<Maybe<NumberFacet>>>;
-  HasThousandSeparator?: Maybe<Array<Maybe<StringFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_NumberFieldFacetDecimalPlacesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-
-export type Cmp_NumberFieldFacetHasThousandSeparatorArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_NumberFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_NumberFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_NumberFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_NumberFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_NumberFieldOrderByInput = {
-  DecimalPlaces?: InputMaybe<OrderBy>;
-  HasThousandSeparator?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_NumberFieldOutput = {
-  __typename?: 'cmp_NumberFieldOutput';
-  autocomplete?: Maybe<Cmp_NumberFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_NumberFieldFacet>;
-  item?: Maybe<Cmp_NumberField>;
-  items?: Maybe<Array<Maybe<Cmp_NumberField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_NumberFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_NumberFieldWhereInput = {
-  DecimalPlaces?: InputMaybe<IntFilterInput>;
-  HasThousandSeparator?: InputMaybe<BoolFilterInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_NumberFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_NumberFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_NumberFieldWhereInput>>>;
-};
-
-export type Cmp_PercentField = IData & Icmp_Field & {
-  __typename?: 'cmp_PercentField';
-  DecimalPlaces?: Maybe<Scalars['Int']['output']>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_PercentField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PercentField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_PercentFieldAutocomplete = {
-  __typename?: 'cmp_PercentFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_PercentFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PercentFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PercentFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PercentFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_PercentFieldFacet = {
-  __typename?: 'cmp_PercentFieldFacet';
-  DecimalPlaces?: Maybe<Array<Maybe<NumberFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_PercentFieldFacetDecimalPlacesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-
-export type Cmp_PercentFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PercentFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PercentFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PercentFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_PercentFieldOrderByInput = {
-  DecimalPlaces?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_PercentFieldOutput = {
-  __typename?: 'cmp_PercentFieldOutput';
-  autocomplete?: Maybe<Cmp_PercentFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_PercentFieldFacet>;
-  item?: Maybe<Cmp_PercentField>;
-  items?: Maybe<Array<Maybe<Cmp_PercentField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_PercentFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_PercentFieldWhereInput = {
-  DecimalPlaces?: InputMaybe<IntFilterInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_PercentFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_PercentFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_PercentFieldWhereInput>>>;
-};
-
-export type Cmp_PublicImageAsset = IData & Icmp_Asset & {
-  __typename?: 'cmp_PublicImageAsset';
-  AltText?: Maybe<Scalars['String']['output']>;
-  DateCreated?: Maybe<Scalars['Date']['output']>;
-  DateModified?: Maybe<Scalars['Date']['output']>;
-  Description?: Maybe<Scalars['String']['output']>;
-  ExpiryDate?: Maybe<Scalars['Date']['output']>;
-  Fields?: Maybe<Array<Maybe<Icmp_Field>>>;
-  FocalPoint?: Maybe<Cmp_FocalPoint>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Height?: Maybe<Scalars['Int']['output']>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Labels?: Maybe<Array<Maybe<Cmp_AssetLabel>>>;
-  LibraryPath?: Maybe<Scalars['String']['output']>;
-  MimeType?: Maybe<Scalars['String']['output']>;
-  ParentFolderGuid?: Maybe<Scalars['String']['output']>;
-  Renditions?: Maybe<Array<Maybe<Cmp_RenditionProperty>>>;
-  Tags?: Maybe<Array<Maybe<Cmp_Tag>>>;
-  Title?: Maybe<Scalars['String']['output']>;
-  Url?: Maybe<Scalars['String']['output']>;
-  Width?: Maybe<Scalars['Int']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_PublicImageAssetDescriptionArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicImageAssetIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicImageAssetTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicImageAsset_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicImageAsset_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_PublicImageAssetAutocomplete = {
-  __typename?: 'cmp_PublicImageAssetAutocomplete';
-  AltText?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Fields?: Maybe<Icmp_FieldAutocomplete>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Labels?: Maybe<Cmp_AssetLabelAutocomplete>;
-  LibraryPath?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  MimeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Renditions?: Maybe<Cmp_RenditionPropertyAutocomplete>;
-  Tags?: Maybe<Cmp_TagAutocomplete>;
-  Url?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_PublicImageAssetAutocompleteAltTextArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicImageAssetAutocompleteFolderGuidsArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicImageAssetAutocompleteLibraryPathArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicImageAssetAutocompleteMimeTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicImageAssetAutocompleteParentFolderGuidArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicImageAssetAutocompleteUrlArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_PublicImageAssetFacet = {
-  __typename?: 'cmp_PublicImageAssetFacet';
-  AltText?: Maybe<Array<Maybe<StringFacet>>>;
-  DateCreated?: Maybe<Array<Maybe<DateFacet>>>;
-  DateModified?: Maybe<Array<Maybe<DateFacet>>>;
-  Description?: Maybe<Array<Maybe<StringFacet>>>;
-  ExpiryDate?: Maybe<Array<Maybe<DateFacet>>>;
-  Fields?: Maybe<Icmp_FieldFacet>;
-  FocalPoint?: Maybe<Cmp_FocalPointFacet>;
-  FolderGuids?: Maybe<Array<Maybe<StringFacet>>>;
-  Height?: Maybe<Array<Maybe<NumberFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Labels?: Maybe<Cmp_AssetLabelFacet>;
-  LibraryPath?: Maybe<Array<Maybe<StringFacet>>>;
-  MimeType?: Maybe<Array<Maybe<StringFacet>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<StringFacet>>>;
-  Renditions?: Maybe<Cmp_RenditionPropertyFacet>;
-  Tags?: Maybe<Cmp_TagFacet>;
-  Title?: Maybe<Array<Maybe<StringFacet>>>;
-  Url?: Maybe<Array<Maybe<StringFacet>>>;
-  Width?: Maybe<Array<Maybe<NumberFacet>>>;
-};
-
-
-export type Cmp_PublicImageAssetFacetAltTextArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetDateCreatedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicImageAssetFacetDateModifiedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicImageAssetFacetDescriptionArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetExpiryDateArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicImageAssetFacetFolderGuidsArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetHeightArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-
-export type Cmp_PublicImageAssetFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetLibraryPathArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetMimeTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetParentFolderGuidArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetTitleArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetUrlArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicImageAssetFacetWidthArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-export type Cmp_PublicImageAssetOrderByInput = {
-  AltText?: InputMaybe<OrderBy>;
-  DateCreated?: InputMaybe<OrderBy>;
-  DateModified?: InputMaybe<OrderBy>;
-  Description?: InputMaybe<OrderBy>;
-  ExpiryDate?: InputMaybe<OrderBy>;
-  Fields?: InputMaybe<Icmp_FieldOrderByInput>;
-  FocalPoint?: InputMaybe<Cmp_FocalPointOrderByInput>;
-  FolderGuids?: InputMaybe<OrderBy>;
-  Height?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Labels?: InputMaybe<Cmp_AssetLabelOrderByInput>;
-  LibraryPath?: InputMaybe<OrderBy>;
-  MimeType?: InputMaybe<OrderBy>;
-  ParentFolderGuid?: InputMaybe<OrderBy>;
-  Renditions?: InputMaybe<Cmp_RenditionPropertyOrderByInput>;
-  Tags?: InputMaybe<Cmp_TagOrderByInput>;
-  Title?: InputMaybe<OrderBy>;
-  Url?: InputMaybe<OrderBy>;
-  Width?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_PublicImageAssetOutput = {
-  __typename?: 'cmp_PublicImageAssetOutput';
-  autocomplete?: Maybe<Cmp_PublicImageAssetAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_PublicImageAssetFacet>;
-  item?: Maybe<Cmp_PublicImageAsset>;
-  items?: Maybe<Array<Maybe<Cmp_PublicImageAsset>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_PublicImageAssetOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_PublicImageAssetWhereInput = {
-  AltText?: InputMaybe<StringFilterInput>;
-  DateCreated?: InputMaybe<DateFilterInput>;
-  DateModified?: InputMaybe<DateFilterInput>;
-  Description?: InputMaybe<SearchableStringFilterInput>;
-  ExpiryDate?: InputMaybe<DateFilterInput>;
-  Fields?: InputMaybe<Icmp_FieldWhereInput>;
-  FocalPoint?: InputMaybe<Cmp_FocalPointWhereInput>;
-  FolderGuids?: InputMaybe<StringFilterInput>;
-  Height?: InputMaybe<IntFilterInput>;
-  Id?: InputMaybe<SearchableStringFilterInput>;
-  Labels?: InputMaybe<Cmp_AssetLabelWhereInput>;
-  LibraryPath?: InputMaybe<StringFilterInput>;
-  MimeType?: InputMaybe<StringFilterInput>;
-  ParentFolderGuid?: InputMaybe<StringFilterInput>;
-  Renditions?: InputMaybe<Cmp_RenditionPropertyWhereInput>;
-  Tags?: InputMaybe<Cmp_TagWhereInput>;
-  Title?: InputMaybe<SearchableStringFilterInput>;
-  Url?: InputMaybe<StringFilterInput>;
-  Width?: InputMaybe<IntFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_PublicImageAssetWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_PublicImageAssetWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_PublicImageAssetWhereInput>>>;
-};
-
-export type Cmp_PublicRawFileAsset = IData & Icmp_Asset & {
-  __typename?: 'cmp_PublicRawFileAsset';
-  DateCreated?: Maybe<Scalars['Date']['output']>;
-  DateModified?: Maybe<Scalars['Date']['output']>;
-  Description?: Maybe<Scalars['String']['output']>;
-  ExpiryDate?: Maybe<Scalars['Date']['output']>;
-  Fields?: Maybe<Array<Maybe<Icmp_Field>>>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Labels?: Maybe<Array<Maybe<Cmp_AssetLabel>>>;
-  LibraryPath?: Maybe<Scalars['String']['output']>;
-  MimeType?: Maybe<Scalars['String']['output']>;
-  ParentFolderGuid?: Maybe<Scalars['String']['output']>;
-  Tags?: Maybe<Array<Maybe<Cmp_Tag>>>;
-  Title?: Maybe<Scalars['String']['output']>;
-  Url?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_PublicRawFileAssetDescriptionArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicRawFileAssetIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicRawFileAssetTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicRawFileAsset_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicRawFileAsset_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_PublicRawFileAssetAutocomplete = {
-  __typename?: 'cmp_PublicRawFileAssetAutocomplete';
-  Fields?: Maybe<Icmp_FieldAutocomplete>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Labels?: Maybe<Cmp_AssetLabelAutocomplete>;
-  LibraryPath?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  MimeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Tags?: Maybe<Cmp_TagAutocomplete>;
-  Url?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_PublicRawFileAssetAutocompleteFolderGuidsArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicRawFileAssetAutocompleteLibraryPathArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicRawFileAssetAutocompleteMimeTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicRawFileAssetAutocompleteParentFolderGuidArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicRawFileAssetAutocompleteUrlArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_PublicRawFileAssetFacet = {
-  __typename?: 'cmp_PublicRawFileAssetFacet';
-  DateCreated?: Maybe<Array<Maybe<DateFacet>>>;
-  DateModified?: Maybe<Array<Maybe<DateFacet>>>;
-  Description?: Maybe<Array<Maybe<StringFacet>>>;
-  ExpiryDate?: Maybe<Array<Maybe<DateFacet>>>;
-  Fields?: Maybe<Icmp_FieldFacet>;
-  FolderGuids?: Maybe<Array<Maybe<StringFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Labels?: Maybe<Cmp_AssetLabelFacet>;
-  LibraryPath?: Maybe<Array<Maybe<StringFacet>>>;
-  MimeType?: Maybe<Array<Maybe<StringFacet>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<StringFacet>>>;
-  Tags?: Maybe<Cmp_TagFacet>;
-  Title?: Maybe<Array<Maybe<StringFacet>>>;
-  Url?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetDateCreatedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetDateModifiedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetDescriptionArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetExpiryDateArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetFolderGuidsArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetLibraryPathArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetMimeTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetParentFolderGuidArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetTitleArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicRawFileAssetFacetUrlArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_PublicRawFileAssetOrderByInput = {
-  DateCreated?: InputMaybe<OrderBy>;
-  DateModified?: InputMaybe<OrderBy>;
-  Description?: InputMaybe<OrderBy>;
-  ExpiryDate?: InputMaybe<OrderBy>;
-  Fields?: InputMaybe<Icmp_FieldOrderByInput>;
-  FolderGuids?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Labels?: InputMaybe<Cmp_AssetLabelOrderByInput>;
-  LibraryPath?: InputMaybe<OrderBy>;
-  MimeType?: InputMaybe<OrderBy>;
-  ParentFolderGuid?: InputMaybe<OrderBy>;
-  Tags?: InputMaybe<Cmp_TagOrderByInput>;
-  Title?: InputMaybe<OrderBy>;
-  Url?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_PublicRawFileAssetOutput = {
-  __typename?: 'cmp_PublicRawFileAssetOutput';
-  autocomplete?: Maybe<Cmp_PublicRawFileAssetAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_PublicRawFileAssetFacet>;
-  item?: Maybe<Cmp_PublicRawFileAsset>;
-  items?: Maybe<Array<Maybe<Cmp_PublicRawFileAsset>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_PublicRawFileAssetOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_PublicRawFileAssetWhereInput = {
-  DateCreated?: InputMaybe<DateFilterInput>;
-  DateModified?: InputMaybe<DateFilterInput>;
-  Description?: InputMaybe<SearchableStringFilterInput>;
-  ExpiryDate?: InputMaybe<DateFilterInput>;
-  Fields?: InputMaybe<Icmp_FieldWhereInput>;
-  FolderGuids?: InputMaybe<StringFilterInput>;
-  Id?: InputMaybe<SearchableStringFilterInput>;
-  Labels?: InputMaybe<Cmp_AssetLabelWhereInput>;
-  LibraryPath?: InputMaybe<StringFilterInput>;
-  MimeType?: InputMaybe<StringFilterInput>;
-  ParentFolderGuid?: InputMaybe<StringFilterInput>;
-  Tags?: InputMaybe<Cmp_TagWhereInput>;
-  Title?: InputMaybe<SearchableStringFilterInput>;
-  Url?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_PublicRawFileAssetWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_PublicRawFileAssetWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_PublicRawFileAssetWhereInput>>>;
-};
-
-export type Cmp_PublicVideoAsset = IData & Icmp_Asset & {
-  __typename?: 'cmp_PublicVideoAsset';
-  AltText?: Maybe<Scalars['String']['output']>;
-  DateCreated?: Maybe<Scalars['Date']['output']>;
-  DateModified?: Maybe<Scalars['Date']['output']>;
-  Description?: Maybe<Scalars['String']['output']>;
-  ExpiryDate?: Maybe<Scalars['Date']['output']>;
-  Fields?: Maybe<Array<Maybe<Icmp_Field>>>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Labels?: Maybe<Array<Maybe<Cmp_AssetLabel>>>;
-  LibraryPath?: Maybe<Scalars['String']['output']>;
-  MimeType?: Maybe<Scalars['String']['output']>;
-  ParentFolderGuid?: Maybe<Scalars['String']['output']>;
-  Renditions?: Maybe<Array<Maybe<Cmp_RenditionProperty>>>;
-  Tags?: Maybe<Array<Maybe<Cmp_Tag>>>;
-  Title?: Maybe<Scalars['String']['output']>;
-  Url?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_PublicVideoAssetDescriptionArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicVideoAssetIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicVideoAssetTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicVideoAsset_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_PublicVideoAsset_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_PublicVideoAssetAutocomplete = {
-  __typename?: 'cmp_PublicVideoAssetAutocomplete';
-  AltText?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Fields?: Maybe<Icmp_FieldAutocomplete>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Labels?: Maybe<Cmp_AssetLabelAutocomplete>;
-  LibraryPath?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  MimeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Renditions?: Maybe<Cmp_RenditionPropertyAutocomplete>;
-  Tags?: Maybe<Cmp_TagAutocomplete>;
-  Url?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_PublicVideoAssetAutocompleteAltTextArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicVideoAssetAutocompleteFolderGuidsArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicVideoAssetAutocompleteLibraryPathArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicVideoAssetAutocompleteMimeTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicVideoAssetAutocompleteParentFolderGuidArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_PublicVideoAssetAutocompleteUrlArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_PublicVideoAssetFacet = {
-  __typename?: 'cmp_PublicVideoAssetFacet';
-  AltText?: Maybe<Array<Maybe<StringFacet>>>;
-  DateCreated?: Maybe<Array<Maybe<DateFacet>>>;
-  DateModified?: Maybe<Array<Maybe<DateFacet>>>;
-  Description?: Maybe<Array<Maybe<StringFacet>>>;
-  ExpiryDate?: Maybe<Array<Maybe<DateFacet>>>;
-  Fields?: Maybe<Icmp_FieldFacet>;
-  FolderGuids?: Maybe<Array<Maybe<StringFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Labels?: Maybe<Cmp_AssetLabelFacet>;
-  LibraryPath?: Maybe<Array<Maybe<StringFacet>>>;
-  MimeType?: Maybe<Array<Maybe<StringFacet>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<StringFacet>>>;
-  Renditions?: Maybe<Cmp_RenditionPropertyFacet>;
-  Tags?: Maybe<Cmp_TagFacet>;
-  Title?: Maybe<Array<Maybe<StringFacet>>>;
-  Url?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetAltTextArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetDateCreatedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetDateModifiedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetDescriptionArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetExpiryDateArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetFolderGuidsArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetLibraryPathArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetMimeTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetParentFolderGuidArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetTitleArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_PublicVideoAssetFacetUrlArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_PublicVideoAssetOrderByInput = {
-  AltText?: InputMaybe<OrderBy>;
-  DateCreated?: InputMaybe<OrderBy>;
-  DateModified?: InputMaybe<OrderBy>;
-  Description?: InputMaybe<OrderBy>;
-  ExpiryDate?: InputMaybe<OrderBy>;
-  Fields?: InputMaybe<Icmp_FieldOrderByInput>;
-  FolderGuids?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Labels?: InputMaybe<Cmp_AssetLabelOrderByInput>;
-  LibraryPath?: InputMaybe<OrderBy>;
-  MimeType?: InputMaybe<OrderBy>;
-  ParentFolderGuid?: InputMaybe<OrderBy>;
-  Renditions?: InputMaybe<Cmp_RenditionPropertyOrderByInput>;
-  Tags?: InputMaybe<Cmp_TagOrderByInput>;
-  Title?: InputMaybe<OrderBy>;
-  Url?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_PublicVideoAssetOutput = {
-  __typename?: 'cmp_PublicVideoAssetOutput';
-  autocomplete?: Maybe<Cmp_PublicVideoAssetAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_PublicVideoAssetFacet>;
-  item?: Maybe<Cmp_PublicVideoAsset>;
-  items?: Maybe<Array<Maybe<Cmp_PublicVideoAsset>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_PublicVideoAssetOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_PublicVideoAssetWhereInput = {
-  AltText?: InputMaybe<StringFilterInput>;
-  DateCreated?: InputMaybe<DateFilterInput>;
-  DateModified?: InputMaybe<DateFilterInput>;
-  Description?: InputMaybe<SearchableStringFilterInput>;
-  ExpiryDate?: InputMaybe<DateFilterInput>;
-  Fields?: InputMaybe<Icmp_FieldWhereInput>;
-  FolderGuids?: InputMaybe<StringFilterInput>;
-  Id?: InputMaybe<SearchableStringFilterInput>;
-  Labels?: InputMaybe<Cmp_AssetLabelWhereInput>;
-  LibraryPath?: InputMaybe<StringFilterInput>;
-  MimeType?: InputMaybe<StringFilterInput>;
-  ParentFolderGuid?: InputMaybe<StringFilterInput>;
-  Renditions?: InputMaybe<Cmp_RenditionPropertyWhereInput>;
-  Tags?: InputMaybe<Cmp_TagWhereInput>;
-  Title?: InputMaybe<SearchableStringFilterInput>;
-  Url?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_PublicVideoAssetWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_PublicVideoAssetWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_PublicVideoAssetWhereInput>>>;
-};
-
-export type Cmp_RadioField = IData & Icmp_Field & {
-  __typename?: 'cmp_RadioField';
-  Choices?: Maybe<Array<Maybe<Cmp_FieldChoiceProperty>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type Cmp_RadioField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_RadioField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type Cmp_RadioFieldAutocomplete = {
-  __typename?: 'cmp_RadioFieldAutocomplete';
-  Choices?: Maybe<Cmp_FieldChoicePropertyAutocomplete>;
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_RadioFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RadioFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RadioFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RadioFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_RadioFieldFacet = {
-  __typename?: 'cmp_RadioFieldFacet';
-  Choices?: Maybe<Cmp_FieldChoicePropertyFacet>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_RadioFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RadioFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RadioFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RadioFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_RadioFieldOrderByInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyOrderByInput>;
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type Cmp_RadioFieldOutput = {
-  __typename?: 'cmp_RadioFieldOutput';
-  autocomplete?: Maybe<Cmp_RadioFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_RadioFieldFacet>;
-  item?: Maybe<Cmp_RadioField>;
-  items?: Maybe<Array<Maybe<Cmp_RadioField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_RadioFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_RadioFieldWhereInput = {
-  Choices?: InputMaybe<Cmp_FieldChoicePropertyWhereInput>;
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_RadioFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_RadioFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_RadioFieldWhereInput>>>;
-};
-
-export type Cmp_RenditionProperty = {
-  __typename?: 'cmp_RenditionProperty';
-  Height?: Maybe<Scalars['Int']['output']>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Url?: Maybe<Scalars['String']['output']>;
-  Width?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_RenditionPropertyIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_RenditionPropertyAutocomplete = {
-  __typename?: 'cmp_RenditionPropertyAutocomplete';
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Url?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_RenditionPropertyAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RenditionPropertyAutocompleteUrlArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_RenditionPropertyFacet = {
-  __typename?: 'cmp_RenditionPropertyFacet';
-  Height?: Maybe<Array<Maybe<NumberFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Url?: Maybe<Array<Maybe<StringFacet>>>;
-  Width?: Maybe<Array<Maybe<NumberFacet>>>;
-};
-
-
-export type Cmp_RenditionPropertyFacetHeightArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-
-export type Cmp_RenditionPropertyFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RenditionPropertyFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RenditionPropertyFacetUrlArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RenditionPropertyFacetWidthArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-  ranges?: InputMaybe<Array<InputMaybe<RangeFacetsInput>>>;
-};
-
-export type Cmp_RenditionPropertyOrderByInput = {
-  Height?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Url?: InputMaybe<OrderBy>;
-  Width?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_RenditionPropertyWhereInput = {
-  Height?: InputMaybe<IntFilterInput>;
-  Id?: InputMaybe<SearchableStringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Url?: InputMaybe<StringFilterInput>;
-  Width?: InputMaybe<IntFilterInput>;
-};
-
-export type Cmp_RichTextField = IData & Icmp_Field & {
-  __typename?: 'cmp_RichTextField';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_RichTextField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_RichTextField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_RichTextFieldNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_RichTextFieldAutocomplete = {
-  __typename?: 'cmp_RichTextFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_RichTextFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RichTextFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RichTextFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_RichTextFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_RichTextFieldFacet = {
-  __typename?: 'cmp_RichTextFieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_RichTextFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RichTextFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RichTextFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RichTextFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_RichTextFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_RichTextFieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_RichTextFieldOutput = {
-  __typename?: 'cmp_RichTextFieldOutput';
-  autocomplete?: Maybe<Cmp_RichTextFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_RichTextFieldFacet>;
-  item?: Maybe<Cmp_RichTextField>;
-  items?: Maybe<Array<Maybe<Cmp_RichTextField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_RichTextFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_RichTextFieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_RichTextFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_RichTextFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_RichTextFieldWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type Cmp_StructuredContentAsset = IData & Icmp_Asset & {
-  __typename?: 'cmp_StructuredContentAsset';
-  DateCreated?: Maybe<Scalars['Date']['output']>;
-  DateModified?: Maybe<Scalars['Date']['output']>;
-  ExpiryDate?: Maybe<Scalars['Date']['output']>;
-  Fields?: Maybe<Array<Maybe<Icmp_Field>>>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Id?: Maybe<Scalars['String']['output']>;
-  Labels?: Maybe<Array<Maybe<Cmp_AssetLabel>>>;
-  LibraryPath?: Maybe<Scalars['String']['output']>;
-  MimeType?: Maybe<Scalars['String']['output']>;
-  ParentFolderGuid?: Maybe<Scalars['String']['output']>;
-  Tags?: Maybe<Array<Maybe<Cmp_Tag>>>;
-  Title?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_StructuredContentAssetIdArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_StructuredContentAssetTitleArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_StructuredContentAsset_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_StructuredContentAsset_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_StructuredContentAssetNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_StructuredContentAssetAutocomplete = {
-  __typename?: 'cmp_StructuredContentAssetAutocomplete';
-  Fields?: Maybe<Icmp_FieldAutocomplete>;
-  FolderGuids?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Labels?: Maybe<Cmp_AssetLabelAutocomplete>;
-  LibraryPath?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  MimeType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Tags?: Maybe<Cmp_TagAutocomplete>;
-};
-
-
-export type Cmp_StructuredContentAssetAutocompleteFolderGuidsArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_StructuredContentAssetAutocompleteLibraryPathArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_StructuredContentAssetAutocompleteMimeTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_StructuredContentAssetAutocompleteParentFolderGuidArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_StructuredContentAssetFacet = {
-  __typename?: 'cmp_StructuredContentAssetFacet';
-  DateCreated?: Maybe<Array<Maybe<DateFacet>>>;
-  DateModified?: Maybe<Array<Maybe<DateFacet>>>;
-  ExpiryDate?: Maybe<Array<Maybe<DateFacet>>>;
-  Fields?: Maybe<Icmp_FieldFacet>;
-  FolderGuids?: Maybe<Array<Maybe<StringFacet>>>;
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Labels?: Maybe<Cmp_AssetLabelFacet>;
-  LibraryPath?: Maybe<Array<Maybe<StringFacet>>>;
-  MimeType?: Maybe<Array<Maybe<StringFacet>>>;
-  ParentFolderGuid?: Maybe<Array<Maybe<StringFacet>>>;
-  Tags?: Maybe<Cmp_TagFacet>;
-  Title?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetDateCreatedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetDateModifiedArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetExpiryDateArgs = {
-  unit?: InputMaybe<DateFacetUnit>;
-  value?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetFolderGuidsArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetLibraryPathArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetMimeTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetParentFolderGuidArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetTitleArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_StructuredContentAssetFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_StructuredContentAssetOrderByInput = {
-  DateCreated?: InputMaybe<OrderBy>;
-  DateModified?: InputMaybe<OrderBy>;
-  ExpiryDate?: InputMaybe<OrderBy>;
-  Fields?: InputMaybe<Icmp_FieldOrderByInput>;
-  FolderGuids?: InputMaybe<OrderBy>;
-  Id?: InputMaybe<OrderBy>;
-  Labels?: InputMaybe<Cmp_AssetLabelOrderByInput>;
-  LibraryPath?: InputMaybe<OrderBy>;
-  MimeType?: InputMaybe<OrderBy>;
-  ParentFolderGuid?: InputMaybe<OrderBy>;
-  Tags?: InputMaybe<Cmp_TagOrderByInput>;
-  Title?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_StructuredContentAssetOutput = {
-  __typename?: 'cmp_StructuredContentAssetOutput';
-  autocomplete?: Maybe<Cmp_StructuredContentAssetAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_StructuredContentAssetFacet>;
-  item?: Maybe<Cmp_StructuredContentAsset>;
-  items?: Maybe<Array<Maybe<Cmp_StructuredContentAsset>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_StructuredContentAssetOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_StructuredContentAssetWhereInput = {
-  DateCreated?: InputMaybe<DateFilterInput>;
-  DateModified?: InputMaybe<DateFilterInput>;
-  ExpiryDate?: InputMaybe<DateFilterInput>;
-  Fields?: InputMaybe<Icmp_FieldWhereInput>;
-  FolderGuids?: InputMaybe<StringFilterInput>;
-  Id?: InputMaybe<SearchableStringFilterInput>;
-  Labels?: InputMaybe<Cmp_AssetLabelWhereInput>;
-  LibraryPath?: InputMaybe<StringFilterInput>;
-  MimeType?: InputMaybe<StringFilterInput>;
-  ParentFolderGuid?: InputMaybe<StringFilterInput>;
-  Tags?: InputMaybe<Cmp_TagWhereInput>;
-  Title?: InputMaybe<SearchableStringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_StructuredContentAssetWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_StructuredContentAssetWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_StructuredContentAssetWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type Cmp_Tag = {
-  __typename?: 'cmp_Tag';
-  Guid?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-};
-
-export type Cmp_TagAutocomplete = {
-  __typename?: 'cmp_TagAutocomplete';
-  Guid?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_TagAutocompleteGuidArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TagAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_TagFacet = {
-  __typename?: 'cmp_TagFacet';
-  Guid?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_TagFacetGuidArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TagFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_TagOrderByInput = {
-  Guid?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_TagWhereInput = {
-  Guid?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-};
-
-export type Cmp_TextAreaField = IData & Icmp_Field & {
-  __typename?: 'cmp_TextAreaField';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_TextAreaField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_TextAreaField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_TextAreaFieldNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_TextAreaFieldAutocomplete = {
-  __typename?: 'cmp_TextAreaFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_TextAreaFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TextAreaFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TextAreaFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TextAreaFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_TextAreaFieldFacet = {
-  __typename?: 'cmp_TextAreaFieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_TextAreaFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextAreaFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextAreaFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextAreaFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextAreaFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_TextAreaFieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_TextAreaFieldOutput = {
-  __typename?: 'cmp_TextAreaFieldOutput';
-  autocomplete?: Maybe<Cmp_TextAreaFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_TextAreaFieldFacet>;
-  item?: Maybe<Cmp_TextAreaField>;
-  items?: Maybe<Array<Maybe<Cmp_TextAreaField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_TextAreaFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_TextAreaFieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_TextAreaFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_TextAreaFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_TextAreaFieldWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type Cmp_TextField = IData & Icmp_Field & {
-  __typename?: 'cmp_TextField';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_TextField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_TextField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_TextFieldNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_TextFieldAutocomplete = {
-  __typename?: 'cmp_TextFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_TextFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TextFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TextFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_TextFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_TextFieldFacet = {
-  __typename?: 'cmp_TextFieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_TextFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_TextFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_TextFieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_TextFieldOutput = {
-  __typename?: 'cmp_TextFieldOutput';
-  autocomplete?: Maybe<Cmp_TextFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_TextFieldFacet>;
-  item?: Maybe<Cmp_TextField>;
-  items?: Maybe<Array<Maybe<Cmp_TextField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_TextFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_TextFieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_TextFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_TextFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_TextFieldWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type Cmp_VideoField = IData & Icmp_Field & {
-  __typename?: 'cmp_VideoField';
-  Id?: Maybe<Scalars['String']['output']>;
-  Name?: Maybe<Scalars['String']['output']>;
-  Type?: Maybe<Scalars['String']['output']>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Cmp_VideoField_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type Cmp_VideoField_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-
-export type Cmp_VideoFieldNameArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-export type Cmp_VideoFieldAutocomplete = {
-  __typename?: 'cmp_VideoFieldAutocomplete';
-  Id?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Name?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Type?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  Values?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-};
-
-
-export type Cmp_VideoFieldAutocompleteIdArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_VideoFieldAutocompleteNameArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_VideoFieldAutocompleteTypeArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-
-export type Cmp_VideoFieldAutocompleteValuesArgs = {
-  limit?: Scalars['Int']['input'];
-  value: Scalars['String']['input'];
-};
-
-export type Cmp_VideoFieldFacet = {
-  __typename?: 'cmp_VideoFieldFacet';
-  Id?: Maybe<Array<Maybe<StringFacet>>>;
-  Name?: Maybe<Array<Maybe<StringFacet>>>;
-  Type?: Maybe<Array<Maybe<StringFacet>>>;
-  Values?: Maybe<Array<Maybe<StringFacet>>>;
-  name?: Maybe<Array<Maybe<StringFacet>>>;
-};
-
-
-export type Cmp_VideoFieldFacetIdArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_VideoFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_VideoFieldFacetTypeArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_VideoFieldFacetValuesArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-
-export type Cmp_VideoFieldFacetNameArgs = {
-  filters?: InputMaybe<Array<Scalars['String']['input']>>;
-  limit?: Scalars['Int']['input'];
-  orderBy?: InputMaybe<OrderBy>;
-  orderType?: InputMaybe<OrderByFacetType>;
-};
-
-export type Cmp_VideoFieldOrderByInput = {
-  Id?: InputMaybe<OrderBy>;
-  Name?: InputMaybe<OrderBy>;
-  Type?: InputMaybe<OrderBy>;
-  Values?: InputMaybe<OrderBy>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<OrderBy>;
-};
-
-export type Cmp_VideoFieldOutput = {
-  __typename?: 'cmp_VideoFieldOutput';
-  autocomplete?: Maybe<Cmp_VideoFieldAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<Cmp_VideoFieldFacet>;
-  item?: Maybe<Cmp_VideoField>;
-  items?: Maybe<Array<Maybe<Cmp_VideoField>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type Cmp_VideoFieldOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type Cmp_VideoFieldWhereInput = {
-  Id?: InputMaybe<StringFilterInput>;
-  Name?: InputMaybe<StringFilterInput>;
-  Type?: InputMaybe<StringFilterInput>;
-  Values?: InputMaybe<StringFilterInput>;
-  _and?: InputMaybe<Array<InputMaybe<Cmp_VideoFieldWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<Cmp_VideoFieldWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<Cmp_VideoFieldWhereInput>>>;
-  name?: InputMaybe<SearchableStringFilterInput>;
-};
-
-export type MarvinBlock = IData & _IComponent & _IContent & {
-  __typename?: 'marvinBlock';
-  Text?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Use `_link` field instead */
-  _children?: Maybe<QueryRef>;
-  _deleted?: Maybe<Scalars['Bool']['output']>;
-  _fulltext?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  _id?: Maybe<Scalars['String']['output']>;
-  _json?: Maybe<Scalars['JSON']['output']>;
-  _link?: Maybe<QueryRef>;
-  _metadata?: Maybe<IContentMetadata>;
-  _modified?: Maybe<Scalars['Date']['output']>;
-  _score?: Maybe<Scalars['Float']['output']>;
-};
-
-
-export type MarvinBlock_FulltextArgs = {
-  highlight?: InputMaybe<HighlightOptions>;
-};
-
-
-export type MarvinBlock_LinkArgs = {
-  type?: InputMaybe<LinkTypes>;
-};
-
-export type MarvinBlockAutocomplete = {
-  __typename?: 'marvinBlockAutocomplete';
-  _metadata?: Maybe<IContentMetadataAutocomplete>;
-};
-
-export type MarvinBlockFacet = {
-  __typename?: 'marvinBlockFacet';
-  _metadata?: Maybe<IContentMetadataFacet>;
-};
-
-export type MarvinBlockOrderByInput = {
-  _metadata?: InputMaybe<IContentMetadataOrderByInput>;
-  _minimumScore?: InputMaybe<Scalars['Float']['input']>;
-  _modified?: InputMaybe<OrderBy>;
-  _ranking?: InputMaybe<Ranking>;
-  /** The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled. */
-  _semanticWeight?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type MarvinBlockOutput = {
-  __typename?: 'marvinBlockOutput';
-  autocomplete?: Maybe<MarvinBlockAutocomplete>;
-  cursor?: Maybe<Scalars['String']['output']>;
-  facets?: Maybe<MarvinBlockFacet>;
-  item?: Maybe<MarvinBlock>;
-  items?: Maybe<Array<Maybe<MarvinBlock>>>;
-  total?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type MarvinBlockOutputTotalArgs = {
-  all?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type MarvinBlockWhereInput = {
-  _and?: InputMaybe<Array<InputMaybe<MarvinBlockWhereInput>>>;
-  _fulltext?: InputMaybe<SearchableStringFilterInput>;
-  _metadata?: InputMaybe<IContentMetadataWhereInput>;
-  _modified?: InputMaybe<DateFilterInput>;
-  _not?: InputMaybe<Array<InputMaybe<MarvinBlockWhereInput>>>;
-  _or?: InputMaybe<Array<InputMaybe<MarvinBlockWhereInput>>>;
 };
 
 export enum System_Locales {
@@ -13390,7 +8804,7 @@ export type UsePinnedInput = {
 export type GetAppRootsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAppRootsQuery = { __typename?: 'Query', _Content?: { __typename?: '_ContentOutput', total?: number | null, items?: Array<{ __typename?: 'ArticleList', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'ArticlePage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'BlankExperience', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'BlankSection', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Button', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'CallToAction', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Card', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Carousel', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Collapse', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'CssMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Divider', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'FacetedSearch', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'FolderPage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'GenericMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Grid', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Hero', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Iframe', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Image', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'ImageMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'LandingPage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Marvin5Experience', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'MenuItem', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'MockupPage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OdpForm', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsChoiceElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsContainerData', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsNumberElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsRangeElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsResetElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsSelectionElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsSubmitElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsTextareaElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsTextboxElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsUrlElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PageAdminSettings', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PageSeoSettings', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Paragraph', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PlaceholderItem', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PlaceholdersConfiguration', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PressRelease', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'SiteSettings', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'SiteStyles', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'SysContentFolder', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Text', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Video', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'VideoExternal', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'VideoMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Component', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Content', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Experience', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Folder', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Image', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Media', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Page', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Section', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Video', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'marvinBlock', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | null> | null } | null };
+export type GetAppRootsQuery = { __typename?: 'Query', _Content?: { __typename?: '_ContentOutput', total?: number | null, items?: Array<{ __typename?: 'ArticleList', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'ArticlePage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'BlankExperience', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'BlankSection', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Button', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'CallToAction', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Card', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Carousel', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Collapse', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'CssMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Divider', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'FacetedSearch', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'FolderPage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'GenericMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Grid', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Hero', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Iframe', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Image', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'ImageMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'LandingPage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'MenuItem', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'MockupPage', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OdpForm', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsChoiceElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsContainerData', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsNumberElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsRangeElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsResetElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsSelectionElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsSubmitElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsTextareaElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsTextboxElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'OptiFormsUrlElement', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PageAdminSettings', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PageSeoSettings', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Paragraph', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PlaceholderItem', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'PlaceholdersConfiguration', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'SiteSettings', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'SiteStyles', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'SysContentFolder', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Text', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'Video', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'VideoExternal', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: 'VideoMedia', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Component', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Content', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Experience', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Folder', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Image', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Media', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Page', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Section', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | { __typename?: '_Video', _id?: string | null, _metadata?: { __typename?: 'ContentMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'InstanceMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'ItemMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | { __typename?: 'MediaMetadata', displayName?: string | null, types?: Array<string | null> | null, url?: { __typename?: 'ContentUrl', base?: string | null } | null } | null } | null> | null } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
