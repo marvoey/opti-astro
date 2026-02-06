@@ -369,7 +369,7 @@ export const POST: APIRoute = async ({ request }) => {
             
             // Build preview URLs using domain from task data
             // {host}/preview?key={key}&ver={version}&loc={locale}&ctx={context}
-            const draftPreviewUrl = `${normalizedDomain}/preview?key=${key}&ver=${version}&loc=${loc}&ctx=${ctx}`;
+            const draftPreviewUrl = `${normalizedDomain}/preview-ssr?key=${key}&ver=${version}&loc=${loc}&ctx=${ctx}`;
             const publishedPreviewUrl = `${normalizedDomain}/${createdContent.routeSegment}`;
             
             console.log('Draft preview URL:', draftPreviewUrl);
