@@ -1,0 +1,90 @@
+---
+import SustainabilityExchangeLayout from '../amazon/layouts/SustainabilityExchangeLayout.astro';
+import HeroSection from '../amazon/components/HeroSection.astro';
+import NewsCarousel from '../amazon/components/NewsCarousel.astro';
+import PathToNetZero from '../amazon/components/PathToNetZero.astro';
+import StaticFocusAreas from '../amazon/components/StaticFocusAreas.astro';
+
+const cards = [
+  {
+    title: "Corsair's path to net-zero carbon electronics manufacturing",
+    description: "Through strategic partnerships and a phased approach to decarbonization, learn how Corsair has established a sustainability framework that addresses both enterprise operations and product lifecycle impacts.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/carbonneutralization-casestudies-8.png",
+    imageAlt: "An office building with rooftop solar",
+    href: "/focus-areas/carbon-neutralization/case-study/corsairs-path-to-net-zero-carbon-electronics-manufacturing",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Ryan Companies' net-zero carbon business strategy",
+    description: "Learn how Ryan Companies took a strategic, business-focused approach to decarbonization that prioritized collaboration, incremental progress, and value creation.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/carbonneutralization-casestudies-7.png",
+    imageAlt: "A warehouse building with rooftop solar",
+    href: "/focus-areas/carbon-neutralization/case-study/ryan-companies-net-zero-carbon-business-strategy",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Teleion's journey to achieving its net-zero goals",
+    description: "Teleion has embarked on a transformative sustainability journey. Learn how they achieved their net-zero carbon emissions goals in 2025.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/shared-casestudies-2.png",
+    imageAlt: "A leaf",
+    href: "/focus-areas/carbon-neutralization/case-study/teleions-journey-to-achieving-its-net-zero-goals",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Teleion's journey to achieving its net-zero goals",
+    description: "Teleion has embarked on a transformative sustainability journey. Learn how they achieved their net-zero carbon emissions goals in 2025.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/shared-casestudies-2.png",
+    imageAlt: "A leaf",
+    href: "/focus-areas/carbon-neutralization/case-study/teleions-journey-to-achieving-its-net-zero-goals",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Teleion's journey to achieving its net-zero goals",
+    description: "Teleion has embarked on a transformative sustainability journey. Learn how they achieved their net-zero carbon emissions goals in 2025.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/shared-casestudies-2.png",
+    imageAlt: "A leaf",
+    href: "/focus-areas/carbon-neutralization/case-study/teleions-journey-to-achieving-its-net-zero-goals",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Teleion's journey to achieving its net-zero goals",
+    description: "Teleion has embarked on a transformative sustainability journey. Learn how they achieved their net-zero carbon emissions goals in 2025.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/shared-casestudies-2.png",
+    imageAlt: "A leaf",
+    href: "/focus-areas/carbon-neutralization/case-study/teleions-journey-to-achieving-its-net-zero-goals",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Teleion's journey to achieving its net-zero goals",
+    description: "Teleion has embarked on a transformative sustainability journey. Learn how they achieved their net-zero carbon emissions goals in 2025.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/shared-casestudies-2.png",
+    imageAlt: "A leaf",
+    href: "/focus-areas/carbon-neutralization/case-study/teleions-journey-to-achieving-its-net-zero-goals",
+    ctaText: "Read case study",
+  },
+  {
+    title: "Teleion's journey to achieving its net-zero goals",
+    description: "Teleion has embarked on a transformative sustainability journey. Learn how they achieved their net-zero carbon emissions goals in 2025.",
+    imageSrc: "https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/shared-casestudies-2.png",
+    imageAlt: "A leaf",
+    href: "/focus-areas/carbon-neutralization/case-study/teleions-journey-to-achieving-its-net-zero-goals",
+    ctaText: "Read case study",
+  },
+];
+---
+
+<SustainabilityExchangeLayout title="Amazon Sustainability Exchange">
+  <HeroSection
+    backgroundImage="https://library.exchange.aboutamazon.com/locale/en-us/resource-type/image/variation/desktop/home-hero.png"
+    headline="A more sustainable future, together"
+    description="Our sustainability journey thus far taught us the importance of collaboration and transparency. We're sharing resources to help everyone take action faster."
+    cardImageSrc="https://library.exchange.aboutamazon.com/credits/locale/en-us/resource-type/image/variation/desktop/credits-ingresspoint-1.jpg"
+    cardImageAlt="alt text"
+    cardTitle="Carbon credits from Amazon"
+    cardDescription="Take action beyond your value chain and invest in critical climate solutions now."
+    cardHref="/credits"
+  />
+  <NewsCarousel heading="News & highlights" cards={cards} />
+  <PathToNetZero />
+  <StaticFocusAreas />
+</SustainabilityExchangeLayout>
