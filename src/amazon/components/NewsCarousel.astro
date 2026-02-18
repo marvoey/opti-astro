@@ -1,0 +1,162 @@
+---
+import CarouselCard from './CarouselCard.astro';
+
+interface CardData {
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  href: string;
+  ctaText: string;
+  imagePosition?: string;
+}
+
+interface Props {
+  heading: string;
+  cards: CardData[];
+  visiblePerPage?: number;
+}
+
+const { heading, cards, visiblePerPage = 3 } = Astro.props;
+
+const total = cards.length;
+const rangeEnd = Math.min(visiblePerPage, total);
+const paginationLabel = `1-${rangeEnd} of ${total}`;
+---
+
+<section class="Xioh5zujJVUa6csl8avQfQ== cznudC8a-qwId9G9zN6o6w==">
+  <div class="TrA+d1iB0sZH8VdJk4hSUw==">
+    <div class="oIAKeMwbelDYvwxGvzIcVQ== BEtoW-Y1Zl2bVZch5bOjqw==">
+
+      <!-- Section heading -->
+      <div class="_4UW+WBj4ti6UIfntFok0lQ== B1tXE6k1ryu4AY-KtKWBZw==">
+        <h2 class="hKBvnu3uvQuAsRfuNDMUuQ==">{heading}</h2>
+        <div class="_7Mk5pWsFy4SLPH0qmBvnqg==">
+          <div class="_7UjHBVD9a0dd9Br2XADnvw=="></div>
+        </div>
+      </div>
+
+      <!-- Carousel track -->
+      <div class="pVE1R0bn4KXSdyBeacQx3g==" data-testid="carousel">
+        <div class="RkN7W7vepFS0zQjxjOOm-Q==" data-testid="carousel-items" style="transform: translateX(0px);">
+          {cards.map((card) => (
+            <CarouselCard
+              title={card.title}
+              description={card.description}
+              imageSrc={card.imageSrc}
+              imageAlt={card.imageAlt}
+              href={card.href}
+              ctaText={card.ctaText}
+              imagePosition={card.imagePosition}
+            />
+          ))}
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="rW8oJLzAV1KAa4gvhceaqw==">
+        <div class="qb0EWvqLBGA4fpIUINxgSg==">
+          <kat-progress
+            class="BEtoW-Y1Zl2bVZch5bOjqw=="
+            hide-value=""
+            size="small"
+            type="linear"
+            state="working"
+            start-value="0"
+            end-value={total}
+            value={rangeEnd}
+          ></kat-progress>
+        </div>
+        <span class="_1khKM7HX2N4jm3dTCOlsEQ== BEtoW-Y1Zl2bVZch5bOjqw==" data-testid="pagination-label">{paginationLabel}</span>
+        <div class="fHcgru0tO-nk2VgC0saD+w== BEtoW-Y1Zl2bVZch5bOjqw==">
+
+          <button type="button" data-testid="slider-accessible-prev-button"
+            class="n9BnU8njKKPitn8lxE9YkA== Go5BYjCXaSvN-osLl3LfJg== _1gXHGq3nSPGpyd50YCFfjQ== tOV-FDSAFbMqKyrVCUChoQ== wtnjwFrHnrUqF-MpDbUWPg== LbhzQRRzQBtR6ur+j2RKjg=="
+            disabled name="prev" aria-label="Previous Slide">
+            <div class="xqSJF7EizIbffxS4477n+A==">
+              <div class="toY9qAd1V+rWGvDrNX-khw==">
+                <div data-testid="chevronLeft" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="false">
+                    <path fill="currentColor" fill-rule="evenodd" d="m10.484 12.766 4.157 3.463-1.28 1.537-4.157-3.464a3 3 0 0 1 0-4.61L13.36 6.23l1.28 1.537-4.156 3.463a1 1 0 0 0 0 1.537" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </div>
+              <div aria-hidden="true" class="aOavLwtG+YSFNpB2Mz7hIw==">
+                <div data-testid="chevronLeft" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" aria-hidden="false">
+                    <path fill="currentColor" fill-rule="evenodd" d="m10.484 12.766 4.157 3.463-1.28 1.537-4.157-3.464a3 3 0 0 1 0-4.61L13.36 6.23l1.28 1.537-4.156 3.463a1 1 0 0 0 0 1.537" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-testid="slider-accessible-next-button"
+            class="n9BnU8njKKPitn8lxE9YkA== Go5BYjCXaSvN-osLl3LfJg== _1gXHGq3nSPGpyd50YCFfjQ== tOV-FDSAFbMqKyrVCUChoQ== wtnjwFrHnrUqF-MpDbUWPg== LbhzQRRzQBtR6ur+j2RKjg=="
+            name="next" aria-label="Next Slide">
+            <div class="xqSJF7EizIbffxS4477n+A==">
+              <div class="toY9qAd1V+rWGvDrNX-khw==">
+                <div data-testid="chevronRight" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="false">
+                    <path fill="currentColor" fill-rule="evenodd" d="M13.516 11.234 9.359 7.771l1.28-1.537 4.157 3.464a3 3 0 0 1 0 4.61L10.64 17.77l-1.28-1.537 4.156-3.463a1 1 0 0 0 0-1.537" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </div>
+              <div aria-hidden="true" class="aOavLwtG+YSFNpB2Mz7hIw==">
+                <div data-testid="chevronRight" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="false">
+                    <path fill="currentColor" fill-rule="evenodd" d="M13.516 11.234 9.359 7.771l1.28-1.537 4.157 3.464a3 3 0 0 1 0 4.61L10.64 17.77l-1.28-1.537 4.156-3.463a1 1 0 0 0 0-1.537" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-testid="carousel"]').forEach(carousel => {
+    const section = carousel.closest('section')!;
+    const track = carousel.querySelector<HTMLElement>('[data-testid="carousel-items"]')!;
+    const items = Array.from(carousel.querySelectorAll<HTMLElement>('[data-testid="carousel-item"]'));
+    const prevBtn = section.querySelector<HTMLButtonElement>('[data-testid="slider-accessible-prev-button"]')!;
+    const nextBtn = section.querySelector<HTMLButtonElement>('[data-testid="slider-accessible-next-button"]')!;
+    const progress = section.querySelector<HTMLElement>('kat-progress');
+    const label = section.querySelector<HTMLElement>('[data-testid="pagination-label"]');
+
+    track.style.transition = 'transform 0.35s ease';
+
+    const total = items.length;
+    let currentIndex = 0;
+
+    function visibleCount() {
+      return Math.round(carousel.offsetWidth / items[0].offsetWidth);
+    }
+
+    function update() {
+      const visible = visibleCount();
+      const itemWidth = items[0].offsetWidth;
+      track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex + visible >= total;
+
+      const rangeEnd = Math.min(currentIndex + visible, total);
+      if (label) label.textContent = `${currentIndex + 1}-${rangeEnd} of ${total}`;
+      if (progress) progress.setAttribute('value', String(rangeEnd));
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) { currentIndex--; update(); }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex + visibleCount() < total) { currentIndex++; update(); }
+    });
+  });
+</script>

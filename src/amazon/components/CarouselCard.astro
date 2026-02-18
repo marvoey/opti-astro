@@ -1,0 +1,70 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  href: string;
+  ctaText: string;
+  imagePosition?: string;
+  flexBasis?: string;
+}
+
+const {
+  title,
+  description,
+  imageSrc,
+  imageAlt,
+  href,
+  ctaText,
+  imagePosition = "center center",
+  flexBasis = "33.3333%",
+} = Astro.props;
+---
+
+<section
+  class="_0xBId9yOubaXkEB5p0eulQ== tRpXA9GhhRDkz9n5whUvAg== beLUWmwu29xqeZk8zN5wWQ== QN2we1V7uUIlKRAmew69Aw== BEtoW-Y1Zl2bVZch5bOjqw=="
+  data-testid="carousel-item"
+  style={`flex-basis: ${flexBasis};`}
+>
+  <kat-card class="Kojl6WvN5TXa2G+D99DjXg== eWBEidlvfySjWDyMb3M+9w==">
+    <div class="Kojl6WvN5TXa2G+D99DjXg== V+LkrJi3Xh+9ZnlpJ5iAhw==">
+      <div class="_6+i11JKB-jaU2QsNKtJUGg==">
+        <h3 class="Kojl6WvN5TXa2G+D99DjXg== UwlqGrr4Epk070Wyq9HmZw==">{title}</h3>
+        <span class="_3LnZU2YFM8PLLH52rd-6fA== Kojl6WvN5TXa2G+D99DjXg==">{description}</span>
+      </div>
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        class="szxziHpp5kbRhWVog4tLOw== Kojl6WvN5TXa2G+D99DjXg=="
+        style={`object-position: ${imagePosition};`}
+      />
+    </div>
+    <div class="Kojl6WvN5TXa2G+D99DjXg== xwNCPNUYJbDe4sfXavqkDQ==" slot="footer">
+      <a class="CADWeYT5GfoTYSzfGmpdkQ== Kojl6WvN5TXa2G+D99DjXg==" href={href}>{ctaText}</a>
+      <button
+        type="button"
+        class="_1Hu9c5gIsabDg5MXpALSEw== Kojl6WvN5TXa2G+D99DjXg== n9BnU8njKKPitn8lxE9YkA== _1gXHGq3nSPGpyd50YCFfjQ== tOV-FDSAFbMqKyrVCUChoQ== wtnjwFrHnrUqF-MpDbUWPg=="
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="xqSJF7EizIbffxS4477n+A==">
+          <div class="toY9qAd1V+rWGvDrNX-khw==">
+            <div data-testid="chevronRight" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="false">
+                <path fill="currentColor" fill-rule="evenodd" d="M13.516 11.234 9.359 7.771l1.28-1.537 4.157 3.464a3 3 0 0 1 0 4.61L10.64 17.77l-1.28-1.537 4.156-3.463a1 1 0 0 0 0-1.537" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          </div>
+          <div aria-hidden="true" class="aOavLwtG+YSFNpB2Mz7hIw==">
+            <div data-testid="chevronRight" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="false">
+                <path fill="currentColor" fill-rule="evenodd" d="M13.516 11.234 9.359 7.771l1.28-1.537 4.157 3.464a3 3 0 0 1 0 4.61L10.64 17.77l-1.28-1.537 4.156-3.463a1 1 0 0 0 0-1.537" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </kat-card>
+</section>

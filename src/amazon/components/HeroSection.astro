@@ -1,0 +1,71 @@
+---
+interface Props {
+  backgroundImage: string;
+  headline: string;
+  description: string;
+  cardImageSrc: string;
+  cardImageAlt: string;
+  cardTitle: string;
+  cardDescription: string;
+  cardHref: string;
+  scrollDownText?: string;
+}
+
+const {
+  backgroundImage,
+  headline,
+  description,
+  cardImageSrc,
+  cardImageAlt,
+  cardTitle,
+  cardDescription,
+  cardHref,
+  scrollDownText = "Scroll down",
+} = Astro.props;
+---
+
+<div class="r3T0BzvFdi1ksoEOBCX5Ww==" style={`background-image: url("${backgroundImage}");`}>
+  <div class="mZZcn9BmVLMNBYYz+mIcbQ==">
+
+    <div class="-wbD++RF727nabtuXuFiCg==">
+      <h2 class="HYinwmij7RrXZABnzZ1t-Q==">{headline}</h2>
+      <div class="y6KCRkMZ6VSx2f8Qvt8BSg==">
+        <p class="_3BHou7lfV3LAjknRa4uIxQ==">{description}</p>
+      </div>
+    </div>
+
+    <kat-card class="Uatfw0YYSCLEgyV4fJXkiw== XdN49ORaRV4s0OjZx7W5Wg==">
+      <div class="iujKOUY9oXaFcgKLdSDUIQ==">
+        <img src={cardImageSrc} alt={cardImageAlt} class="CP3SC-eXZrhNtfRZwPEXDw==" />
+        <div class="qhI7RAtM-SIY9x8zeEblYg==">
+          <p class="mQCSNd0XEnoDSnRhr+UsJA==">{cardTitle}</p>
+          <p class="LSIK5Di0YHqsh0XKPDnt4g==">{cardDescription}</p>
+        </div>
+        <a
+          data-testid="primaryButton"
+          class="RD7S1sUj9lpUPqHEd+8W2A== _60TCmp46P7V8HlBHl66WvQ== n9BnU8njKKPitn8lxE9YkA== _1gXHGq3nSPGpyd50YCFfjQ== tOV-FDSAFbMqKyrVCUChoQ== wtnjwFrHnrUqF-MpDbUWPg== LbhzQRRzQBtR6ur+j2RKjg=="
+          href={cardHref}
+        >
+          <div class="xqSJF7EizIbffxS4477n+A==">
+            <div class="toY9qAd1V+rWGvDrNX-khw==">
+              <div data-testid="chevronRight" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="false">
+                  <path fill="currentColor" fill-rule="evenodd" d="M13.516 11.234 9.359 7.771l1.28-1.537 4.157 3.464a3 3 0 0 1 0 4.61L10.64 17.77l-1.28-1.537 4.156-3.463a1 1 0 0 0 0-1.537" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+            <div aria-hidden="true" class="aOavLwtG+YSFNpB2Mz7hIw==">
+              <div data-testid="chevronRight" class="yy0troY67pTtaADpsTh59A== j89QodfcxgjOuaGVSCZF4A== C1aPjd9XufeYH2TKSqdDgg==">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="false">
+                  <path fill="currentColor" fill-rule="evenodd" d="M13.516 11.234 9.359 7.771l1.28-1.537 4.157 3.464a3 3 0 0 1 0 4.61L10.64 17.77l-1.28-1.537 4.156-3.463a1 1 0 0 0 0-1.537" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </kat-card>
+
+  </div>
+  <p class="QgE6yUYYAa5hHuKywodPxw==">{scrollDownText}</p>
+</div>
