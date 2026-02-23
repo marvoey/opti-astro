@@ -4,6 +4,7 @@ import qs from 'query-string';
 import type { Locales } from 'astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { localeToSdkLocale, fetchContentByPath } from '../../lib/locale-helpers';
+import { resolveCmsOrigin } from '../../lib/domain-helpers';
 import Component from '../../cms/components/_Component.astro';
 import Experiences from '../../cms/experiences/_Experiences.astro';
 import { getOptimizelySdk } from '../../graphql/getSdk';
@@ -31,7 +32,7 @@ extPreviewPayload.ctx = ctx;
 const isDraft = await isDraftContent(extPreviewPayload.ver);
 const isExtPreviewEnabled = await isExternalPreviewEnabled(extPreviewPayload.ver);
 
-const urlBase = Astro.url.origin;
+const urlBase = resolveCmsOrigin(Astro.url.origin);
 const currentPagePath = `${Astro.url.pathname.replace(/\/$/, '')}/`
     .split('/')
     .filter((p) => p !== 'externalpreview')

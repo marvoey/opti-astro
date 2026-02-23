@@ -10,6 +10,7 @@ import { getOptimizelySdk } from '../../../graphql/getSdk';
 import type { ContentPayload } from '../../../graphql/shared/ContentPayload';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { isEditContext } from '../../shared/utils.ts';
+import { resolveCmsOrigin } from '../../../lib/domain-helpers';
 import LinkButton from '../ButtonComponent/LinkButton.astro';
 
 const isCmsEdit = isEditContext(Astro.url);
@@ -21,7 +22,7 @@ export interface Props {
     contentPayload: ContentPayload;
 }
 const { key, data, displaySettings, contentPayload } = Astro.props as Props;
-const currentSite = data.IncludeAllSites ? null : Astro.url.origin;
+const currentSite = data.IncludeAllSites ? null : resolveCmsOrigin(Astro.url.origin);
 const articlesList = await getOptimizelySdk(contentPayload).getArticles({
     //@ts-ignore
     loc: contentPayload.loc,

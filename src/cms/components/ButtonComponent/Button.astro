@@ -8,6 +8,7 @@ import LinkButton from './LinkButton.astro';
 import { getButtonStyles } from './ButtonStyling';
 import { getLoginButtonStyles } from './LoginButtonStyling';
 import { isEditContext, getLink } from '../../shared/utils.ts';
+import { resolveCmsOrigin } from '../../../lib/domain-helpers';
 import type { ButtonLinkData } from '../../shared/utils.ts';
 
 const isCmsEdit = isEditContext(Astro.url);
@@ -35,7 +36,7 @@ if(isLoginButton) {
     btnStyles = getButtonStyles(displaySettings);
 }
 
-const currentDomain = Astro.url.origin;
+const currentDomain = resolveCmsOrigin(Astro.url.origin);
 
 const buttonLink = getLink(data?.ButtonLink as ButtonLinkData, currentDomain);
 const newWindow = data?.ButtonLink?.target === '_blank';

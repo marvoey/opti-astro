@@ -1,0 +1,40 @@
+---
+interface Props {
+    /** Button label text. */
+    label: string;
+    /** Optional click handler dispatch event name. */
+    event?: string;
+}
+
+const { label, event } = Astro.props;
+---
+
+<button
+    type="button"
+    class="toolbar-btn"
+    {...event ? { '@click': `$dispatch('${event}')` } : {}}
+>
+    {label}
+</button>
+
+<style>
+    .toolbar-btn {
+        display: inline-flex;
+        align-items: center;
+        height: 32px;
+        padding: 0 10px;
+        border: 1px solid rgb(158, 158, 158);
+        border-radius: 4px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(8, 7, 54);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 13px;
+        white-space: nowrap;
+        outline: none;
+    }
+    .toolbar-btn:hover {
+        border-color: rgb(100, 100, 100);
+        background-color: rgb(248, 249, 252);
+    }
+</style>
