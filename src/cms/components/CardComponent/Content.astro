@@ -10,6 +10,7 @@ import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 import { getCardTextAlignmentStyle, getCardHeaderStyles } from './CardStyling';
 import { getDictionaryFromDisplaySettings } from '../../../graphql/shared/displaySettingsHelpers';
 import { getLink } from '../../shared/utils.ts';
+import { resolveCmsOrigin } from '../../../lib/domain-helpers';
 import type { ButtonLinkData } from '../../shared/utils.ts';
 
 export interface Props {
@@ -24,7 +25,7 @@ export interface Props {
     globalStyles?: string[];
 }
 
-const currentDomain = Astro.url.origin;
+const currentDomain = resolveCmsOrigin(Astro.url.origin);
 
 const { data, displaySettings, DisplayAs, widthClass, verticalAlignClass, isFullSplit, globalStyles } = Astro.props as Props;
 const cardButtonStyles = getButtonStyles(displaySettings, false); // false: button type defined here

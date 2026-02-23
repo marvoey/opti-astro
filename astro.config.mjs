@@ -123,6 +123,16 @@ export default defineConfig({
                 access: 'secret',
                 optional: true,
             }),
+            CMS_ORIGIN: envField.string({
+                context: 'server',
+                access: 'public',
+                optional: true,
+            }),
+            DOMAIN_ALIASES: envField.string({
+                context: 'server',
+                access: 'public',
+                optional: true,
+            }),
             // Note: ASTRO_I18N_CONFIG is a build-time only variable (used in astro.config.mjs)
             // It's not included in the env schema since it's not needed at runtime
         },

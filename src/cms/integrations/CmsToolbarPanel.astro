@@ -1,0 +1,46 @@
+---
+/**
+ * CmsToolbarPanel
+ *
+ * Display panel that mimics the Optimizely CMS global toolbar.
+ * Used in preview/debug contexts — not a registered CMS content type.
+ *
+ * Add more controls via the <slot /> — they render inline in the toolbar.
+ */
+
+import ToolbarButton from './ToolbarButton.astro';
+import VariationsSelector from './VariationsSelector.astro';
+
+interface Props {
+    variations?: string[];
+    selectedVariation?: string;
+}
+
+const {
+    variations = ['Original'],
+    selectedVariation = variations[0] ?? 'Original',
+} = Astro.props;
+---
+
+<div
+    class="epi-globalToolbar"
+    style="
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 12px;
+        background: rgb(255, 255, 255);
+        border-bottom: 1px solid rgb(220, 220, 220);
+        font-family: Inter, sans-serif;
+        font-size: 13px;
+        color: rgb(74, 74, 74);
+        box-sizing: border-box;
+        position: relative;
+        z-index: 50;
+    "
+>
+    <ToolbarButton label="Create Experience" />
+    <!-- <VariationsSelector variations={variations} selectedVariation={selectedVariation} /> -->
+    <slot />
+</div>

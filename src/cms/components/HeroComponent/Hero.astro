@@ -12,9 +12,10 @@ import LinkButton from '../ButtonComponent/LinkButton.astro';
 import { getButtonStyles } from '../ButtonComponent/ButtonStyling';
 import { isEditContext, getLink } from '../../shared/utils.ts';
 import type { ButtonLinkData } from '../../shared/utils.ts';
+import { resolveCmsOrigin } from '../../../lib/domain-helpers';
 
 const isCmsEdit = isEditContext(Astro.url);
-const currentDomain = Astro.url.origin;
+const currentDomain = resolveCmsOrigin(Astro.url.origin);
 
 export interface Props {
     key: string;

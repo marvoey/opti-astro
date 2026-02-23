@@ -5,6 +5,7 @@ import type { ContentPayload } from './graphql/shared/ContentPayload';
 import { localeToSdkLocale } from './lib/locale-helpers';
 import { checkAdminAuth } from './pages/opti-admin/auth-opti-admin';
 import { checkRedirects } from './lib/redirect-utils';
+import { resolveCmsHost } from './lib/domain-helpers';
 
 // Cache for placeholder data to avoid repeated GraphQL calls
 const placeholderCache = new Map<string, Map<string, string>>();
@@ -31,8 +32,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (response.headers.get('content-type')?.includes('text/html')) {
     const html = await response.text();
 
-    // Extract domain from URL
-    const domain = context.url.host;
+    // Extract domain from URL, remapping aliases to the CMS-registered host
+    const domain = resolveCmsHost(context.url.host);
     // Use Astro's current locale
     const locale = localeToSdkLocale(context.currentLocale) as Locales;
     
