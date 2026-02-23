@@ -10,7 +10,94 @@ directive @recursive(
   depth: Int = 1
 ) on FIELD | INLINE_FRAGMENT
 
-type ArticleList implements IData & _IComponent & _IContent {
+type AmazonHeroSection implements IData & _IComponent & _IContent & _IItem {
+  BackgroundImage: ContentReference
+  CardDescription(highlight: HighlightOptions): String
+  CardImage: ContentReference
+  CardLink: [Link]
+  CardTitle(highlight: HighlightOptions): String
+  Description(highlight: HighlightOptions): String
+  Headline(highlight: HighlightOptions): String
+  ScrollDownText: String
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+}
+
+type AmazonHeroSectionAutocomplete {
+  BackgroundImage: ContentReferenceAutocomplete
+  CardImage: ContentReferenceAutocomplete
+  CardLink: LinkAutocomplete
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+}
+
+type AmazonHeroSectionFacet {
+  BackgroundImage: ContentReferenceFacet
+  CardDescription(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  CardImage: ContentReferenceFacet
+  CardLink: LinkFacet
+  CardTitle(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  Description(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  Headline(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+}
+
+input AmazonHeroSectionOrderByInput {
+  BackgroundImage: ContentReferenceOrderByInput
+  CardDescription: OrderBy
+  CardImage: ContentReferenceOrderByInput
+  CardLink: LinkOrderByInput
+  CardTitle: OrderBy
+  Description: OrderBy
+  Headline: OrderBy
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+}
+
+type AmazonHeroSectionOutput {
+  autocomplete: AmazonHeroSectionAutocomplete
+  cursor: String
+  facets: AmazonHeroSectionFacet
+  item: AmazonHeroSection
+  items: [AmazonHeroSection]
+  total(all: Boolean): Int
+}
+
+input AmazonHeroSectionWhereInput {
+  BackgroundImage: ContentReferenceWhereInput
+  CardDescription: SearchableStringFilterInput
+  CardImage: ContentReferenceWhereInput
+  CardLink: LinkWhereInput
+  CardTitle: SearchableStringFilterInput
+  Description: SearchableStringFilterInput
+  Headline: SearchableStringFilterInput
+  _and: [AmazonHeroSectionWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [AmazonHeroSectionWhereInput]
+  _or: [AmazonHeroSectionWhereInput]
+}
+
+type ArticleList implements IData & _IComponent & _IContent & _IItem {
   ArticleRoot: ContentReference
   IncludeAllSites: Boolean
   NumberOfArticles: Int
@@ -19,27 +106,32 @@ type ArticleList implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type ArticleListAutocomplete {
   ArticleRoot: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type ArticleListFacet {
   ArticleRoot: ContentReferenceFacet
   Title(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input ArticleListOrderByInput {
   ArticleRoot: ContentReferenceOrderByInput
   Title: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -64,13 +156,14 @@ input ArticleListWhereInput {
   Title: SearchableStringFilterInput
   _and: [ArticleListWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [ArticleListWhereInput]
   _or: [ArticleListWhereInput]
 }
 
-type ArticlePage implements IData & _IContent & _IPage {
+type ArticlePage implements IData & _IContent & _IItem & _IPage {
   Author(highlight: HighlightOptions): String
   AuthorEmail(highlight: HighlightOptions): String
   Body: SearchableRichText
@@ -79,21 +172,23 @@ type ArticlePage implements IData & _IContent & _IPage {
   PromoImage: ContentReference
   SeoSettings: PageSeoSettingsProperty
   SubHeading(highlight: HighlightOptions): String
-  Tags: [String]
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type ArticlePageAutocomplete {
   PromoImage: ContentReferenceAutocomplete
   SeoSettings: PageSeoSettingsPropertyAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -106,6 +201,7 @@ type ArticlePageFacet {
   PromoImage: ContentReferenceFacet
   SeoSettings: PageSeoSettingsPropertyFacet
   SubHeading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -118,6 +214,7 @@ input ArticlePageOrderByInput {
   PromoImage: ContentReferenceOrderByInput
   SeoSettings: PageSeoSettingsPropertyOrderByInput
   SubHeading: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -148,29 +245,93 @@ input ArticlePageWhereInput {
   SubHeading: SearchableStringFilterInput
   _and: [ArticlePageWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [ArticlePageWhereInput]
   _or: [ArticlePageWhereInput]
 }
 
-type BlankExperience implements IData & _IContent & _IExperience & _IPage {
+type AutoGeneratedSection implements IData & _IComponent & _IContent & _IItem & _ISection {
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+  composition: CompositionStructureNode
+}
+
+type AutoGeneratedSectionAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+  composition: CompositionStructureNodeAutocomplete
+}
+
+type AutoGeneratedSectionFacet {
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+  composition: CompositionStructureNodeFacet
+}
+
+input AutoGeneratedSectionOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+  composition: CompositionStructureNodeOrderByInput
+}
+
+type AutoGeneratedSectionOutput {
+  autocomplete: AutoGeneratedSectionAutocomplete
+  cursor: String
+  facets: AutoGeneratedSectionFacet
+  item: AutoGeneratedSection
+  items: [AutoGeneratedSection]
+  total(all: Boolean): Int
+}
+
+input AutoGeneratedSectionWhereInput {
+  _and: [AutoGeneratedSectionWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [AutoGeneratedSectionWhereInput]
+  _or: [AutoGeneratedSectionWhereInput]
+  composition: CompositionStructureNodeWhereInput
+}
+
+type BlankExperience implements IData & _IContent & _IExperience & _IItem & _IPage {
   BlankExperienceSeoSettings: PageSeoSettingsProperty
   PageAdminSettings: PageAdminSettingsProperty
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
 type BlankExperienceAutocomplete {
   BlankExperienceSeoSettings: PageSeoSettingsPropertyAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   composition: CompositionStructureNodeAutocomplete
 }
@@ -178,6 +339,7 @@ type BlankExperienceAutocomplete {
 type BlankExperienceFacet {
   BlankExperienceSeoSettings: PageSeoSettingsPropertyFacet
   PageAdminSettings(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   composition: CompositionStructureNodeFacet
 }
@@ -185,6 +347,7 @@ type BlankExperienceFacet {
 input BlankExperienceOrderByInput {
   BlankExperienceSeoSettings: PageSeoSettingsPropertyOrderByInput
   PageAdminSettings: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -210,6 +373,7 @@ input BlankExperienceWhereInput {
   PageAdminSettings: StringFilterInput
   _and: [BlankExperienceWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [BlankExperienceWhereInput]
@@ -217,30 +381,35 @@ input BlankExperienceWhereInput {
   composition: CompositionStructureNodeWhereInput
 }
 
-type BlankSection implements IData & _IComponent & _IContent & _ISection {
+type BlankSection implements IData & _IComponent & _IContent & _IItem & _ISection {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
 type BlankSectionAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   composition: CompositionStructureNodeAutocomplete
 }
 
 type BlankSectionFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   composition: CompositionStructureNodeFacet
 }
 
 input BlankSectionOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -264,6 +433,7 @@ type BlankSectionOutput {
 input BlankSectionWhereInput {
   _and: [BlankSectionWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [BlankSectionWhereInput]
@@ -288,34 +458,39 @@ input BoolFilterInput {
   notEq: Boolean
 }
 
-type Button implements IData & _IComponent & _IContent {
+type Button implements IData & _IComponent & _IContent & _IItem {
   ButtonLabel(highlight: HighlightOptions): String
   ButtonLink: Link
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type ButtonAutocomplete {
   ButtonLink: LinkAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type ButtonFacet {
   ButtonLabel(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   ButtonLink: LinkFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input ButtonOrderByInput {
   ButtonLabel: OrderBy
   ButtonLink: LinkOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -340,37 +515,43 @@ input ButtonWhereInput {
   ButtonLink: LinkWhereInput
   _and: [ButtonWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [ButtonWhereInput]
   _or: [ButtonWhereInput]
 }
 
-type CallToAction implements IData & _IComponent & _IContent {
+type CallToAction implements IData & _IComponent & _IContent & _IItem {
   Links: [Link]
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type CallToActionAutocomplete {
   Links: LinkAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type CallToActionFacet {
   Links: LinkFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input CallToActionOrderByInput {
   Links: LinkOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -394,13 +575,14 @@ input CallToActionWhereInput {
   Links: LinkWhereInput
   _and: [CallToActionWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [CallToActionWhereInput]
   _or: [CallToActionWhereInput]
 }
 
-type Card implements IData & _IComponent & _IContent {
+type Card implements IData & _IComponent & _IContent & _IItem {
   Asset: ContentReference
   Body: SearchableRichText
   DisplayAs: String
@@ -411,16 +593,19 @@ type Card implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type CardAutocomplete {
   Asset: ContentReferenceAutocomplete
   Links: LinkAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -430,6 +615,7 @@ type CardFacet {
   Heading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Links: LinkFacet
   SubHeading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -439,6 +625,7 @@ input CardOrderByInput {
   Heading: OrderBy
   Links: LinkOrderByInput
   SubHeading: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -466,13 +653,14 @@ input CardWhereInput {
   SubHeading: SearchableStringFilterInput
   _and: [CardWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [CardWhereInput]
   _or: [CardWhereInput]
 }
 
-type Carousel implements IData & _IComponent & _IContent {
+type Carousel implements IData & _IComponent & _IContent & _IItem {
   Assets: [Link]
   Heading(highlight: HighlightOptions): String
   Link: Link
@@ -480,16 +668,19 @@ type Carousel implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type CarouselAutocomplete {
   Assets: LinkAutocomplete
   Link: LinkAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -497,6 +688,7 @@ type CarouselFacet {
   Assets: LinkFacet
   Heading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Link: LinkFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -504,6 +696,7 @@ input CarouselOrderByInput {
   Assets: LinkOrderByInput
   Heading: OrderBy
   Link: LinkOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -529,39 +722,45 @@ input CarouselWhereInput {
   Link: LinkWhereInput
   _and: [CarouselWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [CarouselWhereInput]
   _or: [CarouselWhereInput]
 }
 
-type Collapse implements IData & _IComponent & _IContent {
+type Collapse implements IData & _IComponent & _IContent & _IItem {
   Body: SearchableRichText
   Heading(highlight: HighlightOptions): String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type CollapseAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type CollapseFacet {
   Body: SearchableRichTextFacet
   Heading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input CollapseOrderByInput {
   Body: SearchableRichTextOrderByInput
   Heading: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -586,6 +785,7 @@ input CollapseWhereInput {
   Heading: SearchableStringFilterInput
   _and: [CollapseWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [CollapseWhereInput]
@@ -793,27 +993,36 @@ input ContentUrlWhereInput {
   type: StringFilterInput
 }
 
-type CssMedia implements IData & _IContent & _IMedia {
+type CssMedia implements IData & _IAssetItem & _IContent & _IItem & _IMedia {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type CssMediaAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type CssMediaFacet {
+  _assetMetadata: _AssetMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input CssMediaOrderByInput {
+  _assetMetadata: _AssetMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -835,7 +1044,9 @@ type CssMediaOutput {
 
 input CssMediaWhereInput {
   _and: [CssMediaWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [CssMediaWhereInput]
@@ -851,6 +1062,7 @@ type Data implements IData {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 input DataOrderByInput {
@@ -944,29 +1156,34 @@ input Decay {
   scale: Int = 10
 }
 
-type Divider implements IData & _IComponent & _IContent {
+type Divider implements IData & _IComponent & _IContent & _IItem {
   DividerDirection: String
   DividerText: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type DividerAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type DividerFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input DividerOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -989,13 +1206,14 @@ type DividerOutput {
 input DividerWhereInput {
   _and: [DividerWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [DividerWhereInput]
   _or: [DividerWhereInput]
 }
 
-type FacetedSearch implements IData & _IComponent & _IContent {
+type FacetedSearch implements IData & _IComponent & _IContent & _IItem {
   DefaultFiltersState: String
   DefaultSortOrder: String
   DefaultViewMode: String
@@ -1014,14 +1232,17 @@ type FacetedSearch implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type FacetedSearchAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -1030,6 +1251,7 @@ type FacetedSearchFacet {
   NoResultsMessage(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   SearchPlaceholder(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Title(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -1038,6 +1260,7 @@ input FacetedSearchOrderByInput {
   NoResultsMessage: OrderBy
   SearchPlaceholder: OrderBy
   Title: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1064,6 +1287,7 @@ input FacetedSearchWhereInput {
   Title: SearchableStringFilterInput
   _and: [FacetedSearchWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [FacetedSearchWhereInput]
@@ -1083,28 +1307,33 @@ enum FactorModifier {
   SQUARE
 }
 
-type FolderPage implements IData & _IContent & _IPage {
+type FolderPage implements IData & _IContent & _IItem & _IPage {
   FolderDescription: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type FolderPageAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type FolderPageFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input FolderPageOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1127,33 +1356,43 @@ type FolderPageOutput {
 input FolderPageWhereInput {
   _and: [FolderPageWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [FolderPageWhereInput]
   _or: [FolderPageWhereInput]
 }
 
-type GenericMedia implements IData & _IContent & _IMedia {
+type GenericMedia implements IData & _IAssetItem & _IContent & _IItem & _IMedia {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type GenericMediaAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type GenericMediaFacet {
+  _assetMetadata: _AssetMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input GenericMediaOrderByInput {
+  _assetMetadata: _AssetMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1175,41 +1414,48 @@ type GenericMediaOutput {
 
 input GenericMediaWhereInput {
   _and: [GenericMediaWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [GenericMediaWhereInput]
   _or: [GenericMediaWhereInput]
 }
 
-type Grid implements IData & _IComponent & _IContent {
+type Grid implements IData & _IComponent & _IContent & _IItem {
   Items: [_IContent]
   RichText: SearchableRichText
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type GridAutocomplete {
   Items: _IContentAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type GridFacet {
   Items: _IContentFacet
   RichText: SearchableRichTextFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input GridOrderByInput {
   Items: _IContentOrderByInput
   RichText: SearchableRichTextOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1234,13 +1480,14 @@ input GridWhereInput {
   RichText: SearchableRichTextWhereInput
   _and: [GridWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [GridWhereInput]
   _or: [GridWhereInput]
 }
 
-type Hero implements IData & _IComponent & _IContent {
+type Hero implements IData & _IComponent & _IContent & _IItem {
   Body: SearchableRichText
   Heading(highlight: HighlightOptions): String
   Image: ContentReference
@@ -1251,17 +1498,20 @@ type Hero implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type HeroAutocomplete {
   Image: ContentReferenceAutocomplete
   Links: LinkAutocomplete
   Video: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -1272,6 +1522,7 @@ type HeroFacet {
   Links: LinkFacet
   SubHeading(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Video: ContentReferenceFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -1282,6 +1533,7 @@ input HeroOrderByInput {
   Links: LinkOrderByInput
   SubHeading: OrderBy
   Video: ContentReferenceOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1310,6 +1562,7 @@ input HeroWhereInput {
   Video: ContentReferenceWhereInput
   _and: [HeroWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [HeroWhereInput]
@@ -1485,6 +1738,7 @@ interface IData {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 interface IInstanceMetadata implements IContentMetadata {
@@ -1579,6 +1833,7 @@ interface Icmp_Asset implements IData {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 interface Icmp_Field implements IData {
@@ -1594,6 +1849,7 @@ interface Icmp_Field implements IData {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type Icmp_FieldAutocomplete {
@@ -1636,7 +1892,7 @@ input Icmp_FieldWhereInput {
   _or: [Icmp_FieldWhereInput]
 }
 
-type Iframe implements IData & _IComponent & _IContent {
+type Iframe implements IData & _IComponent & _IContent & _IItem {
   IframePageUrl: String
   ManualHeight: Int
   Title(highlight: HighlightOptions): String
@@ -1645,24 +1901,29 @@ type Iframe implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type IframeAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type IframeFacet {
   Title(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input IframeOrderByInput {
   Title: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1686,61 +1947,78 @@ input IframeWhereInput {
   Title: SearchableStringFilterInput
   _and: [IframeWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [IframeWhereInput]
   _or: [IframeWhereInput]
 }
 
-type Image implements IData & _IComponent & _IContent {
+type Image implements IData & _IComponent & _IContent & _IItem {
   AltText(highlight: HighlightOptions): String
   Image: ContentReference
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type ImageAutocomplete {
   Image: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type ImageFacet {
   AltText(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Image: ContentReferenceFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
-type ImageMedia implements IData & _IContent & _IImage & _IMedia {
+type ImageMedia implements IData & _IAssetItem & _IContent & _IImage & _IImageItem & _IItem & _IMedia {
   AltText(highlight: HighlightOptions): String
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _imageMetadata: _ImageMetadata
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type ImageMediaAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type ImageMediaFacet {
   AltText(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _assetMetadata: _AssetMetadataFacet
+  _imageMetadata: _ImageMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input ImageMediaOrderByInput {
   AltText: OrderBy
+  _assetMetadata: _AssetMetadataOrderByInput
+  _imageMetadata: _ImageMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1763,7 +2041,10 @@ type ImageMediaOutput {
 input ImageMediaWhereInput {
   AltText: SearchableStringFilterInput
   _and: [ImageMediaWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _imageMetadata: _ImageMetadataWhereInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [ImageMediaWhereInput]
@@ -1773,6 +2054,7 @@ input ImageMediaWhereInput {
 input ImageOrderByInput {
   AltText: OrderBy
   Image: ContentReferenceOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1797,6 +2079,7 @@ input ImageWhereInput {
   Image: ContentReferenceWhereInput
   _and: [ImageWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [ImageWhereInput]
@@ -1894,7 +2177,7 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](https:/
 """
 scalar JSON
 
-type LandingPage implements IData & _IContent & _IPage {
+type LandingPage implements IData & _IContent & _IItem & _IPage {
   MainContentArea: [_IContent]
   PageAdminSettings: PageAdminSettingsProperty
   SeoSettings: PageSeoSettingsProperty
@@ -1903,17 +2186,20 @@ type LandingPage implements IData & _IContent & _IPage {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type LandingPageAutocomplete {
   MainContentArea: _IContentAutocomplete
   SeoSettings: PageSeoSettingsPropertyAutocomplete
   TopContentArea: _IContentAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -1922,6 +2208,7 @@ type LandingPageFacet {
   PageAdminSettings(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   SeoSettings: PageSeoSettingsPropertyFacet
   TopContentArea: _IContentFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -1930,6 +2217,7 @@ input LandingPageOrderByInput {
   PageAdminSettings: OrderBy
   SeoSettings: PageSeoSettingsPropertyOrderByInput
   TopContentArea: _IContentOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -1956,6 +2244,7 @@ input LandingPageWhereInput {
   TopContentArea: _IContentWhereInput
   _and: [LandingPageWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [LandingPageWhereInput]
@@ -2039,33 +2328,39 @@ input LinkWhereInput {
 enum Locales {
   ALL
   NEUTRAL
+  de
   en
   en_GB
+  en_NZ
   nl_BE
   sv
 }
 
-type Marvin5Experience implements IData & _IContent & _IExperience & _IPage {
+type Marvin5Experience implements IData & _IContent & _IExperience & _IItem & _IPage {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
   field1(highlight: HighlightOptions): String
   field2(highlight: HighlightOptions): String
 }
 
 type Marvin5ExperienceAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   composition: CompositionStructureNodeAutocomplete
 }
 
 type Marvin5ExperienceFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   composition: CompositionStructureNodeFacet
   field1(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
@@ -2073,6 +2368,7 @@ type Marvin5ExperienceFacet {
 }
 
 input Marvin5ExperienceOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2098,6 +2394,7 @@ type Marvin5ExperienceOutput {
 input Marvin5ExperienceWhereInput {
   _and: [Marvin5ExperienceWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [Marvin5ExperienceWhereInput]
@@ -2105,6 +2402,66 @@ input Marvin5ExperienceWhereInput {
   composition: CompositionStructureNodeWhereInput
   field1: SearchableStringFilterInput
   field2: SearchableStringFilterInput
+}
+
+type MarvinExperience implements IData & _IContent & _IExperience & _IItem & _IPage {
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+  composition: CompositionStructureNode
+}
+
+type MarvinExperienceAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+  composition: CompositionStructureNodeAutocomplete
+}
+
+type MarvinExperienceFacet {
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+  composition: CompositionStructureNodeFacet
+}
+
+input MarvinExperienceOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+  composition: CompositionStructureNodeOrderByInput
+}
+
+type MarvinExperienceOutput {
+  autocomplete: MarvinExperienceAutocomplete
+  cursor: String
+  facets: MarvinExperienceFacet
+  item: MarvinExperience
+  items: [MarvinExperience]
+  total(all: Boolean): Int
+}
+
+input MarvinExperienceWhereInput {
+  _and: [MarvinExperienceWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [MarvinExperienceWhereInput]
+  _or: [MarvinExperienceWhereInput]
+  composition: CompositionStructureNodeWhereInput
 }
 
 type MediaMetadata implements IContentMetadata & IInstanceMetadata & IMediaMetadata {
@@ -2135,7 +2492,7 @@ type MediaMetadata implements IContentMetadata & IInstanceMetadata & IMediaMetad
   version: String
 }
 
-type MenuItem implements IData & _IComponent & _IContent {
+type MenuItem implements IData & _IComponent & _IContent & _IItem {
   Link: Link
   LinkText: String
   SubMenuItems: [_IContent]
@@ -2143,28 +2500,33 @@ type MenuItem implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type MenuItemAutocomplete {
   Link: LinkAutocomplete
   SubMenuItems: _IContentAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type MenuItemFacet {
   Link: LinkFacet
   SubMenuItems: _IContentFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input MenuItemOrderByInput {
   Link: LinkOrderByInput
   SubMenuItems: _IContentOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2189,34 +2551,40 @@ input MenuItemWhereInput {
   SubMenuItems: _IContentWhereInput
   _and: [MenuItemWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [MenuItemWhereInput]
   _or: [MenuItemWhereInput]
 }
 
-type MockupPage implements IData & _IContent & _IPage {
+type MockupPage implements IData & _IContent & _IItem & _IPage {
   HtmlMockup: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type MockupPageAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type MockupPageFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input MockupPageOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2239,6 +2607,7 @@ type MockupPageOutput {
 input MockupPageWhereInput {
   _and: [MockupPageWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [MockupPageWhereInput]
@@ -2258,29 +2627,34 @@ input NumberFactor {
   value: Float
 }
 
-type OdpForm implements IData & _IComponent & _IContent {
+type OdpForm implements IData & _IComponent & _IContent & _IItem {
   SelectorName: String
   SelectorType: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OdpFormAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OdpFormFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OdpFormOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2303,13 +2677,14 @@ type OdpFormOutput {
 input OdpFormWhereInput {
   _and: [OdpFormWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OdpFormWhereInput]
   _or: [OdpFormWhereInput]
 }
 
-type OptiFormsChoiceElement implements IData & _IComponent & _IContent {
+type OptiFormsChoiceElement implements IData & _IComponent & _IContent & _IItem {
   AllowMultiSelect: Boolean
   Label: String
   Options: JSON
@@ -2319,22 +2694,27 @@ type OptiFormsChoiceElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsChoiceElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsChoiceElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsChoiceElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2357,13 +2737,79 @@ type OptiFormsChoiceElementOutput {
 input OptiFormsChoiceElementWhereInput {
   _and: [OptiFormsChoiceElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsChoiceElementWhereInput]
   _or: [OptiFormsChoiceElementWhereInput]
 }
 
-type OptiFormsContainerData implements IData & _IComponent & _IContent & _ISection {
+type OptiFormsCondition implements IData & _IComponent & _IContent & _IItem {
+  ComparisonOperator: String
+  ComparisonValue: String
+  DependsOnField: String
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+}
+
+type OptiFormsConditionAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+}
+
+type OptiFormsConditionFacet {
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+}
+
+input OptiFormsConditionOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+}
+
+type OptiFormsConditionOutput {
+  autocomplete: OptiFormsConditionAutocomplete
+  cursor: String
+  facets: OptiFormsConditionFacet
+  item: OptiFormsCondition
+  items: [OptiFormsCondition]
+  total(all: Boolean): Int
+}
+
+type OptiFormsConditionProperty {
+  ComparisonOperator: String
+  ComparisonValue: String
+  DependsOnField: String
+}
+
+input OptiFormsConditionWhereInput {
+  _and: [OptiFormsConditionWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [OptiFormsConditionWhereInput]
+  _or: [OptiFormsConditionWhereInput]
+}
+
+type OptiFormsContainerData implements IData & _IComponent & _IContent & _IItem & _ISection {
+  DependencyRules: [OptiFormsDependencyRuleProperty]
   Description: String
   ResetConfirmationMessage: String
   ShowSummaryMessageAfterSubmission: Boolean
@@ -2374,28 +2820,35 @@ type OptiFormsContainerData implements IData & _IComponent & _IContent & _ISecti
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
 type OptiFormsContainerDataAutocomplete {
   SubmitUrl: ContentUrlAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   composition: CompositionStructureNodeAutocomplete
 }
 
 type OptiFormsContainerDataFacet {
+  DependencyRules: OptiFormsDependencyRulePropertyFacet
   SubmitUrl: ContentUrlFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   composition: CompositionStructureNodeFacet
 }
 
 input OptiFormsContainerDataOrderByInput {
+  DependencyRules: OptiFormsDependencyRulePropertyOrderByInput
   SubmitUrl: ContentUrlOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2417,9 +2870,11 @@ type OptiFormsContainerDataOutput {
 }
 
 input OptiFormsContainerDataWhereInput {
+  DependencyRules: OptiFormsDependencyRulePropertyWhereInput
   SubmitUrl: ContentUrlWhereInput
   _and: [OptiFormsContainerDataWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsContainerDataWhereInput]
@@ -2427,7 +2882,88 @@ input OptiFormsContainerDataWhereInput {
   composition: CompositionStructureNodeWhereInput
 }
 
-type OptiFormsNumberElement implements IData & _IComponent & _IContent {
+type OptiFormsDependencyRule implements IData & _IComponent & _IContent & _IItem {
+  ConditionCombination: String
+  Conditions: [OptiFormsConditionProperty]
+  SatisfiedAction: String
+  TargetElement: String
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+}
+
+type OptiFormsDependencyRuleAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+}
+
+type OptiFormsDependencyRuleFacet {
+  Conditions(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+}
+
+input OptiFormsDependencyRuleOrderByInput {
+  Conditions: OrderBy
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+}
+
+type OptiFormsDependencyRuleOutput {
+  autocomplete: OptiFormsDependencyRuleAutocomplete
+  cursor: String
+  facets: OptiFormsDependencyRuleFacet
+  item: OptiFormsDependencyRule
+  items: [OptiFormsDependencyRule]
+  total(all: Boolean): Int
+}
+
+type OptiFormsDependencyRuleProperty {
+  ConditionCombination: String
+  Conditions: [OptiFormsConditionProperty]
+  SatisfiedAction: String
+  TargetElement: String
+}
+
+type OptiFormsDependencyRulePropertyFacet {
+  Conditions(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+}
+
+input OptiFormsDependencyRulePropertyOrderByInput {
+  Conditions: OrderBy
+}
+
+input OptiFormsDependencyRulePropertyWhereInput {
+  Conditions: StringFilterInput
+}
+
+input OptiFormsDependencyRuleWhereInput {
+  Conditions: StringFilterInput
+  _and: [OptiFormsDependencyRuleWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [OptiFormsDependencyRuleWhereInput]
+  _or: [OptiFormsDependencyRuleWhereInput]
+}
+
+type OptiFormsNumberElement implements IData & _IComponent & _IContent & _IItem {
   AutoComplete: String
   Label: String
   Placeholder: String
@@ -2438,22 +2974,27 @@ type OptiFormsNumberElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsNumberElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsNumberElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsNumberElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2476,13 +3017,14 @@ type OptiFormsNumberElementOutput {
 input OptiFormsNumberElementWhereInput {
   _and: [OptiFormsNumberElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsNumberElementWhereInput]
   _or: [OptiFormsNumberElementWhereInput]
 }
 
-type OptiFormsRangeElement implements IData & _IComponent & _IContent {
+type OptiFormsRangeElement implements IData & _IComponent & _IContent & _IItem {
   Increment: Int
   Label: String
   Max: Int
@@ -2493,22 +3035,27 @@ type OptiFormsRangeElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsRangeElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsRangeElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsRangeElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2531,35 +3078,41 @@ type OptiFormsRangeElementOutput {
 input OptiFormsRangeElementWhereInput {
   _and: [OptiFormsRangeElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsRangeElementWhereInput]
   _or: [OptiFormsRangeElementWhereInput]
 }
 
-type OptiFormsResetElement implements IData & _IComponent & _IContent {
+type OptiFormsResetElement implements IData & _IComponent & _IContent & _IItem {
   Label: String
   Tooltip: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsResetElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsResetElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsResetElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2582,13 +3135,14 @@ type OptiFormsResetElementOutput {
 input OptiFormsResetElementWhereInput {
   _and: [OptiFormsResetElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsResetElementWhereInput]
   _or: [OptiFormsResetElementWhereInput]
 }
 
-type OptiFormsSelectionElement implements IData & _IComponent & _IContent {
+type OptiFormsSelectionElement implements IData & _IComponent & _IContent & _IItem {
   AllowMultiSelect: Boolean
   AutoComplete: String
   Label: String
@@ -2600,22 +3154,27 @@ type OptiFormsSelectionElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsSelectionElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsSelectionElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsSelectionElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2638,35 +3197,41 @@ type OptiFormsSelectionElementOutput {
 input OptiFormsSelectionElementWhereInput {
   _and: [OptiFormsSelectionElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsSelectionElementWhereInput]
   _or: [OptiFormsSelectionElementWhereInput]
 }
 
-type OptiFormsSubmitElement implements IData & _IComponent & _IContent {
+type OptiFormsSubmitElement implements IData & _IComponent & _IContent & _IItem {
   Label: String
   Tooltip: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsSubmitElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsSubmitElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsSubmitElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2689,13 +3254,14 @@ type OptiFormsSubmitElementOutput {
 input OptiFormsSubmitElementWhereInput {
   _and: [OptiFormsSubmitElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsSubmitElementWhereInput]
   _or: [OptiFormsSubmitElementWhereInput]
 }
 
-type OptiFormsTextareaElement implements IData & _IComponent & _IContent {
+type OptiFormsTextareaElement implements IData & _IComponent & _IContent & _IItem {
   AutoComplete: String
   Label: String
   Placeholder: String
@@ -2706,22 +3272,27 @@ type OptiFormsTextareaElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsTextareaElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsTextareaElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsTextareaElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2744,13 +3315,14 @@ type OptiFormsTextareaElementOutput {
 input OptiFormsTextareaElementWhereInput {
   _and: [OptiFormsTextareaElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsTextareaElementWhereInput]
   _or: [OptiFormsTextareaElementWhereInput]
 }
 
-type OptiFormsTextboxElement implements IData & _IComponent & _IContent {
+type OptiFormsTextboxElement implements IData & _IComponent & _IContent & _IItem {
   AutoComplete: String
   Label: String
   Placeholder: String
@@ -2761,22 +3333,27 @@ type OptiFormsTextboxElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsTextboxElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsTextboxElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsTextboxElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2799,13 +3376,14 @@ type OptiFormsTextboxElementOutput {
 input OptiFormsTextboxElementWhereInput {
   _and: [OptiFormsTextboxElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsTextboxElementWhereInput]
   _or: [OptiFormsTextboxElementWhereInput]
 }
 
-type OptiFormsUrlElement implements IData & _IComponent & _IContent {
+type OptiFormsUrlElement implements IData & _IComponent & _IContent & _IItem {
   Label: String
   Placeholder: String
   PredefinedValue: String
@@ -2815,22 +3393,27 @@ type OptiFormsUrlElement implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type OptiFormsUrlElementAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type OptiFormsUrlElementFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input OptiFormsUrlElementOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2853,6 +3436,7 @@ type OptiFormsUrlElementOutput {
 input OptiFormsUrlElementWhereInput {
   _and: [OptiFormsUrlElementWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [OptiFormsUrlElementWhereInput]
@@ -2869,28 +3453,33 @@ enum OrderByFacetType {
   VALUE
 }
 
-type PageAdminSettings implements IData & _IComponent & _IContent {
+type PageAdminSettings implements IData & _IComponent & _IContent & _IItem {
   EnableExternalPreview: Boolean
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type PageAdminSettingsAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type PageAdminSettingsFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input PageAdminSettingsOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2917,13 +3506,14 @@ type PageAdminSettingsProperty {
 input PageAdminSettingsWhereInput {
   _and: [PageAdminSettingsWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [PageAdminSettingsWhereInput]
   _or: [PageAdminSettingsWhereInput]
 }
 
-type PageSeoSettings implements IData & _IComponent & _IContent {
+type PageSeoSettings implements IData & _IComponent & _IContent & _IItem {
   DisplayInMenu: Boolean
   GraphType: String
   Indexing: Boolean
@@ -2934,18 +3524,18 @@ type PageSeoSettings implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
-  canonical: String
-  newMetaTag: String
-  new_property: String
+  _track: String
 }
 
 type PageSeoSettingsAutocomplete {
   SharingImage: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -2953,6 +3543,7 @@ type PageSeoSettingsFacet {
   MetaDescription(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   MetaTitle(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   SharingImage: ContentReferenceFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -2960,6 +3551,7 @@ input PageSeoSettingsOrderByInput {
   MetaDescription: OrderBy
   MetaTitle: OrderBy
   SharingImage: ContentReferenceOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -2986,9 +3578,6 @@ type PageSeoSettingsProperty {
   MetaDescription(highlight: HighlightOptions): String
   MetaTitle(highlight: HighlightOptions): String
   SharingImage: ContentReference
-  canonical: String
-  newMetaTag: String
-  new_property: String
 }
 
 type PageSeoSettingsPropertyAutocomplete {
@@ -3019,36 +3608,42 @@ input PageSeoSettingsWhereInput {
   SharingImage: ContentReferenceWhereInput
   _and: [PageSeoSettingsWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [PageSeoSettingsWhereInput]
   _or: [PageSeoSettingsWhereInput]
 }
 
-type Paragraph implements IData & _IComponent & _IContent {
+type Paragraph implements IData & _IComponent & _IContent & _IItem {
   Text: SearchableRichText
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type ParagraphAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type ParagraphFacet {
   Text: SearchableRichTextFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input ParagraphOrderByInput {
   Text: SearchableRichTextOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3072,6 +3667,7 @@ input ParagraphWhereInput {
   Text: SearchableRichTextWhereInput
   _and: [ParagraphWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [ParagraphWhereInput]
@@ -3084,29 +3680,34 @@ input PinnedInput {
   phrase: String
 }
 
-type PlaceholderItem implements IData & _IComponent & _IContent {
+type PlaceholderItem implements IData & _IComponent & _IContent & _IItem {
   Key: String
   Value: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type PlaceholderItemAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type PlaceholderItemFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input PlaceholderItemOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3129,41 +3730,47 @@ type PlaceholderItemOutput {
 input PlaceholderItemWhereInput {
   _and: [PlaceholderItemWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [PlaceholderItemWhereInput]
   _or: [PlaceholderItemWhereInput]
 }
 
-type PlaceholdersConfiguration implements IData & _IComponent & _IContent {
+type PlaceholdersConfiguration implements IData & _IComponent & _IContent & _IItem {
   Domain: String
   Placeholders: [_IContent]
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type PlaceholdersConfigurationAutocomplete {
   Domain(limit: Int! = 10, value: String!): [String]
   Placeholders: _IContentAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type PlaceholdersConfigurationFacet {
   Domain(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Placeholders: _IContentFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input PlaceholdersConfigurationOrderByInput {
   Domain: OrderBy
   Placeholders: _IContentOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3188,13 +3795,14 @@ input PlaceholdersConfigurationWhereInput {
   Placeholders: _IContentWhereInput
   _and: [PlaceholdersConfigurationWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [PlaceholdersConfigurationWhereInput]
   _or: [PlaceholdersConfigurationWhereInput]
 }
 
-type PressRelease implements IData & _IContent & _IPage {
+type PressRelease implements IData & _IContent & _IItem & _IPage {
   Author(highlight: HighlightOptions): String
   BodyContent: SearchableRichText
   Summary(highlight: HighlightOptions): String
@@ -3203,14 +3811,17 @@ type PressRelease implements IData & _IContent & _IPage {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type PressReleaseAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -3219,6 +3830,7 @@ type PressReleaseFacet {
   BodyContent: SearchableRichTextFacet
   Summary(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Title(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -3227,6 +3839,7 @@ input PressReleaseOrderByInput {
   BodyContent: SearchableRichTextOrderByInput
   Summary: OrderBy
   Title: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3253,6 +3866,7 @@ input PressReleaseWhereInput {
   Title: SearchableStringFilterInput
   _and: [PressReleaseWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [PressReleaseWhereInput]
@@ -3260,169 +3874,187 @@ input PressReleaseWhereInput {
 }
 
 type Query {
-  ArticleList(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticleListOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ArticleListWhereInput): ArticleListOutput
-  ArticlePage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticlePageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ArticlePageWhereInput): ArticlePageOutput
-  BlankExperience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: BlankExperienceWhereInput): BlankExperienceOutput
-  BlankSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: BlankSectionWhereInput): BlankSectionOutput
-  Button(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ButtonOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ButtonWhereInput): ButtonOutput
-  CallToAction(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CallToActionOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CallToActionWhereInput): CallToActionOutput
-  Card(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CardWhereInput): CardOutput
-  Carousel(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CarouselOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CarouselWhereInput): CarouselOutput
-  Collapse(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CollapseOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CollapseWhereInput): CollapseOutput
-  CssMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CssMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CssMediaWhereInput): CssMediaOutput
-  Data(cursor: String, ids: [String], limit: Int! = 20, locale: [system_Locales], orderBy: DataOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: DataWhereInput): DataOutput
-  Divider(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: DividerOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: DividerWhereInput): DividerOutput
-  FacetedSearch(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FacetedSearchOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: FacetedSearchWhereInput): FacetedSearchOutput
-  FolderPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FolderPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: FolderPageWhereInput): FolderPageOutput
-  GenericMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GenericMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: GenericMediaWhereInput): GenericMediaOutput
-  Grid(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GridOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: GridWhereInput): GridOutput
-  Hero(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: HeroOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: HeroWhereInput): HeroOutput
-  Iframe(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: IframeOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: IframeWhereInput): IframeOutput
-  Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ImageWhereInput): ImageOutput
-  ImageMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ImageMediaWhereInput): ImageMediaOutput
-  LandingPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: LandingPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: LandingPageWhereInput): LandingPageOutput
-  Marvin5Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: Marvin5ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: Marvin5ExperienceWhereInput): Marvin5ExperienceOutput
-  MenuItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MenuItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: MenuItemWhereInput): MenuItemOutput
-  MockupPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MockupPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: MockupPageWhereInput): MockupPageOutput
-  OdpForm(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OdpFormOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OdpFormWhereInput): OdpFormOutput
-  OptiFormsChoiceElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsChoiceElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsChoiceElementWhereInput): OptiFormsChoiceElementOutput
-  OptiFormsContainerData(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsContainerDataOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsContainerDataWhereInput): OptiFormsContainerDataOutput
-  OptiFormsNumberElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsNumberElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsNumberElementWhereInput): OptiFormsNumberElementOutput
-  OptiFormsRangeElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsRangeElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsRangeElementWhereInput): OptiFormsRangeElementOutput
-  OptiFormsResetElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsResetElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsResetElementWhereInput): OptiFormsResetElementOutput
-  OptiFormsSelectionElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSelectionElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsSelectionElementWhereInput): OptiFormsSelectionElementOutput
-  OptiFormsSubmitElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSubmitElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsSubmitElementWhereInput): OptiFormsSubmitElementOutput
-  OptiFormsTextareaElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextareaElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsTextareaElementWhereInput): OptiFormsTextareaElementOutput
-  OptiFormsTextboxElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextboxElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsTextboxElementWhereInput): OptiFormsTextboxElementOutput
-  OptiFormsUrlElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsUrlElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsUrlElementWhereInput): OptiFormsUrlElementOutput
-  PageAdminSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageAdminSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PageAdminSettingsWhereInput): PageAdminSettingsOutput
-  PageSeoSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageSeoSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PageSeoSettingsWhereInput): PageSeoSettingsOutput
-  Paragraph(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ParagraphOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ParagraphWhereInput): ParagraphOutput
-  PlaceholderItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholderItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PlaceholderItemWhereInput): PlaceholderItemOutput
-  PlaceholdersConfiguration(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholdersConfigurationOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PlaceholdersConfigurationWhereInput): PlaceholdersConfigurationOutput
-  PressRelease(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PressReleaseOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PressReleaseWhereInput): PressReleaseOutput
-  SiteSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: SiteSettingsWhereInput): SiteSettingsOutput
-  SiteStyles(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteStylesOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: SiteStylesWhereInput): SiteStylesOutput
-  SysContentFolder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SysContentFolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: SysContentFolderWhereInput): SysContentFolderOutput
-  Text(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TextOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: TextWhereInput): TextOutput
-  Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: VideoWhereInput): VideoOutput
-  VideoExternal(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoExternalOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: VideoExternalWhereInput): VideoExternalOutput
-  VideoMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: VideoMediaWhereInput): VideoMediaOutput
-  _AssetItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _AssetItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _AssetItemWhereInput): _AssetItemOutput
-  _Component(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ComponentOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ComponentWhereInput): _ComponentOutput
-  _Content(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ContentOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ContentWhereInput): _ContentOutput
-  _Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ExperienceWhereInput): _ExperienceOutput
-  _Folder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _FolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _FolderWhereInput): _FolderOutput
-  _Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ImageWhereInput): _ImageOutput
-  _ImageItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ImageItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ImageItemWhereInput): _ImageItemOutput
-  _Item(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ItemWhereInput): _ItemOutput
-  _Media(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _MediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _MediaWhereInput): _MediaOutput
-  _Page(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _PageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _PageWhereInput): _PageOutput
-  _Section(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _SectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _SectionWhereInput): _SectionOutput
-  _Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _VideoWhereInput): _VideoOutput
-  cmp_Asset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_AssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_AssetWhereInput): cmp_AssetOutput
-  cmp_CheckboxField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CheckboxFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_CheckboxFieldWhereInput): cmp_CheckboxFieldOutput
-  cmp_CurrencyField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CurrencyFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_CurrencyFieldWhereInput): cmp_CurrencyFieldOutput
-  cmp_DateField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DateFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_DateFieldWhereInput): cmp_DateFieldOutput
-  cmp_DropdownField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DropdownFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_DropdownFieldWhereInput): cmp_DropdownFieldOutput
-  cmp_Field(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_FieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_FieldWhereInput): cmp_FieldOutput
-  cmp_ImageField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_ImageFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_ImageFieldWhereInput): cmp_ImageFieldOutput
-  cmp_LabelField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_LabelFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_LabelFieldWhereInput): cmp_LabelFieldOutput
-  cmp_NumberField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_NumberFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_NumberFieldWhereInput): cmp_NumberFieldOutput
-  cmp_PercentField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PercentFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PercentFieldWhereInput): cmp_PercentFieldOutput
-  cmp_PublicImageAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicImageAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PublicImageAssetWhereInput): cmp_PublicImageAssetOutput
-  cmp_PublicRawFileAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicRawFileAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PublicRawFileAssetWhereInput): cmp_PublicRawFileAssetOutput
-  cmp_PublicVideoAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicVideoAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PublicVideoAssetWhereInput): cmp_PublicVideoAssetOutput
-  cmp_RadioField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RadioFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_RadioFieldWhereInput): cmp_RadioFieldOutput
-  cmp_RichTextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RichTextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_RichTextFieldWhereInput): cmp_RichTextFieldOutput
-  cmp_StructuredContentAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_StructuredContentAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_StructuredContentAssetWhereInput): cmp_StructuredContentAssetOutput
-  cmp_TextAreaField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextAreaFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_TextAreaFieldWhereInput): cmp_TextAreaFieldOutput
-  cmp_TextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_TextFieldWhereInput): cmp_TextFieldOutput
-  cmp_VideoField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_VideoFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_VideoFieldWhereInput): cmp_VideoFieldOutput
-  marvinBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: marvinBlockOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: marvinBlockWhereInput): marvinBlockOutput
+  AmazonHeroSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: AmazonHeroSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: AmazonHeroSectionWhereInput): AmazonHeroSectionOutput
+  ArticleList(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticleListOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ArticleListWhereInput): ArticleListOutput
+  ArticlePage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticlePageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ArticlePageWhereInput): ArticlePageOutput
+  AutoGeneratedSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: AutoGeneratedSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: AutoGeneratedSectionWhereInput): AutoGeneratedSectionOutput
+  BlankExperience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: BlankExperienceWhereInput): BlankExperienceOutput
+  BlankSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: BlankSectionWhereInput): BlankSectionOutput
+  Button(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ButtonOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ButtonWhereInput): ButtonOutput
+  CallToAction(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CallToActionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CallToActionWhereInput): CallToActionOutput
+  Card(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CardWhereInput): CardOutput
+  Carousel(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CarouselOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CarouselWhereInput): CarouselOutput
+  Collapse(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CollapseOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CollapseWhereInput): CollapseOutput
+  CssMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CssMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CssMediaWhereInput): CssMediaOutput
+  Data(cursor: String, ids: [String], limit: Int! = 20, locale: [system_Locales], orderBy: DataOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: DataWhereInput): DataOutput
+  Divider(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: DividerOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: DividerWhereInput): DividerOutput
+  FacetedSearch(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FacetedSearchOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: FacetedSearchWhereInput): FacetedSearchOutput
+  FolderPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FolderPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: FolderPageWhereInput): FolderPageOutput
+  GenericMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GenericMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: GenericMediaWhereInput): GenericMediaOutput
+  Grid(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GridOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: GridWhereInput): GridOutput
+  Hero(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: HeroOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: HeroWhereInput): HeroOutput
+  Iframe(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: IframeOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: IframeWhereInput): IframeOutput
+  Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ImageWhereInput): ImageOutput
+  ImageMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ImageMediaWhereInput): ImageMediaOutput
+  LandingPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: LandingPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: LandingPageWhereInput): LandingPageOutput
+  Marvin5Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: Marvin5ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: Marvin5ExperienceWhereInput): Marvin5ExperienceOutput
+  MarvinExperience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MarvinExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: MarvinExperienceWhereInput): MarvinExperienceOutput
+  MenuItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MenuItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: MenuItemWhereInput): MenuItemOutput
+  MockupPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MockupPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: MockupPageWhereInput): MockupPageOutput
+  OdpForm(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OdpFormOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OdpFormWhereInput): OdpFormOutput
+  OptiFormsChoiceElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsChoiceElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsChoiceElementWhereInput): OptiFormsChoiceElementOutput
+  OptiFormsCondition(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsConditionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsConditionWhereInput): OptiFormsConditionOutput
+  OptiFormsContainerData(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsContainerDataOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsContainerDataWhereInput): OptiFormsContainerDataOutput
+  OptiFormsDependencyRule(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsDependencyRuleOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsDependencyRuleWhereInput): OptiFormsDependencyRuleOutput
+  OptiFormsNumberElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsNumberElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsNumberElementWhereInput): OptiFormsNumberElementOutput
+  OptiFormsRangeElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsRangeElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsRangeElementWhereInput): OptiFormsRangeElementOutput
+  OptiFormsResetElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsResetElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsResetElementWhereInput): OptiFormsResetElementOutput
+  OptiFormsSelectionElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSelectionElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsSelectionElementWhereInput): OptiFormsSelectionElementOutput
+  OptiFormsSubmitElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSubmitElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsSubmitElementWhereInput): OptiFormsSubmitElementOutput
+  OptiFormsTextareaElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextareaElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsTextareaElementWhereInput): OptiFormsTextareaElementOutput
+  OptiFormsTextboxElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextboxElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsTextboxElementWhereInput): OptiFormsTextboxElementOutput
+  OptiFormsUrlElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsUrlElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsUrlElementWhereInput): OptiFormsUrlElementOutput
+  PageAdminSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageAdminSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PageAdminSettingsWhereInput): PageAdminSettingsOutput
+  PageSeoSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageSeoSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PageSeoSettingsWhereInput): PageSeoSettingsOutput
+  Paragraph(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ParagraphOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ParagraphWhereInput): ParagraphOutput
+  PlaceholderItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholderItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PlaceholderItemWhereInput): PlaceholderItemOutput
+  PlaceholdersConfiguration(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholdersConfigurationOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PlaceholdersConfigurationWhereInput): PlaceholdersConfigurationOutput
+  PressRelease(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PressReleaseOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PressReleaseWhereInput): PressReleaseOutput
+  SiteSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: SiteSettingsWhereInput): SiteSettingsOutput
+  SiteStyles(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteStylesOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: SiteStylesWhereInput): SiteStylesOutput
+  SysContentFolder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SysContentFolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: SysContentFolderWhereInput): SysContentFolderOutput
+  TestimonialCard(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TestimonialCardOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: TestimonialCardWhereInput): TestimonialCardOutput
+  TestimonialCardComponent(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TestimonialCardComponentOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: TestimonialCardComponentWhereInput): TestimonialCardComponentOutput
+  Text(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TextOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: TextWhereInput): TextOutput
+  Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: VideoWhereInput): VideoOutput
+  VideoExternal(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoExternalOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: VideoExternalWhereInput): VideoExternalOutput
+  VideoMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: VideoMediaWhereInput): VideoMediaOutput
+  _AssetItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _AssetItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _AssetItemWhereInput): _AssetItemOutput
+  _Component(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ComponentOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ComponentWhereInput): _ComponentOutput
+  _Content(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ContentOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ContentWhereInput): _ContentOutput
+  _Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ExperienceWhereInput): _ExperienceOutput
+  _Folder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _FolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _FolderWhereInput): _FolderOutput
+  _Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ImageWhereInput): _ImageOutput
+  _ImageItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ImageItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ImageItemWhereInput): _ImageItemOutput
+  _Item(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ItemWhereInput): _ItemOutput
+  _Media(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _MediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _MediaWhereInput): _MediaOutput
+  _Page(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _PageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _PageWhereInput): _PageOutput
+  _Section(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _SectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _SectionWhereInput): _SectionOutput
+  _Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _VideoWhereInput): _VideoOutput
+  amazon_exchange_experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: amazon_exchange_experienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: amazon_exchange_experienceWhereInput): amazon_exchange_experienceOutput
+  cmp_Asset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_AssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_AssetWhereInput): cmp_AssetOutput
+  cmp_CheckboxField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CheckboxFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_CheckboxFieldWhereInput): cmp_CheckboxFieldOutput
+  cmp_CurrencyField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CurrencyFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_CurrencyFieldWhereInput): cmp_CurrencyFieldOutput
+  cmp_DateField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DateFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_DateFieldWhereInput): cmp_DateFieldOutput
+  cmp_DropdownField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DropdownFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_DropdownFieldWhereInput): cmp_DropdownFieldOutput
+  cmp_Field(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_FieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_FieldWhereInput): cmp_FieldOutput
+  cmp_ImageField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_ImageFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_ImageFieldWhereInput): cmp_ImageFieldOutput
+  cmp_LabelField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_LabelFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_LabelFieldWhereInput): cmp_LabelFieldOutput
+  cmp_NumberField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_NumberFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_NumberFieldWhereInput): cmp_NumberFieldOutput
+  cmp_PercentField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PercentFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PercentFieldWhereInput): cmp_PercentFieldOutput
+  cmp_PublicImageAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicImageAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PublicImageAssetWhereInput): cmp_PublicImageAssetOutput
+  cmp_PublicRawFileAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicRawFileAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PublicRawFileAssetWhereInput): cmp_PublicRawFileAssetOutput
+  cmp_PublicVideoAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicVideoAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PublicVideoAssetWhereInput): cmp_PublicVideoAssetOutput
+  cmp_RadioField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RadioFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_RadioFieldWhereInput): cmp_RadioFieldOutput
+  cmp_RichTextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RichTextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_RichTextFieldWhereInput): cmp_RichTextFieldOutput
+  cmp_StructuredContentAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_StructuredContentAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_StructuredContentAssetWhereInput): cmp_StructuredContentAssetOutput
+  cmp_TextAreaField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextAreaFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_TextAreaFieldWhereInput): cmp_TextAreaFieldOutput
+  cmp_TextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_TextFieldWhereInput): cmp_TextFieldOutput
+  cmp_VideoField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_VideoFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_VideoFieldWhereInput): cmp_VideoFieldOutput
+  marvinBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: marvinBlockOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: marvinBlockWhereInput): marvinBlockOutput
+  test(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: testOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: testWhereInput): testOutput
 }
 
 type QueryRef {
-  ArticleList(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticleListOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ArticleListWhereInput): ArticleListOutput
-  ArticlePage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticlePageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ArticlePageWhereInput): ArticlePageOutput
-  BlankExperience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: BlankExperienceWhereInput): BlankExperienceOutput
-  BlankSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: BlankSectionWhereInput): BlankSectionOutput
-  Button(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ButtonOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ButtonWhereInput): ButtonOutput
-  CallToAction(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CallToActionOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CallToActionWhereInput): CallToActionOutput
-  Card(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CardWhereInput): CardOutput
-  Carousel(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CarouselOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CarouselWhereInput): CarouselOutput
-  Collapse(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CollapseOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CollapseWhereInput): CollapseOutput
-  CssMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CssMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: CssMediaWhereInput): CssMediaOutput
-  Data(cursor: String, ids: [String], limit: Int! = 20, locale: [system_Locales], orderBy: DataOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: DataWhereInput): DataOutput
-  Divider(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: DividerOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: DividerWhereInput): DividerOutput
-  FacetedSearch(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FacetedSearchOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: FacetedSearchWhereInput): FacetedSearchOutput
-  FolderPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FolderPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: FolderPageWhereInput): FolderPageOutput
-  GenericMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GenericMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: GenericMediaWhereInput): GenericMediaOutput
-  Grid(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GridOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: GridWhereInput): GridOutput
-  Hero(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: HeroOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: HeroWhereInput): HeroOutput
-  Iframe(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: IframeOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: IframeWhereInput): IframeOutput
-  Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ImageWhereInput): ImageOutput
-  ImageMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ImageMediaWhereInput): ImageMediaOutput
-  LandingPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: LandingPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: LandingPageWhereInput): LandingPageOutput
-  Marvin5Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: Marvin5ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: Marvin5ExperienceWhereInput): Marvin5ExperienceOutput
-  MenuItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MenuItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: MenuItemWhereInput): MenuItemOutput
-  MockupPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MockupPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: MockupPageWhereInput): MockupPageOutput
-  OdpForm(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OdpFormOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OdpFormWhereInput): OdpFormOutput
-  OptiFormsChoiceElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsChoiceElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsChoiceElementWhereInput): OptiFormsChoiceElementOutput
-  OptiFormsContainerData(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsContainerDataOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsContainerDataWhereInput): OptiFormsContainerDataOutput
-  OptiFormsNumberElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsNumberElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsNumberElementWhereInput): OptiFormsNumberElementOutput
-  OptiFormsRangeElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsRangeElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsRangeElementWhereInput): OptiFormsRangeElementOutput
-  OptiFormsResetElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsResetElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsResetElementWhereInput): OptiFormsResetElementOutput
-  OptiFormsSelectionElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSelectionElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsSelectionElementWhereInput): OptiFormsSelectionElementOutput
-  OptiFormsSubmitElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSubmitElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsSubmitElementWhereInput): OptiFormsSubmitElementOutput
-  OptiFormsTextareaElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextareaElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsTextareaElementWhereInput): OptiFormsTextareaElementOutput
-  OptiFormsTextboxElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextboxElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsTextboxElementWhereInput): OptiFormsTextboxElementOutput
-  OptiFormsUrlElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsUrlElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: OptiFormsUrlElementWhereInput): OptiFormsUrlElementOutput
-  PageAdminSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageAdminSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PageAdminSettingsWhereInput): PageAdminSettingsOutput
-  PageSeoSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageSeoSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PageSeoSettingsWhereInput): PageSeoSettingsOutput
-  Paragraph(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ParagraphOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: ParagraphWhereInput): ParagraphOutput
-  PlaceholderItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholderItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PlaceholderItemWhereInput): PlaceholderItemOutput
-  PlaceholdersConfiguration(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholdersConfigurationOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PlaceholdersConfigurationWhereInput): PlaceholdersConfigurationOutput
-  PressRelease(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PressReleaseOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: PressReleaseWhereInput): PressReleaseOutput
-  SiteSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: SiteSettingsWhereInput): SiteSettingsOutput
-  SiteStyles(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteStylesOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: SiteStylesWhereInput): SiteStylesOutput
-  SysContentFolder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SysContentFolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: SysContentFolderWhereInput): SysContentFolderOutput
-  Text(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TextOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: TextWhereInput): TextOutput
-  Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: VideoWhereInput): VideoOutput
-  VideoExternal(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoExternalOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: VideoExternalWhereInput): VideoExternalOutput
-  VideoMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: VideoMediaWhereInput): VideoMediaOutput
-  _AssetItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _AssetItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _AssetItemWhereInput): _AssetItemOutput
-  _Component(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ComponentOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ComponentWhereInput): _ComponentOutput
-  _Content(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ContentOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ContentWhereInput): _ContentOutput
-  _Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ExperienceWhereInput): _ExperienceOutput
-  _Folder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _FolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _FolderWhereInput): _FolderOutput
-  _Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ImageWhereInput): _ImageOutput
-  _ImageItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ImageItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ImageItemWhereInput): _ImageItemOutput
-  _Item(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _ItemWhereInput): _ItemOutput
-  _Media(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _MediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _MediaWhereInput): _MediaOutput
-  _Page(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _PageOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _PageWhereInput): _PageOutput
-  _Section(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _SectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _SectionWhereInput): _SectionOutput
-  _Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: _VideoWhereInput): _VideoOutput
-  cmp_Asset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_AssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_AssetWhereInput): cmp_AssetOutput
-  cmp_CheckboxField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CheckboxFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_CheckboxFieldWhereInput): cmp_CheckboxFieldOutput
-  cmp_CurrencyField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CurrencyFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_CurrencyFieldWhereInput): cmp_CurrencyFieldOutput
-  cmp_DateField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DateFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_DateFieldWhereInput): cmp_DateFieldOutput
-  cmp_DropdownField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DropdownFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_DropdownFieldWhereInput): cmp_DropdownFieldOutput
-  cmp_Field(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_FieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_FieldWhereInput): cmp_FieldOutput
-  cmp_ImageField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_ImageFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_ImageFieldWhereInput): cmp_ImageFieldOutput
-  cmp_LabelField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_LabelFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_LabelFieldWhereInput): cmp_LabelFieldOutput
-  cmp_NumberField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_NumberFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_NumberFieldWhereInput): cmp_NumberFieldOutput
-  cmp_PercentField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PercentFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PercentFieldWhereInput): cmp_PercentFieldOutput
-  cmp_PublicImageAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicImageAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PublicImageAssetWhereInput): cmp_PublicImageAssetOutput
-  cmp_PublicRawFileAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicRawFileAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PublicRawFileAssetWhereInput): cmp_PublicRawFileAssetOutput
-  cmp_PublicVideoAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicVideoAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_PublicVideoAssetWhereInput): cmp_PublicVideoAssetOutput
-  cmp_RadioField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RadioFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_RadioFieldWhereInput): cmp_RadioFieldOutput
-  cmp_RichTextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RichTextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_RichTextFieldWhereInput): cmp_RichTextFieldOutput
-  cmp_StructuredContentAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_StructuredContentAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_StructuredContentAssetWhereInput): cmp_StructuredContentAssetOutput
-  cmp_TextAreaField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextAreaFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_TextAreaFieldWhereInput): cmp_TextAreaFieldOutput
-  cmp_TextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_TextFieldWhereInput): cmp_TextFieldOutput
-  cmp_VideoField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_VideoFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: cmp_VideoFieldWhereInput): cmp_VideoFieldOutput
-  marvinBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: marvinBlockOrderByInput, pinned: PinnedInput, skip: Int! = 0, variation: VariationInput, where: marvinBlockWhereInput): marvinBlockOutput
+  AmazonHeroSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: AmazonHeroSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: AmazonHeroSectionWhereInput): AmazonHeroSectionOutput
+  ArticleList(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticleListOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ArticleListWhereInput): ArticleListOutput
+  ArticlePage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ArticlePageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ArticlePageWhereInput): ArticlePageOutput
+  AutoGeneratedSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: AutoGeneratedSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: AutoGeneratedSectionWhereInput): AutoGeneratedSectionOutput
+  BlankExperience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: BlankExperienceWhereInput): BlankExperienceOutput
+  BlankSection(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: BlankSectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: BlankSectionWhereInput): BlankSectionOutput
+  Button(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ButtonOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ButtonWhereInput): ButtonOutput
+  CallToAction(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CallToActionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CallToActionWhereInput): CallToActionOutput
+  Card(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CardOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CardWhereInput): CardOutput
+  Carousel(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CarouselOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CarouselWhereInput): CarouselOutput
+  Collapse(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CollapseOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CollapseWhereInput): CollapseOutput
+  CssMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: CssMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: CssMediaWhereInput): CssMediaOutput
+  Data(cursor: String, ids: [String], limit: Int! = 20, locale: [system_Locales], orderBy: DataOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: DataWhereInput): DataOutput
+  Divider(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: DividerOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: DividerWhereInput): DividerOutput
+  FacetedSearch(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FacetedSearchOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: FacetedSearchWhereInput): FacetedSearchOutput
+  FolderPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: FolderPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: FolderPageWhereInput): FolderPageOutput
+  GenericMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GenericMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: GenericMediaWhereInput): GenericMediaOutput
+  Grid(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: GridOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: GridWhereInput): GridOutput
+  Hero(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: HeroOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: HeroWhereInput): HeroOutput
+  Iframe(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: IframeOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: IframeWhereInput): IframeOutput
+  Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ImageWhereInput): ImageOutput
+  ImageMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ImageMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ImageMediaWhereInput): ImageMediaOutput
+  LandingPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: LandingPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: LandingPageWhereInput): LandingPageOutput
+  Marvin5Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: Marvin5ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: Marvin5ExperienceWhereInput): Marvin5ExperienceOutput
+  MarvinExperience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MarvinExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: MarvinExperienceWhereInput): MarvinExperienceOutput
+  MenuItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MenuItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: MenuItemWhereInput): MenuItemOutput
+  MockupPage(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: MockupPageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: MockupPageWhereInput): MockupPageOutput
+  OdpForm(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OdpFormOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OdpFormWhereInput): OdpFormOutput
+  OptiFormsChoiceElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsChoiceElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsChoiceElementWhereInput): OptiFormsChoiceElementOutput
+  OptiFormsCondition(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsConditionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsConditionWhereInput): OptiFormsConditionOutput
+  OptiFormsContainerData(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsContainerDataOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsContainerDataWhereInput): OptiFormsContainerDataOutput
+  OptiFormsDependencyRule(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsDependencyRuleOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsDependencyRuleWhereInput): OptiFormsDependencyRuleOutput
+  OptiFormsNumberElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsNumberElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsNumberElementWhereInput): OptiFormsNumberElementOutput
+  OptiFormsRangeElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsRangeElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsRangeElementWhereInput): OptiFormsRangeElementOutput
+  OptiFormsResetElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsResetElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsResetElementWhereInput): OptiFormsResetElementOutput
+  OptiFormsSelectionElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSelectionElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsSelectionElementWhereInput): OptiFormsSelectionElementOutput
+  OptiFormsSubmitElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsSubmitElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsSubmitElementWhereInput): OptiFormsSubmitElementOutput
+  OptiFormsTextareaElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextareaElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsTextareaElementWhereInput): OptiFormsTextareaElementOutput
+  OptiFormsTextboxElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsTextboxElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsTextboxElementWhereInput): OptiFormsTextboxElementOutput
+  OptiFormsUrlElement(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: OptiFormsUrlElementOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: OptiFormsUrlElementWhereInput): OptiFormsUrlElementOutput
+  PageAdminSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageAdminSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PageAdminSettingsWhereInput): PageAdminSettingsOutput
+  PageSeoSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PageSeoSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PageSeoSettingsWhereInput): PageSeoSettingsOutput
+  Paragraph(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: ParagraphOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: ParagraphWhereInput): ParagraphOutput
+  PlaceholderItem(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholderItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PlaceholderItemWhereInput): PlaceholderItemOutput
+  PlaceholdersConfiguration(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PlaceholdersConfigurationOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PlaceholdersConfigurationWhereInput): PlaceholdersConfigurationOutput
+  PressRelease(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: PressReleaseOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: PressReleaseWhereInput): PressReleaseOutput
+  SiteSettings(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteSettingsOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: SiteSettingsWhereInput): SiteSettingsOutput
+  SiteStyles(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SiteStylesOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: SiteStylesWhereInput): SiteStylesOutput
+  SysContentFolder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: SysContentFolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: SysContentFolderWhereInput): SysContentFolderOutput
+  TestimonialCard(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TestimonialCardOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: TestimonialCardWhereInput): TestimonialCardOutput
+  TestimonialCardComponent(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TestimonialCardComponentOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: TestimonialCardComponentWhereInput): TestimonialCardComponentOutput
+  Text(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: TextOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: TextWhereInput): TextOutput
+  Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: VideoWhereInput): VideoOutput
+  VideoExternal(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoExternalOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: VideoExternalWhereInput): VideoExternalOutput
+  VideoMedia(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: VideoMediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: VideoMediaWhereInput): VideoMediaOutput
+  _AssetItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _AssetItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _AssetItemWhereInput): _AssetItemOutput
+  _Component(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ComponentOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ComponentWhereInput): _ComponentOutput
+  _Content(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ContentOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ContentWhereInput): _ContentOutput
+  _Experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ExperienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ExperienceWhereInput): _ExperienceOutput
+  _Folder(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _FolderOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _FolderWhereInput): _FolderOutput
+  _Image(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _ImageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ImageWhereInput): _ImageOutput
+  _ImageItem(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ImageItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ImageItemWhereInput): _ImageItemOutput
+  _Item(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: _ItemOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _ItemWhereInput): _ItemOutput
+  _Media(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _MediaOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _MediaWhereInput): _MediaOutput
+  _Page(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _PageOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _PageWhereInput): _PageOutput
+  _Section(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _SectionOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _SectionWhereInput): _SectionOutput
+  _Video(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: _VideoOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: _VideoWhereInput): _VideoOutput
+  amazon_exchange_experience(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: amazon_exchange_experienceOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: amazon_exchange_experienceWhereInput): amazon_exchange_experienceOutput
+  cmp_Asset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_AssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_AssetWhereInput): cmp_AssetOutput
+  cmp_CheckboxField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CheckboxFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_CheckboxFieldWhereInput): cmp_CheckboxFieldOutput
+  cmp_CurrencyField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_CurrencyFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_CurrencyFieldWhereInput): cmp_CurrencyFieldOutput
+  cmp_DateField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DateFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_DateFieldWhereInput): cmp_DateFieldOutput
+  cmp_DropdownField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_DropdownFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_DropdownFieldWhereInput): cmp_DropdownFieldOutput
+  cmp_Field(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_FieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_FieldWhereInput): cmp_FieldOutput
+  cmp_ImageField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_ImageFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_ImageFieldWhereInput): cmp_ImageFieldOutput
+  cmp_LabelField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_LabelFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_LabelFieldWhereInput): cmp_LabelFieldOutput
+  cmp_NumberField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_NumberFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_NumberFieldWhereInput): cmp_NumberFieldOutput
+  cmp_PercentField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PercentFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PercentFieldWhereInput): cmp_PercentFieldOutput
+  cmp_PublicImageAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicImageAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PublicImageAssetWhereInput): cmp_PublicImageAssetOutput
+  cmp_PublicRawFileAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicRawFileAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PublicRawFileAssetWhereInput): cmp_PublicRawFileAssetOutput
+  cmp_PublicVideoAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_PublicVideoAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_PublicVideoAssetWhereInput): cmp_PublicVideoAssetOutput
+  cmp_RadioField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RadioFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_RadioFieldWhereInput): cmp_RadioFieldOutput
+  cmp_RichTextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_RichTextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_RichTextFieldWhereInput): cmp_RichTextFieldOutput
+  cmp_StructuredContentAsset(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_StructuredContentAssetOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_StructuredContentAssetWhereInput): cmp_StructuredContentAssetOutput
+  cmp_TextAreaField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextAreaFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_TextAreaFieldWhereInput): cmp_TextAreaFieldOutput
+  cmp_TextField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_TextFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_TextFieldWhereInput): cmp_TextFieldOutput
+  cmp_VideoField(cursor: String, ids: [String], limit: Int! = 20, locale: [cmp_Locales], orderBy: cmp_VideoFieldOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: cmp_VideoFieldWhereInput): cmp_VideoFieldOutput
+  marvinBlock(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: marvinBlockOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: marvinBlockWhereInput): marvinBlockOutput
+  test(cursor: String, ids: [String], limit: Int! = 20, locale: [Locales], orderBy: testOrderByInput, pinned: PinnedInput, skip: Int! = 0, track: String, variation: VariationInput, where: testWhereInput): testOutput
 }
 
 input RangeFacetsInput {
@@ -3435,6 +4067,27 @@ enum Ranking {
   DOC
   RELEVANCE
   SEMANTIC
+}
+
+type RichText {
+  html: String
+  json: JSON
+}
+
+type RichTextAutocomplete {
+  html(limit: Int! = 10, value: String!): [String]
+}
+
+type RichTextFacet {
+  html(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+}
+
+input RichTextOrderByInput {
+  html: OrderBy
+}
+
+input RichTextWhereInput {
+  html: StringFilterInput
 }
 
 type SearchableRichText {
@@ -3499,7 +4152,7 @@ input SearchableStringFilterInput {
   synonyms: [SynonymSlot]
 }
 
-type SiteSettings implements IData & _IComponent & _IContent {
+type SiteSettings implements IData & _IComponent & _IContent & _IItem {
   FooterLinks: [_IContent]
   FooterText(highlight: HighlightOptions): String
   HeaderLinks: [_IContent]
@@ -3517,17 +4170,20 @@ type SiteSettings implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type SiteSettingsAutocomplete {
   FooterLinks: _IContentAutocomplete
   HeaderLinks: _IContentAutocomplete
   Logo: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -3542,6 +4198,7 @@ type SiteSettingsFacet {
   SocialInstagram(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   SocialTikTok(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   SocialTwitter(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -3556,6 +4213,7 @@ input SiteSettingsOrderByInput {
   SocialInstagram: OrderBy
   SocialTikTok: OrderBy
   SocialTwitter: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3588,23 +4246,26 @@ input SiteSettingsWhereInput {
   SocialTwitter: SearchableStringFilterInput
   _and: [SiteSettingsWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [SiteSettingsWhereInput]
   _or: [SiteSettingsWhereInput]
 }
 
-type SiteStyles implements IData & _IComponent & _IContent {
+type SiteStyles implements IData & _IComponent & _IContent & _IItem {
   SiteStylesDomain(highlight: HighlightOptions): String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   accent: String
   accentContent: String
   base100: String
@@ -3653,18 +4314,21 @@ type SiteStyles implements IData & _IComponent & _IContent {
 }
 
 type SiteStylesAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   cssFile: _IContentAutocomplete
 }
 
 type SiteStylesFacet {
   SiteStylesDomain(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   cssFile: _IContentFacet
 }
 
 input SiteStylesOrderByInput {
   SiteStylesDomain: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3689,6 +4353,7 @@ input SiteStylesWhereInput {
   SiteStylesDomain: SearchableStringFilterInput
   _and: [SiteStylesWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [SiteStylesWhereInput]
@@ -3749,27 +4414,32 @@ enum SynonymSlot {
   TWO
 }
 
-type SysContentFolder implements IData & _IContent & _IFolder {
+type SysContentFolder implements IData & _IContent & _IFolder & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type SysContentFolderAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type SysContentFolderFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input SysContentFolderOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3792,36 +4462,184 @@ type SysContentFolderOutput {
 input SysContentFolderWhereInput {
   _and: [SysContentFolderWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [SysContentFolderWhereInput]
   _or: [SysContentFolderWhereInput]
 }
 
-type Text implements IData & _IComponent & _IContent {
-  Content(highlight: HighlightOptions): String
+type TestimonialCard implements IData & _IComponent & _IContent & _IItem {
+  AuthorAvatar: ContentReference
+  AuthorName: String
+  AuthorRole: String
+  BackgroundColor: String
+  BorderColor: String
+  BorderWidth: Int
+  QuoteText: RichText
+  QuoteTextAlignment: String
+  Rating: Int
+  RatingColor: String
+  ShowAvatar: Boolean
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
+}
+
+type TestimonialCardAutocomplete {
+  AuthorAvatar: ContentReferenceAutocomplete
+  QuoteText: RichTextAutocomplete
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+}
+
+type TestimonialCardComponent implements IData & _IComponent & _IContent & _IItem {
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+  authorName: String
+  authorRole: String
+  backgroundColor: String
+  borderThickness: Int
+  quoteText: RichText
+  rating: Int
+  roundedCorners: String
+  shadowStyle: String
+  showAvatar: Boolean
+}
+
+type TestimonialCardComponentAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+  quoteText: RichTextAutocomplete
+}
+
+type TestimonialCardComponentFacet {
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+  quoteText: RichTextFacet
+}
+
+input TestimonialCardComponentOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+  quoteText: RichTextOrderByInput
+}
+
+type TestimonialCardComponentOutput {
+  autocomplete: TestimonialCardComponentAutocomplete
+  cursor: String
+  facets: TestimonialCardComponentFacet
+  item: TestimonialCardComponent
+  items: [TestimonialCardComponent]
+  total(all: Boolean): Int
+}
+
+input TestimonialCardComponentWhereInput {
+  _and: [TestimonialCardComponentWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [TestimonialCardComponentWhereInput]
+  _or: [TestimonialCardComponentWhereInput]
+  quoteText: RichTextWhereInput
+}
+
+type TestimonialCardFacet {
+  AuthorAvatar: ContentReferenceFacet
+  QuoteText: RichTextFacet
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+}
+
+input TestimonialCardOrderByInput {
+  AuthorAvatar: ContentReferenceOrderByInput
+  QuoteText: RichTextOrderByInput
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+}
+
+type TestimonialCardOutput {
+  autocomplete: TestimonialCardAutocomplete
+  cursor: String
+  facets: TestimonialCardFacet
+  item: TestimonialCard
+  items: [TestimonialCard]
+  total(all: Boolean): Int
+}
+
+input TestimonialCardWhereInput {
+  AuthorAvatar: ContentReferenceWhereInput
+  QuoteText: RichTextWhereInput
+  _and: [TestimonialCardWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [TestimonialCardWhereInput]
+  _or: [TestimonialCardWhereInput]
+}
+
+type Text implements IData & _IComponent & _IContent & _IItem {
+  Content(highlight: HighlightOptions): String
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
 }
 
 type TextAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type TextFacet {
   Content(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input TextOrderByInput {
   Content: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3845,6 +4663,7 @@ input TextWhereInput {
   Content: SearchableStringFilterInput
   _and: [TextWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [TextWhereInput]
@@ -3863,27 +4682,30 @@ input VariationInput {
   value: [String]
 }
 
-type Video implements IData & _IComponent & _IContent {
+type Video implements IData & _IComponent & _IContent & _IItem {
   Video: ContentReference
   VideoPosterImage: ContentReference
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type VideoAutocomplete {
   Video: ContentReferenceAutocomplete
   VideoPosterImage: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
-type VideoExternal implements IData & _IComponent & _IContent {
+type VideoExternal implements IData & _IComponent & _IContent & _IItem {
   DisplayWidth: String
   Params: String
   PlayLabel(highlight: HighlightOptions): String
@@ -3894,15 +4716,18 @@ type VideoExternal implements IData & _IComponent & _IContent {
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type VideoExternalAutocomplete {
   Poster: ContentReferenceAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
@@ -3910,6 +4735,7 @@ type VideoExternalFacet {
   PlayLabel(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
   Poster: ContentReferenceFacet
   Video(filters: [String!], limit: Int! = 10, orderBy: OrderBy = DESC, orderType: OrderByFacetType = COUNT): [StringFacet]
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -3917,6 +4743,7 @@ input VideoExternalOrderByInput {
   PlayLabel: OrderBy
   Poster: ContentReferenceOrderByInput
   Video: OrderBy
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3942,6 +4769,7 @@ input VideoExternalWhereInput {
   Video: SearchableStringFilterInput
   _and: [VideoExternalWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [VideoExternalWhereInput]
@@ -3951,30 +4779,40 @@ input VideoExternalWhereInput {
 type VideoFacet {
   Video: ContentReferenceFacet
   VideoPosterImage: ContentReferenceFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
-type VideoMedia implements IData & _IContent & _IMedia & _IVideo {
+type VideoMedia implements IData & _IAssetItem & _IContent & _IItem & _IMedia & _IVideo {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type VideoMediaAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type VideoMediaFacet {
+  _assetMetadata: _AssetMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input VideoMediaOrderByInput {
+  _assetMetadata: _AssetMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -3996,7 +4834,9 @@ type VideoMediaOutput {
 
 input VideoMediaWhereInput {
   _and: [VideoMediaWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [VideoMediaWhereInput]
@@ -4006,6 +4846,7 @@ input VideoMediaWhereInput {
 input VideoOrderByInput {
   Video: ContentReferenceOrderByInput
   VideoPosterImage: ContentReferenceOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4030,6 +4871,7 @@ input VideoWhereInput {
   VideoPosterImage: ContentReferenceWhereInput
   _and: [VideoWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [VideoWhereInput]
@@ -4047,6 +4889,7 @@ type _AssetItem implements IData & _IAssetItem & _IItem {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _AssetItemAutocomplete {
@@ -4119,27 +4962,32 @@ input _AssetMetadataWhereInput {
   url: StringFilterInput
 }
 
-type _Component implements IData & _IComponent & _IContent {
+type _Component implements IData & _IComponent & _IContent & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _ComponentAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _ComponentFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _ComponentOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4162,33 +5010,39 @@ type _ComponentOutput {
 input _ComponentWhereInput {
   _and: [_ComponentWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_ComponentWhereInput]
   _or: [_ComponentWhereInput]
 }
 
-type _Content implements IData & _IContent {
+type _Content implements IData & _IContent & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _ContentAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _ContentFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _ContentOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4211,36 +5065,42 @@ type _ContentOutput {
 input _ContentWhereInput {
   _and: [_ContentWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_ContentWhereInput]
   _or: [_ContentWhereInput]
 }
 
-type _Experience implements IData & _IContent & _IExperience & _IPage {
+type _Experience implements IData & _IContent & _IExperience & _IItem & _IPage {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
 type _ExperienceAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   composition: CompositionStructureNodeAutocomplete
 }
 
 type _ExperienceFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   composition: CompositionStructureNodeFacet
 }
 
 input _ExperienceOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4264,6 +5124,7 @@ type _ExperienceOutput {
 input _ExperienceWhereInput {
   _and: [_ExperienceWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_ExperienceWhereInput]
@@ -4271,27 +5132,32 @@ input _ExperienceWhereInput {
   composition: CompositionStructureNodeWhereInput
 }
 
-type _Folder implements IData & _IContent & _IFolder {
+type _Folder implements IData & _IContent & _IFolder & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _FolderAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _FolderFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _FolderOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4314,6 +5180,7 @@ type _FolderOutput {
 input _FolderWhereInput {
   _and: [_FolderWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_FolderWhereInput]
@@ -4331,25 +5198,30 @@ interface _IAssetItem implements IData & _IItem {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
-interface _IComponent implements IData & _IContent {
+interface _IComponent implements IData & _IContent & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _IComponentFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _IComponentOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4363,33 +5235,39 @@ input _IComponentOrderByInput {
 input _IComponentWhereInput {
   _and: [_IComponentWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_IComponentWhereInput]
   _or: [_IComponentWhereInput]
 }
 
-interface _IContent implements IData {
+interface _IContent implements IData & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _IContentAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _IContentFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _IContentOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4403,47 +5281,56 @@ input _IContentOrderByInput {
 input _IContentWhereInput {
   _and: [_IContentWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_IContentWhereInput]
   _or: [_IContentWhereInput]
 }
 
-interface _IExperience implements IData & _IContent & _IPage {
+interface _IExperience implements IData & _IContent & _IItem & _IPage {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
-interface _IFolder implements IData & _IContent {
+interface _IFolder implements IData & _IContent & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
-interface _IImage implements IData & _IContent & _IMedia {
+interface _IImage implements IData & _IAssetItem & _IContent & _IImageItem & _IItem & _IMedia {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _imageMetadata: _ImageMetadata
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 interface _IImageItem implements IData & _IAssetItem & _IItem {
@@ -4458,6 +5345,7 @@ interface _IImageItem implements IData & _IAssetItem & _IItem {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 interface _IItem implements IData {
@@ -4470,74 +5358,94 @@ interface _IItem implements IData {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
-interface _IMedia implements IData & _IContent {
+interface _IMedia implements IData & _IAssetItem & _IContent & _IItem {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
-interface _IPage implements IData & _IContent {
+interface _IPage implements IData & _IContent & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
-interface _ISection implements IData & _IComponent & _IContent {
+interface _ISection implements IData & _IComponent & _IContent & _IItem {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
-interface _IVideo implements IData & _IContent & _IMedia {
+interface _IVideo implements IData & _IAssetItem & _IContent & _IItem & _IMedia {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
-type _Image implements IData & _IContent & _IImage & _IMedia {
+type _Image implements IData & _IAssetItem & _IContent & _IImage & _IImageItem & _IItem & _IMedia {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _imageMetadata: _ImageMetadata
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _ImageAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _ImageFacet {
+  _assetMetadata: _AssetMetadataFacet
+  _imageMetadata: _ImageMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
@@ -4553,6 +5461,7 @@ type _ImageItem implements IData & _IAssetItem & _IImageItem & _IItem {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _ImageItemAutocomplete {
@@ -4620,6 +5529,9 @@ input _ImageMetadataWhereInput {
 }
 
 input _ImageOrderByInput {
+  _assetMetadata: _AssetMetadataOrderByInput
+  _imageMetadata: _ImageMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4641,7 +5553,10 @@ type _ImageOutput {
 
 input _ImageWhereInput {
   _and: [_ImageWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _imageMetadata: _ImageMetadataWhereInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_ImageWhereInput]
@@ -4658,6 +5573,7 @@ type _Item implements IData & _IItem {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _ItemAutocomplete {
@@ -4697,27 +5613,36 @@ input _ItemWhereInput {
   _or: [_ItemWhereInput]
 }
 
-type _Media implements IData & _IContent & _IMedia {
+type _Media implements IData & _IAssetItem & _IContent & _IItem & _IMedia {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _MediaAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _MediaFacet {
+  _assetMetadata: _AssetMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _MediaOrderByInput {
+  _assetMetadata: _AssetMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4739,7 +5664,9 @@ type _MediaOutput {
 
 input _MediaWhereInput {
   _and: [_MediaWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_MediaWhereInput]
@@ -4779,27 +5706,32 @@ input _MetadataWhereInput {
   type: StringFilterInput
 }
 
-type _Page implements IData & _IContent & _IPage {
+type _Page implements IData & _IContent & _IItem & _IPage {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _PageAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _PageFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _PageOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4822,36 +5754,42 @@ type _PageOutput {
 input _PageWhereInput {
   _and: [_PageWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_PageWhereInput]
   _or: [_PageWhereInput]
 }
 
-type _Section implements IData & _IComponent & _IContent & _ISection {
+type _Section implements IData & _IComponent & _IContent & _IItem & _ISection {
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
   composition: CompositionStructureNode
 }
 
 type _SectionAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
   composition: CompositionStructureNodeAutocomplete
 }
 
 type _SectionFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
   composition: CompositionStructureNodeFacet
 }
 
 input _SectionOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4875,6 +5813,7 @@ type _SectionOutput {
 input _SectionWhereInput {
   _and: [_SectionWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_SectionWhereInput]
@@ -4882,27 +5821,36 @@ input _SectionWhereInput {
   composition: CompositionStructureNodeWhereInput
 }
 
-type _Video implements IData & _IContent & _IMedia & _IVideo {
+type _Video implements IData & _IAssetItem & _IContent & _IItem & _IMedia & _IVideo {
+  _assetMetadata: _AssetMetadata
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type _VideoAutocomplete {
+  _assetMetadata: _AssetMetadataAutocomplete
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type _VideoFacet {
+  _assetMetadata: _AssetMetadataFacet
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input _VideoOrderByInput {
+  _assetMetadata: _AssetMetadataOrderByInput
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -4924,11 +5872,73 @@ type _VideoOutput {
 
 input _VideoWhereInput {
   _and: [_VideoWhereInput]
+  _assetMetadata: _AssetMetadataWhereInput
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [_VideoWhereInput]
   _or: [_VideoWhereInput]
+}
+
+type amazon_exchange_experience implements IData & _IContent & _IExperience & _IItem & _IPage {
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+  composition: CompositionStructureNode
+}
+
+type amazon_exchange_experienceAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+  composition: CompositionStructureNodeAutocomplete
+}
+
+type amazon_exchange_experienceFacet {
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+  composition: CompositionStructureNodeFacet
+}
+
+input amazon_exchange_experienceOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+  composition: CompositionStructureNodeOrderByInput
+}
+
+type amazon_exchange_experienceOutput {
+  autocomplete: amazon_exchange_experienceAutocomplete
+  cursor: String
+  facets: amazon_exchange_experienceFacet
+  item: amazon_exchange_experience
+  items: [amazon_exchange_experience]
+  total(all: Boolean): Int
+}
+
+input amazon_exchange_experienceWhereInput {
+  _and: [amazon_exchange_experienceWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [amazon_exchange_experienceWhereInput]
+  _or: [amazon_exchange_experienceWhereInput]
+  composition: CompositionStructureNodeWhereInput
 }
 
 type cmp_Asset implements IData & Icmp_Asset {
@@ -4952,6 +5962,7 @@ type cmp_Asset implements IData & Icmp_Asset {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_AssetAutocomplete {
@@ -5113,6 +6124,7 @@ type cmp_CheckboxField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_CheckboxFieldAutocomplete {
@@ -5184,6 +6196,7 @@ type cmp_CurrencyField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_CurrencyFieldAutocomplete {
@@ -5258,6 +6271,7 @@ type cmp_DateField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -5328,6 +6342,7 @@ type cmp_DropdownField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_DropdownFieldAutocomplete {
@@ -5399,6 +6414,7 @@ type cmp_Field implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_FieldAutocomplete {
@@ -5508,6 +6524,7 @@ type cmp_ImageField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -5578,6 +6595,7 @@ type cmp_LabelField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_LabelFieldAutocomplete {
@@ -5657,6 +6675,7 @@ type cmp_NumberField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_NumberFieldAutocomplete {
@@ -5728,6 +6747,7 @@ type cmp_PercentField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_PercentFieldAutocomplete {
@@ -5810,6 +6830,7 @@ type cmp_PublicImageAsset implements IData & Icmp_Asset {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_PublicImageAssetAutocomplete {
@@ -5935,6 +6956,7 @@ type cmp_PublicRawFileAsset implements IData & Icmp_Asset {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_PublicRawFileAssetAutocomplete {
@@ -6045,6 +7067,7 @@ type cmp_PublicVideoAsset implements IData & Icmp_Asset {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_PublicVideoAssetAutocomplete {
@@ -6152,6 +7175,7 @@ type cmp_RadioField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type cmp_RadioFieldAutocomplete {
@@ -6257,6 +7281,7 @@ type cmp_RichTextField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -6333,6 +7358,7 @@ type cmp_StructuredContentAsset implements IData & Icmp_Asset {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -6453,6 +7479,7 @@ type cmp_TextAreaField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -6521,6 +7548,7 @@ type cmp_TextField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -6589,6 +7617,7 @@ type cmp_VideoField implements IData & Icmp_Field {
   _link(type: LinkTypes): QueryRef
   _modified: Date
   _score: Float
+  _track: String
   name(highlight: HighlightOptions): String
 }
 
@@ -6644,28 +7673,33 @@ input cmp_VideoFieldWhereInput {
   name: SearchableStringFilterInput
 }
 
-type marvinBlock implements IData & _IComponent & _IContent {
+type marvinBlock implements IData & _IComponent & _IContent & _IItem {
   Text: String
   _children: QueryRef @deprecated(reason: "Use `_link` field instead")
   _deleted: Bool
   _fulltext(highlight: HighlightOptions): [String]
   _id: String
+  _itemMetadata: _Metadata
   _json: JSON
   _link(type: LinkTypes): QueryRef
   _metadata: IContentMetadata
   _modified: Date
   _score: Float
+  _track: String
 }
 
 type marvinBlockAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
   _metadata: IContentMetadataAutocomplete
 }
 
 type marvinBlockFacet {
+  _itemMetadata: _MetadataFacet
   _metadata: IContentMetadataFacet
 }
 
 input marvinBlockOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
   _metadata: IContentMetadataOrderByInput
   _minimumScore: Float
   _modified: OrderBy
@@ -6688,6 +7722,7 @@ type marvinBlockOutput {
 input marvinBlockWhereInput {
   _and: [marvinBlockWhereInput]
   _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
   _metadata: IContentMetadataWhereInput
   _modified: DateFilterInput
   _not: [marvinBlockWhereInput]
@@ -6697,6 +7732,61 @@ input marvinBlockWhereInput {
 enum system_Locales {
   ALL
   NEUTRAL
+}
+
+type test implements IData & _IComponent & _IContent & _IItem {
+  _children: QueryRef @deprecated(reason: "Use `_link` field instead")
+  _deleted: Bool
+  _fulltext(highlight: HighlightOptions): [String]
+  _id: String
+  _itemMetadata: _Metadata
+  _json: JSON
+  _link(type: LinkTypes): QueryRef
+  _metadata: IContentMetadata
+  _modified: Date
+  _score: Float
+  _track: String
+}
+
+type testAutocomplete {
+  _itemMetadata: _MetadataAutocomplete
+  _metadata: IContentMetadataAutocomplete
+}
+
+type testFacet {
+  _itemMetadata: _MetadataFacet
+  _metadata: IContentMetadataFacet
+}
+
+input testOrderByInput {
+  _itemMetadata: _MetadataOrderByInput
+  _metadata: IContentMetadataOrderByInput
+  _minimumScore: Float
+  _modified: OrderBy
+  _ranking: Ranking
+  """
+  The value needs to be a positive value, but cannot exceed the maximum value of an integer. In case it is exceeded, the maximum of an integer is used. In case of a negative value, semantic search will be disabled.
+  """
+  _semanticWeight: Float
+}
+
+type testOutput {
+  autocomplete: testAutocomplete
+  cursor: String
+  facets: testFacet
+  item: test
+  items: [test]
+  total(all: Boolean): Int
+}
+
+input testWhereInput {
+  _and: [testWhereInput]
+  _fulltext: SearchableStringFilterInput
+  _itemMetadata: _MetadataWhereInput
+  _metadata: IContentMetadataWhereInput
+  _modified: DateFilterInput
+  _not: [testWhereInput]
+  _or: [testWhereInput]
 }
 
 input usePinnedInput {

@@ -14,6 +14,7 @@ import { resolveContentVariant } from '../optimizely/variant-resolver';
 
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { localeToSdkLocale, fetchContentByPath } from '../lib/locale-helpers';
+import { CMS_ORIGIN, DOMAIN_ALIASES } from 'astro:env/server';
 
 Astro.response.headers.set('Content-Type', 'text/html; charset=UTF-8');
 
@@ -45,7 +46,11 @@ var contentPayload: ContentPayload = {
 };
 
 const urlPath = `${Astro.url.pathname.replace(/\/$/, '')}/`;
-const urlBase = Astro.url.origin;
+const domainAliases = DOMAIN_ALIASES.split(',').map((a) => a.trim()).filter(Boolean);
+const urlBase = domainAliases.includes(Astro.url.host) && CMS_ORIGIN
+    ? CMS_ORIGIN
+    : Astro.url.origin;
+console.log(`Using URL base: ${urlBase} for content fetch`);
 
 // Fetch content in the current locale (Astro's i18n handles fallback via rewrites)
 contentPayload.loc = localeToSdkLocale(lang) as Locales;
