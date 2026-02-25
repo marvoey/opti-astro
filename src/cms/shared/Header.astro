@@ -5,7 +5,6 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { SiteSettingsByHostnameQuery, Locales } from '../../../__generated/sdk';
 import type { ContentPayload } from '../../graphql/shared/ContentPayload';
 import { localeToSdkLocale } from '../../lib/locale-helpers';
-import { resolveCmsOrigin } from '../../lib/domain-helpers';
 import { getClassForLogo } from './siteSettingsHelper';
 import SearchPaletteV2 from './SearchPaletteV2.svelte';
 import ThemePicker from './ThemePicker.astro';
@@ -47,8 +46,8 @@ const logoCss = getClassForLogo(settings?.LogoResolution);
 const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
 ---
 
-<header class="sticky top-0 z-50" style="background-color: #fe7800;">
-    <div class="navbar shadow-sm" style="background-color: #fe7800; color: white;">
+<header class="sticky top-0 z-50 bg-gray-50/70 backdrop-blur-sm">
+    <div class="navbar bg-base-100 shadow-sm">
         <div class="navbar-start">
             <!-- Navigation: Standard Mobile or Drawer Left -->
             {!isDrawerMode ? (
@@ -59,7 +58,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
 
             <!-- Logo -->
             <a
-                class="block px-8 text-white"
+                class="block px-8 text-teal-600"
                 href={getRelativeLocaleUrl(lang, '/')}
             >
                 <span class="sr-only">Home</span>
@@ -84,7 +83,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
                     id="search-input"
                     type="text"
                     placeholder="Search... (⌘K / Ctrl+K)"
-                    class="input input-bordered input-sm w-44 pl-10 pr-4 text-white placeholder-white/70 border-white/40 bg-white/10"
+                    class="input input-bordered input-sm w-44 pl-10 pr-4"
                     readonly
                     @click="$dispatch('open-command-palette')"
                 />
@@ -94,7 +93,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/70"
+                    class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
                 >
                     <path
                         stroke-linecap="round"
@@ -107,7 +106,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
             <button
                 id="search-button"
                 @click="$dispatch('open-command-palette')"
-                class="btn btn-ghost btn-circle lg:hidden text-white"
+                class="btn btn-ghost btn-circle lg:hidden"
                 aria-label="Search"
             >
                 <svg
@@ -129,7 +128,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
             <LocaleSelector contentPayload={contentPayload} />
             <!-- Theme switcher dropdown -->
             <ThemePicker />
-            <a class="btn btn-ghost border-white/40 text-white hover:bg-white/10" href="https://home.optimizely.com/">Log In</a>
+            <a class="btn" href="https://home.optimizely.com/">Log In</a>
             <!-- Drawer Right mode: Hamburger button on ALL breakpoints (RIGHT side, after login) -->
             {isDrawerRight && <HeaderDrawerMenuButton direction="right" />}
         </div>
@@ -140,7 +139,7 @@ const headerItems = settings?.HeaderLinks as MenuItemType[] | undefined;
 {isDrawerMode && <HeaderDrawerNavigation headerItems={headerItems} isDrawerRight={isDrawerRight} />}
 
 <!-- Search Palette Component -->
-<SearchPaletteV2 client:load currentLocale={lang} domain={resolveCmsOrigin(Astro.url.origin)} />
+<SearchPaletteV2 client:load currentLocale={lang} domain={Astro.url.origin} />
 
 <!-- Keyboard shortcut for search -->
 <script is:inline>
