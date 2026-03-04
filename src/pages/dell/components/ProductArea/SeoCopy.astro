@@ -1,0 +1,24 @@
+---
+interface Props {
+    heading?: string;
+    paragraphs?: string[];
+}
+
+const {
+    heading = 'About Dell Laptop Computers',
+    paragraphs = [
+        'Dell offers a comprehensive lineup of laptop computers designed to meet the needs of every user — from students and home users to enterprise professionals and hardcore gamers. Our laptops feature the latest Intel® Core™ Ultra and AMD Ryzen™ processors, paired with fast NVMe SSD storage and vibrant displays ranging from compact 13" ultrabooks to expansive 17" workstations.',
+        'The Inspiron series delivers reliable everyday performance at accessible price points. The XPS lineup provides premium build quality and stunning InfinityEdge displays for power users and creators. For business, the Latitude and Vostro lines offer enterprise-grade security and manageability. Alienware represents the pinnacle of Dell gaming with cutting-edge GPUs and high-refresh displays built for competitive play.',
+    ],
+} = Astro.props;
+---
+
+<div class="seo-copy">
+    <h2>{heading}</h2>
+    {paragraphs.map((p, i) => (
+        <>
+            {i > 0 && <br />}
+            <p>{p}</p>
+        </>
+    ))}
+</div>

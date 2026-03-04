@@ -1,0 +1,84 @@
+---
+import type { Laptop } from '../../laptops/_data/laptops';
+import { FALLBACK_LAPTOP_IMG } from '../../laptops/_data/helpers';
+
+interface Props {
+    laptops: Laptop[];
+    showPagination?: boolean;
+    totalPages?: number;
+    currentPage?: number;
+}
+
+const { laptops, showPagination = false, totalPages = 5, currentPage = 1 } = Astro.props;
+
+const TAG_STYLES: Record<string, string> = {
+    'Sale':        'background:#cc0000;color:#fff;',
+    'Best Seller': 'background:#0076ce;color:#fff;',
+    'Gaming':      'background:#6d28d9;color:#fff;',
+};
+const DEFAULT_TAG_STYLE = 'background:#444;color:#fff;';
+---
+
+<div class="product-grid">
+    {laptops.map((laptop) => (
+        <article class="product-card">
+            {laptop.tag && (
+                <span class="tag-badge" style={TAG_STYLES[laptop.tag] ?? DEFAULT_TAG_STYLE}>
+                    {laptop.tag}
+                </span>
+            )}
+            <div class="product-card__compare">
+                <label class="compare-label">
+                    <input type="checkbox" class="filter-checkbox" style="width:12px;height:12px;" />
+                    Compare
+                </label>
+            </div>
+            <a href="#" class="product-card__img">
+                <img
+                    src={laptop.image}
+                    alt={laptop.name}
+                    loading="lazy"
+                    onerror={`this.onerror=null;this.src='${FALLBACK_LAPTOP_IMG}'`}
+                />
+            </a>
+            <a href="#" class="product-card__name">{laptop.name}</a>
+            <div class="product-card__rating">
+                <span class="stars">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <svg
+                            class:list={[i < Math.floor(laptop.rating) ? 'star-filled' : 'star-empty']}
+                            width="12" height="12" fill="currentColor" viewBox="0 0 20 20"
+                        >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    ))}
+                </span>
+                <span class="rating-count">({laptop.reviews.toLocaleString()})</span>
+            </div>
+            <ul class="product-card__specs">
+                {laptop.specs.map((spec) => (
+                    <li class="product-card__spec">
+                        <span class="spec-dot">•</span>
+                        <span>{spec}</span>
+                    </li>
+                ))}
+            </ul>
+            <div class="product-card__price">
+                <div class="price-was">{laptop.wasPrice}</div>
+                <div class="price-now">{laptop.nowPrice}</div>
+            </div>
+            <button class="btn-dell">Add to Cart</button>
+            <button class="btn-dell-outline">Customize &amp; Buy</button>
+        </article>
+    ))}
+</div>
+
+{showPagination && (
+    <div class="pagination">
+        <button class="page-btn">&#8249; Prev</button>
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button class:list={['page-btn', p === currentPage && 'page-btn--active']}>{p}</button>
+        ))}
+        <button class="page-btn">Next &#8250;</button>
+    </div>
+)}

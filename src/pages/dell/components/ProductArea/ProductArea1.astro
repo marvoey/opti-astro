@@ -1,12 +1,23 @@
 ---
+import type { Laptop } from '../../laptops/_data/laptops';
+import type { FeaturedDeal } from '../../laptops/_data/featuredDeals'; // used in Props
+import ProductGrid from './ProductGrid.astro';
+import DealsBanner from './DealsBanner.astro';
+import Win11InfoBox from './Win11InfoBox.astro';
+import SeoCopy from './SeoCopy.astro';
+
 interface Props {
+    laptops: Laptop[];
+    featuredDeals: FeaturedDeal[];
     title?: string;
     subtitle?: string;
     totalResults?: number;
 }
 
 const {
-    title = 'Laptop Computers11212',
+    laptops,
+    featuredDeals,
+    title = 'Laptop Computers',
     subtitle = 'Compare the best Dell laptop models for home, school, business and gaming.',
     totalResults = 53,
 } = Astro.props;
@@ -47,6 +58,19 @@ const {
         </div>
     </div>
 
-    <slot />
+    <!-- Product grid – first 4 -->
+    <ProductGrid laptops={laptops.slice(0, 4)} />
+
+    <!-- Recommended deals banner -->
+    <DealsBanner deals={featuredDeals} />
+
+    <!-- Product grid – remaining -->
+    <ProductGrid laptops={laptops.slice(4)} showPagination />
+
+    <!-- Windows 11 info box -->
+    <Win11InfoBox />
+
+    <!-- SEO copy -->
+    <SeoCopy />
 
 </div>

@@ -1,0 +1,123 @@
+{
+	"key": "DellLaptop",
+	"displayName": "Dell: Laptop",
+	"description": "A Dell laptop product with pricing, specs, rating, and optional promotional tag.",
+	"baseType": "component",
+	"sortOrder": 0,
+	"mayContainTypes": [],
+	"mediaFileExtensions": [],
+	"compositionBehaviors": [
+		"elementEnabled"
+	],
+	"properties": {
+		"Name": {
+			"type": "string",
+			"displayName": "Product Name",
+			"description": "Full product name, e.g. \"Inspiron 14 Laptop\"",
+			"localized": true,
+			"required": true,
+			"group": "Product",
+			"sortOrder": -100,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"Image": {
+			"type": "contentReference",
+			"displayName": "Product Image",
+			"description": "Primary product image",
+			"localized": false,
+			"required": false,
+			"group": "Product",
+			"sortOrder": -75,
+			"editorSettings": {},
+			"allowedTypes": [
+				"Image"
+			],
+			"restrictedTypes": []
+		},
+		"Tag": {
+			"type": "string",
+			"format": "selectOne",
+			"displayName": "Promotional Tag",
+			"description": "Optional badge displayed on the product card",
+			"localized": false,
+			"required": false,
+			"group": "Product",
+			"sortOrder": -50,
+			"editorSettings": {},
+			"enum": {
+				"values": [
+					{
+						"displayName": "Sale",
+						"value": "Sale"
+					},
+					{
+						"displayName": "Best Seller",
+						"value": "Best Seller"
+					},
+					{
+						"displayName": "Gaming",
+						"value": "Gaming"
+					},
+					{
+						"displayName": "New",
+						"value": "New"
+					}
+				]
+			}
+		},
+		"Specs": {
+			"type": "string",
+			"format": "html",
+			"displayName": "Specifications",
+			"description": "Bullet-point spec list shown on the product card (use an unordered list)",
+			"localized": true,
+			"required": false,
+			"group": "Product",
+			"sortOrder": -25,
+			"indexingType": "searchable",
+			"editorSettings": {}
+		},
+		"Rating": {
+			"type": "string",
+			"displayName": "Rating",
+			"description": "Average customer rating (0–5), e.g. \"4.5\"",
+			"localized": false,
+			"required": false,
+			"group": "Reviews",
+			"sortOrder": 0,
+			"editorSettings": {}
+		},
+		"Reviews": {
+			"type": "integer",
+			"displayName": "Review Count",
+			"description": "Total number of customer reviews",
+			"localized": false,
+			"required": false,
+			"group": "Reviews",
+			"sortOrder": 25,
+			"editorSettings": {},
+			"minimum": 0
+		},
+		"NowPrice": {
+			"type": "string",
+			"displayName": "Current Price",
+			"description": "Displayed sale price, e.g. \"$549.99\"",
+			"localized": true,
+			"required": true,
+			"group": "Pricing",
+			"sortOrder": 50,
+			"editorSettings": {}
+		},
+		"WasPrice": {
+			"type": "string",
+			"displayName": "Original Price",
+			"description": "Struck-through original price, e.g. \"$729.99\"",
+			"localized": true,
+			"required": false,
+			"group": "Pricing",
+			"sortOrder": 75,
+			"editorSettings": {}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+---
+import { FALLBACK_INFO_IMG } from '../../laptops/_data/helpers';
+---
+
+<section class="info-box" aria-label="Windows 11 information">
+    <img
+        class="info-box__img"
+        src="https://i.dell.com/sites/csimages/Video_Imagery/all/inspiron-14-5445-laptop-pdp-mod01.png"
+        alt="Dell laptop running Windows 11"
+        loading="lazy"
+        onerror={`this.onerror=null;this.src='${FALLBACK_INFO_IMG}'`}
+    />
+    <div>
+        <h3 class="info-box__title">Windows 10 support has ended. Time to upgrade.</h3>
+        <p class="info-box__body">
+            Microsoft ended support for Windows 10 on October 14, 2025. All new Dell laptops
+            come with Windows 11 pre-installed for enhanced security, performance, and AI-powered features.
+        </p>
+        <div class="info-box__links">
+            <a href="#" class="info-link">Learn more about Windows 11 &rarr;</a>
+            <a href="#" class="info-link">Shop Windows 11 Laptops &rarr;</a>
+        </div>
+    </div>
+</section>

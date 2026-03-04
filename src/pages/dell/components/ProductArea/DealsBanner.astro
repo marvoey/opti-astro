@@ -1,0 +1,56 @@
+---
+import type { FeaturedDeal } from '../../laptops/_data/featuredDeals';
+import { FALLBACK_DEAL_IMG } from '../../laptops/_data/helpers';
+
+interface Props {
+    deals: FeaturedDeal[];
+    title?: string;
+    subtitle?: string;
+}
+
+const {
+    deals,
+    title = 'Recommended laptop deals',
+    subtitle = 'Limited time offers — save big on top picks',
+} = Astro.props;
+---
+
+<section class="deals-banner" aria-label="Recommended deals">
+    <div class="deals-banner__header">
+        <h2 class="deals-banner__title">{title}</h2>
+        <p class="deals-banner__subtitle">{subtitle}</p>
+    </div>
+    <div class="deals-grid">
+        {deals.map((deal) => (
+            <article class="featured-card">
+                <a href="#" class="deal-card__img">
+                    <img
+                        src={deal.image}
+                        alt={deal.name}
+                        loading="lazy"
+                        onerror={`this.onerror=null;this.src='${FALLBACK_DEAL_IMG}'`}
+                    />
+                </a>
+                <a href="#" class="deal-card__name">{deal.name}</a>
+                <p class="deal-card__subtitle">{deal.subtitle}</p>
+                <ul class="deal-card__specs">
+                    {deal.specs.map((spec) => (
+                        <li style="display:flex;gap:5px;align-items:flex-start;">
+                            <span style="color:#60a5fa;margin-top:1px;flex-shrink:0;">•</span>
+                            <span>{spec}</span>
+                        </li>
+                    ))}
+                </ul>
+                <div class="product-card__price">
+                    <div class="deal-card__was">{deal.wasPrice}</div>
+                    <div class="deal-card__now">{deal.nowPrice}</div>
+                </div>
+                <button class="btn-dell">Add to Cart</button>
+            </article>
+        ))}
+    </div>
+    <p class="deals-banner__note">
+        * Offer ends soon. While supplies last.&nbsp;
+        <a href="#" style="color:#93c5fd;text-decoration:underline;">View all deals</a>
+    </p>
+</section>

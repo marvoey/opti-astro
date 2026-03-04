@@ -5,6 +5,10 @@ import { featuredDeals } from './_data/featuredDeals';
 import { categories, filterGroups } from './_data/filters';
 import LaptopSidebar from '../components/LaptopSidebar.astro';
 import ProductArea from '../components/ProductArea/ProductArea.astro';
+import ProductGrid from '../components/ProductArea/ProductGrid.astro';
+import DealsBanner from '../components/ProductArea/DealsBanner.astro';
+import Win11InfoBox from '../components/ProductArea/Win11InfoBox.astro';
+import SeoCopy from '../components/ProductArea/SeoCopy.astro';
 import './_laptops.css';
 
 const breadcrumbs = [{ label: 'Laptop Computers' }];
@@ -15,7 +19,6 @@ const breadcrumbs = [{ label: 'Laptop Computers' }];
     description="Shop Dell laptop computers including Inspiron, XPS, Latitude, Vostro and Alienware."
     breadcrumbs={breadcrumbs}
 >
-
     <div class="page-inner">
         <div class="content-row">
 
@@ -23,7 +26,14 @@ const breadcrumbs = [{ label: 'Laptop Computers' }];
             <LaptopSidebar categories={categories} filterGroups={filterGroups} />
 
             <!-- ══ PRODUCT AREA ══ -->
-            <ProductArea laptops={laptops} featuredDeals={featuredDeals} />
+            <ProductArea title="Marvin" subtitle="Compare the best Dell laptop models for home, school, business and gaming." totalResults={laptops.length}>
+                <ProductGrid laptops={laptops.slice(0, 4)} />
+                <DealsBanner deals={featuredDeals} />
+                <ProductGrid laptops={laptops.slice(4)} showPagination />
+                <Win11InfoBox />
+                <SeoCopy />
+            </ProductArea>
+
         </div>
     </div>
 </DellLayout>
