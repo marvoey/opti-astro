@@ -1,0 +1,77 @@
+---
+import type { Category, FilterGroup } from '../_data/filters';
+
+interface Props {
+    categories: Category[];
+    filterGroups: FilterGroup[];
+}
+
+const { categories, filterGroups } = Astro.props;
+---
+
+<aside class="sidebar">
+
+    <div class="sidebar__section">
+        <h3>Category</h3>
+        <ul>
+            {categories.map((cat) => (
+                <li>
+                    <a
+                        href="#"
+                        class:list={[
+                            "sidebar__cat-link",
+                            cat.active && "sidebar__cat-link--active",
+                        ]}
+                    >
+                        <span>{cat.name}</span>
+                        <span class="sidebar__cat-count">({cat.count})</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+
+    <hr class="sidebar__divider" />
+
+    {filterGroups.map((group) => (
+        <div class="sidebar__section">
+            <h3>{group.label}</h3>
+            <ul>
+                {group.options.map((opt) => (
+                    <li>
+                        <label class="sidebar__filter-item">
+                            <input type="checkbox" class="filter-checkbox" style="width:13px;height:13px;" />
+                            {opt}
+                        </label>
+                    </li>
+                ))}
+            </ul>
+            <hr class="sidebar__divider" />
+        </div>
+    ))}
+
+    <div class="sidebar__section">
+        <h3>Customer Rating</h3>
+        <ul>
+            {[5, 4, 3].map((stars) => (
+                <li>
+                    <label class="sidebar__filter-item">
+                        <input type="checkbox" class="filter-checkbox" style="width:13px;height:13px;" />
+                        <span class="stars">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <svg
+                                    class:list={[i < stars ? "star-filled" : "star-empty"]}
+                                    width="12" height="12" fill="currentColor" viewBox="0 0 20 20"
+                                >
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            ))}
+                        </span>
+                        <span style="font-size:11px;color:#666;">&amp; Up</span>
+                    </label>
+                </li>
+            ))}
+        </ul>
+    </div>
+
+</aside>

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../snagit"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "fetched-content"
+	}
+}

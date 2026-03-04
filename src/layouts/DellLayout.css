@@ -1,0 +1,525 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover { text-decoration: none; }
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+ul { list-style: none; }
+
+/* ============================================================
+   DELL HEADER
+   ============================================================ */
+
+.d-header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+/* ── Top bar (logo + search + util nav) ── */
+.d-topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    height: 56px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Dell Logo */
+.d-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.d-logo svg {
+    height: 28px;
+    width: auto;
+    display: block;
+    fill: #0076CE;
+}
+
+/* Search */
+.d-search {
+    flex: 1;
+    max-width: 560px;
+    position: relative;
+}
+
+.d-search__input {
+    width: 100%;
+    height: 36px;
+    padding: 0 40px 0 12px;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #1a1a1a;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.d-search__input:focus { border-color: #0076CE; }
+.d-search__input::placeholder { color: #767676; }
+
+.d-search__btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5a5a5a;
+    transition: color 0.15s;
+}
+.d-search__btn:hover { color: #0076CE; }
+
+/* Utility nav */
+.d-util {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.d-util__item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: #1a1a1a;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.15s;
+}
+.d-util__item:hover { color: #0076CE; }
+
+.d-util__caret {
+    width: 10px;
+    height: 10px;
+    margin-left: 1px;
+    flex-shrink: 0;
+}
+
+/* ── Main nav ── */
+.d-mainnav {
+    border-top: 1px solid #e5e5e5;
+}
+
+.d-mainnav__inner {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    height: 44px;
+}
+
+.d-mainnav__list {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.d-mainnav__link {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 13px;
+    height: 44px;
+    font-size: 13px;
+    color: #1a1a1a;
+    white-space: nowrap;
+    transition: color 0.15s;
+    border-bottom: 2px solid transparent;
+}
+.d-mainnav__link:first-child { padding-left: 0; }
+.d-mainnav__link:hover {
+    color: #0076CE;
+    border-bottom-color: #0076CE;
+}
+
+.d-mainnav__premier {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.d-mainnav__premier:hover { color: #0076CE; }
+
+.d-mainnav__premier-bar {
+    width: 28px;
+    height: 5px;
+    background: #0076CE;
+    border-radius: 2px;
+}
+
+/* ============================================================
+   PROMO BANNER
+   ============================================================ */
+
+.d-promo {
+    background: #f5f5f5;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 9px 20px;
+}
+
+.d-promo__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    max-width: 1600px;
+    margin: 0 auto;
+    font-size: 13px;
+}
+
+.d-promo__text { color: #1a1a1a; }
+
+.d-promo__link {
+    color: #0076CE;
+    font-weight: 500;
+}
+.d-promo__link:hover { text-decoration: underline; }
+
+/* ============================================================
+   BREADCRUMB BAR
+   ============================================================ */
+
+.d-breadbar {
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 0 20px;
+}
+
+.d-breadbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: 48px;
+    gap: 16px;
+}
+
+.d-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+}
+
+.d-breadcrumb__home {
+    display: flex;
+    align-items: center;
+    color: #1a1a1a;
+    transition: color 0.15s;
+}
+.d-breadcrumb__home:hover { color: #0076CE; }
+
+.d-breadcrumb__sep { color: #888; }
+
+.d-breadcrumb__crumb {
+    color: #1a1a1a;
+    transition: color 0.15s;
+}
+a.d-breadcrumb__crumb:hover { color: #0076CE; }
+
+/* Right side panel */
+.d-breadbar__right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Windows 11 button */
+.d-win11-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #0078d4;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 13px;
+    white-space: nowrap;
+    transition: background 0.15s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+.d-win11-btn:hover { background: #106ebe; }
+
+/* Intel badges */
+.d-intel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.d-intel__badges {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.d-intel__badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #003c71;
+    color: #fff;
+    font-size: 7px;
+    font-weight: 700;
+    width: 38px;
+    height: 44px;
+    border-radius: 3px;
+    line-height: 1.1;
+    text-align: center;
+    padding: 3px 2px;
+}
+
+.d-intel__badge-logo {
+    font-size: 7px;
+    font-weight: 400;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    color: #7ec8e3;
+}
+
+.d-intel__badge-core {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #fff;
+    line-height: 1;
+}
+
+.d-intel__badge-ultra {
+    font-size: 6.5px;
+    font-weight: 400;
+    color: #aad4f5;
+    letter-spacing: 0.3px;
+}
+
+.d-intel__badge-num {
+    font-size: 11px;
+    font-weight: 900;
+    color: #7ec8e3;
+    line-height: 1;
+}
+
+.d-intel__links {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.d-intel__link {
+    font-size: 11.5px;
+    color: #0076CE;
+    line-height: 1.4;
+}
+.d-intel__link:hover { text-decoration: underline; }
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.d-main {
+    min-height: calc(100vh - 380px);
+    background: #fff;
+}
+
+/* ============================================================
+   DELL FOOTER
+   ============================================================ */
+
+.d-footer {
+    background: #f2f2f2;
+    border-top: 1px solid #ddd;
+}
+
+.d-footer__top {
+    display: flex;
+    align-items: center;
+    gap: 52px;
+    padding: 22px 24px 18px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.d-footer__cat {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    white-space: nowrap;
+}
+.d-footer__cat:hover {
+    color: #0076CE;
+    text-decoration: underline;
+}
+
+.d-footer__legal {
+    border-top: 1px solid #d5d5d5;
+}
+
+.d-footer__legal-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 12px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.d-footer__legal-sep {
+    color: #bbb;
+    font-size: 12px;
+    padding: 0 6px;
+    user-select: none;
+}
+
+.d-footer__legal-item {
+    font-size: 12px;
+    color: #1a1a1a;
+    white-space: nowrap;
+    line-height: 2;
+}
+
+a.d-footer__legal-item:hover {
+    color: #0076CE;
+    text-decoration: underline;
+}
+
+/* ============================================================
+   UTILITY ICONS (inline SVG helpers)
+   ============================================================ */
+
+.icon {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* ── Tablet ≤1024px ── */
+@media (max-width: 1024px) {
+    .d-topbar { padding: 0 16px; gap: 12px; }
+    .d-search { max-width: 380px; }
+    .d-util { gap: 12px; }
+    .d-mainnav__inner { padding: 0 16px; }
+    .d-mainnav__link { padding: 0 9px; font-size: 12.5px; }
+    .d-breadbar { padding: 0 16px; }
+    .d-breadbar__right { gap: 10px; }
+    .d-promo { padding: 9px 16px; }
+    .d-footer__top { padding: 18px 16px 14px; gap: 32px; }
+    .d-footer__legal-inner { padding: 12px 16px; }
+    /* Hide Intel badge text links on tablet, keep badges */
+    .d-intel__links { display: none; }
+}
+
+/* ── Mobile ≤768px ── */
+@media (max-width: 768px) {
+    /* Top bar: two rows — logo+util on top, search below */
+    .d-topbar {
+        height: auto;
+        padding: 8px 14px;
+        flex-wrap: wrap;
+        gap: 6px 10px;
+    }
+    .d-logo { margin-right: auto; }
+    .d-search {
+        order: 3;
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+    .d-util { gap: 8px; }
+    /* Icon-only util nav: hide text labels & carets */
+    .d-util__item span { display: none; }
+    .d-util__caret { display: none; }
+
+    /* Main nav: horizontal scroll strip */
+    .d-mainnav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .d-mainnav::-webkit-scrollbar { display: none; }
+    .d-mainnav__inner {
+        padding: 0 14px;
+        width: max-content;
+        min-width: 100%;
+    }
+    .d-mainnav__link { font-size: 12px; padding: 0 10px; }
+    .d-mainnav__premier { display: none; }
+
+    /* Promo: tighter */
+    .d-promo { padding: 8px 14px; }
+    .d-promo__inner { justify-content: flex-start; font-size: 12.5px; }
+
+    /* Breadcrumb: hide right panel */
+    .d-breadbar { padding: 0 14px; }
+    .d-breadbar__right { display: none; }
+
+    /* Footer: wrap category links, stack legal */
+    .d-footer__top { flex-wrap: wrap; gap: 12px 32px; padding: 16px 14px 12px; }
+    .d-footer__legal-inner { flex-direction: column; align-items: flex-start; gap: 0; padding: 10px 14px; }
+    .d-footer__legal-sep { display: none; }
+    .d-footer__legal-item { line-height: 2; }
+}
+
+/* ── Small mobile ≤480px ── */
+@media (max-width: 480px) {
+    .d-logo svg { height: 22px; }
+    /* Hide laptop illustration in promo, keep text */
+    .d-promo__laptop { display: none; }
+    .d-promo__inner { font-size: 12px; }
+    .d-breadbar__inner { min-height: 40px; }
+    .d-breadcrumb { font-size: 12px; }
+}

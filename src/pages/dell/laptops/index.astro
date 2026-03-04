@@ -1,0 +1,29 @@
+---
+import DellLayout from '../../../layouts/DellLayout.astro';
+import { laptops } from './_data/laptops';
+import { featuredDeals } from './_data/featuredDeals';
+import { categories, filterGroups } from './_data/filters';
+import LaptopSidebar from '../components/LaptopSidebar.astro';
+import ProductArea from '../components/ProductArea/ProductArea.astro';
+import './_laptops.css';
+
+const breadcrumbs = [{ label: 'Laptop Computers' }];
+---
+
+<DellLayout
+    title="Laptop Computers | Dell USA"
+    description="Shop Dell laptop computers including Inspiron, XPS, Latitude, Vostro and Alienware."
+    breadcrumbs={breadcrumbs}
+>
+
+    <div class="page-inner">
+        <div class="content-row">
+
+            <!-- ══ SIDEBAR ══ -->
+            <LaptopSidebar categories={categories} filterGroups={filterGroups} />
+
+            <!-- ══ PRODUCT AREA ══ -->
+            <ProductArea laptops={laptops} featuredDeals={featuredDeals} />
+        </div>
+    </div>
+</DellLayout>

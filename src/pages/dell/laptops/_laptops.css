@@ -1,0 +1,397 @@
+/* ============================================================
+   Laptop listing page styles
+   ============================================================ */
+
+.star-filled { color: #ffc107; }
+.star-empty  { color: #dee2e6; }
+
+.filter-checkbox:checked { accent-color: #0076ce; }
+
+/* ── Product card ── */
+.product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: box-shadow 0.2s;
+    background: #fff;
+}
+.product-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.10); }
+
+.product-card__compare {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6px;
+}
+
+.compare-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #767676;
+    cursor: pointer;
+}
+
+.product-card__img {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.product-card__img img {
+    width: 100%;
+    height: 140px;
+    object-fit: contain;
+}
+
+.product-card__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0076ce;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    display: block;
+}
+.product-card__name:hover { text-decoration: underline; }
+
+.product-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.stars { display: flex; gap: 1px; }
+
+.rating-count {
+    font-size: 11px;
+    color: #0076ce;
+    cursor: pointer;
+}
+.rating-count:hover { text-decoration: underline; }
+
+.product-card__specs {
+    list-style: none;
+    font-size: 11.5px;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    flex: 1;
+}
+.product-card__spec {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+}
+.spec-dot { color: #bbb; margin-top: 1px; flex-shrink: 0; }
+
+.product-card__price { margin-bottom: 12px; }
+
+/* ── Pricing ── */
+.price-now { color: #cc0000; font-weight: 700; font-size: 15px; }
+.price-was { color: #767676; text-decoration: line-through; font-size: 12px; }
+
+/* ── Tag badge ── */
+.tag-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1;
+}
+
+/* ── Buttons ── */
+.btn-dell {
+    width: 100%;
+    padding: 8px 0;
+    background: #0076ce;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+.btn-dell:hover { background: #005ba1; }
+
+.btn-dell-outline {
+    width: 100%;
+    padding: 8px 0;
+    background: #fff;
+    color: #0076ce;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #0076ce;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    margin-top: 6px;
+}
+.btn-dell-outline:hover { background: #f0f7ff; }
+
+/* ── Deals banner ── */
+.deals-banner {
+    background: #1b2a47;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 28px;
+    color: #fff;
+}
+.deals-banner__header { text-align: center; margin-bottom: 18px; }
+.deals-banner__title { font-size: 18px; font-weight: 600; letter-spacing: 0.02em; }
+.deals-banner__subtitle { color: #93c5fd; font-size: 12.5px; margin-top: 3px; }
+.deals-banner__note { text-align: center; font-size: 11px; color: #93c5fd; margin-top: 14px; }
+
+.deals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.featured-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.15s;
+}
+.featured-card:hover { background: rgba(255,255,255,0.13); }
+
+.deal-card__img { display: block; text-align: center; margin-bottom: 10px; }
+.deal-card__img img { width: 100%; height: 120px; object-fit: contain; }
+
+.deal-card__name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+.deal-card__name:hover { color: #93c5fd; }
+
+.deal-card__subtitle { font-size: 11px; color: #93c5fd; margin-bottom: 7px; }
+
+.deal-card__specs {
+    list-style: none;
+    font-size: 11px;
+    color: #bfdbfe;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 10px;
+}
+
+.deal-card__was { color: #9ca3af; text-decoration: line-through; font-size: 11px; }
+.deal-card__now { color: #fde68a; font-weight: 700; font-size: 15px; }
+
+/* ── Sidebar ── */
+.sidebar { width: 200px; flex-shrink: 0; }
+.sidebar__section { margin-bottom: 20px; }
+.sidebar__section h3 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #333;
+    margin-bottom: 8px;
+}
+.sidebar__cat-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    padding: 2px 0;
+    color: #1a1a1a;
+    transition: color 0.15s;
+}
+.sidebar__cat-link:hover { color: #0076ce; }
+.sidebar__cat-link--active { color: #0076ce; font-weight: 600; }
+.sidebar__cat-count { color: #999; font-size: 11px; }
+.sidebar__filter-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: #1a1a1a;
+    padding: 2px 0;
+    cursor: pointer;
+}
+.sidebar__filter-item:hover { color: #0076ce; }
+.sidebar__divider { border: none; border-top: 1px solid #e0e0e0; margin: 12px 0; }
+
+/* ── Layout ── */
+.page-inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 20px 20px 40px;
+}
+.content-row { display: flex; gap: 24px; align-items: flex-start; }
+
+/* ── Product area ── */
+.product-area { flex: 1; min-width: 0; }
+.product-area__header { margin-bottom: 14px; }
+.product-area__title { font-size: 22px; font-weight: 300; color: #1a1a1a; margin-bottom: 4px; }
+.product-area__subtitle { font-size: 13px; color: #666; margin-bottom: 12px; }
+.product-area__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.product-area__count { font-size: 13px; color: #555; }
+.product-area__controls { display: flex; align-items: center; gap: 12px; }
+
+.sort-select {
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 4px 8px;
+    color: #1a1a1a;
+    font-family: inherit;
+    outline: none;
+}
+.sort-select:focus { border-color: #0076ce; }
+
+.view-btn {
+    padding: 4px 7px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background: #fff;
+    cursor: pointer;
+    color: #555;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.15s, color 0.15s;
+}
+.view-btn:hover { border-color: #0076ce; color: #0076ce; }
+
+/* ── Product grid ── */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+    margin-bottom: 28px;
+}
+
+/* ── Pagination ── */
+.pagination { display: flex; justify-content: center; align-items: center; gap: 4px; margin-bottom: 32px; }
+.page-btn {
+    padding: 5px 11px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 13px;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+.page-btn:hover { border-color: #0076ce; color: #0076ce; }
+.page-btn--active { background: #0076ce; border-color: #0076ce; color: #fff; }
+
+/* ── Windows 11 info box ── */
+.info-box {
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    border-radius: 4px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+.info-box__img { width: 140px; height: 100px; object-fit: contain; flex-shrink: 0; }
+.info-box__title { font-size: 14px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; }
+.info-box__body { font-size: 12.5px; color: #1e40af; margin-bottom: 10px; line-height: 1.5; }
+.info-box__links { display: flex; flex-wrap: wrap; gap: 12px; }
+.info-link { font-size: 12.5px; color: #0076ce; font-weight: 500; }
+.info-link:hover { text-decoration: underline; }
+
+/* ── SEO copy ── */
+.seo-copy { font-size: 11.5px; color: #666; line-height: 1.7; margin-bottom: 8px; }
+.seo-copy h2 { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 8px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* ── Tablet ≤1024px ── */
+@media (max-width: 1024px) {
+    .page-inner { padding: 16px 16px 32px; }
+
+    .sidebar { width: 175px; }
+    .sidebar__cat-link { font-size: 12.5px; }
+    .sidebar__filter-item { font-size: 12px; }
+
+    .product-area__title { font-size: 20px; }
+    .product-grid { gap: 12px; }
+
+    /* Deals: two columns on tablet */
+    .deals-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Mobile ≤768px ── */
+@media (max-width: 768px) {
+    .page-inner { padding: 12px 14px 28px; }
+
+    /* Stack and hide sidebar (JS toggle drawer needed for full UX) */
+    .content-row { flex-direction: column; }
+    .sidebar { display: none; }
+
+    .product-area { min-width: 0; }
+    .product-area__title { font-size: 19px; }
+
+    /* Toolbar wraps to two lines */
+    .product-area__toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    /* Single-column grids */
+    .product-grid { grid-template-columns: 1fr; gap: 10px; }
+    .deals-grid   { grid-template-columns: 1fr; gap: 10px; }
+
+    .deal-card__img img { height: 100px; }
+
+    /* Info box stacks */
+    .info-box { flex-direction: column; }
+    .info-box__img { width: 100%; max-width: 180px; height: auto; }
+
+    /* Pagination */
+    .pagination { gap: 3px; }
+    .page-btn { padding: 5px 9px; font-size: 12px; }
+}
+
+/* ── Small mobile ≤480px ── */
+@media (max-width: 480px) {
+    .page-inner { padding: 10px 10px 20px; }
+
+    .product-area__title { font-size: 17px; }
+    .product-area__subtitle { font-size: 12px; }
+    .product-area__count { font-size: 12px; }
+
+    .deals-banner { padding: 16px 14px; }
+    .deals-banner__title { font-size: 15px; }
+    .deals-banner__subtitle { font-size: 12px; }
+
+    .product-card__name { font-size: 12.5px; }
+    .product-card__specs { font-size: 11px; }
+    .price-now { font-size: 14px; }
+
+    .btn-dell { padding: 7px 0; }
+    .btn-dell-outline { padding: 7px 0; }
+}

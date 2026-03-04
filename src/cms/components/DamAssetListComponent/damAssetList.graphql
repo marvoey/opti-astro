@@ -1,5 +1,3 @@
-fragment DamAssetList on DamAssetList {
-    Header
-    Tags
-    AssetCount
+fragment DamAssetList on _IComponent {
+    __typename
 }
