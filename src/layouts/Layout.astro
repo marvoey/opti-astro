@@ -46,13 +46,15 @@ const isCmsEdit = isEditContext(Astro.url);
 const contentVersion = contentPayload.ver || '';
 const isDraft = EXTERNAL_PREVIEW_ENABLED && extPreviewEnabled && await isDraftContent(contentVersion);
 
-const { host } = Astro.url;
-const siteSettings = await getOptimizelySdk(
-    contentPayload
-).siteSettingsByHostname({
-    domain: host,
-    locale: [contentPayload.loc as Locales],
-});
+const { host, hostname } = Astro.url;
+const sdk = getOptimizelySdk(contentPayload);
+const locale = [contentPayload.loc as Locales];
+
+let siteSettings = await sdk.siteSettingsByHostname({ domain: host, locale });
+// Fallback: try hostname without port (e.g. "localhost" when running on localhost:4321)
+if (!siteSettings?.SiteSettings?.item && host !== hostname) {
+    siteSettings = await sdk.siteSettingsByHostname({ domain: hostname, locale });
+}
 
 const optiWebProjectId = siteSettings?.SiteSettings?.item?.OptiWebProjectId || null;
 const pageVariationWeb = Astro.url.searchParams.get('var') || null;
@@ -61,10 +63,10 @@ const odpEnabled = !!OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY;
 const odpPublicKey = odpEnabled && OPTIMIZELY_DATA_PLATFORM_PRIVATE_KEY?.split('.')[0];
 // const odpScript = odpPublicKey && getOdpScript(odpPublicKey);
 
-const siteStyles = await getOptimizelySdk(contentPayload).siteStylesByHostname({
-    domain: host,
-    locale: [contentPayload.loc as Locales],
-});
+let siteStyles = await sdk.siteStylesByHostname({ domain: host, locale });
+if (!siteStyles?.SiteStyles?.item && host !== hostname) {
+    siteStyles = await sdk.siteStylesByHostname({ domain: hostname, locale });
+}
 
 const siteFont = getSiteFont(siteStyles?.SiteStyles?.item);
 
