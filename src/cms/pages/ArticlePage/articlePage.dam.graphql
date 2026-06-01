@@ -11,9 +11,7 @@ fragment ArticlePage on ArticlePage {
     Heading
     SubHeading
     Author
-    Body {
-        html
-    }
+    Body
     SeoSettings {
         ...PageSeoSettingsProperty
     }

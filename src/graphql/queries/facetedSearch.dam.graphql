@@ -52,9 +52,7 @@ query facetedSearch(
                 ...ContentUrl
                 ...ContentReferenceItem
             }
-            Body {
-                html
-            }
+            Body
         }
         facets {
             # Author facet

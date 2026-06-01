@@ -1,8 +1,6 @@
 fragment FacetedSearch on FacetedSearch {
     Title
-    IntroText {
-        html
-    }
+    IntroText
     ItemsPerPage
     DefaultViewMode
     GridColumns

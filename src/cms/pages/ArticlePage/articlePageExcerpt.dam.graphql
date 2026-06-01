@@ -9,7 +9,5 @@ fragment ArticlePageExcerpt on ArticlePage {
     Heading
     SubHeading
     Author
-    Body {
-        html
-    }
+    Body
 }

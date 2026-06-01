@@ -140,8 +140,8 @@ const contentClasses = isFullSplit
                         {data.SubHeading}
                     </p>
                 )}
-                {data.Body?.html && (
-                    <div class="opacity-75 mb-6" set:html={data.Body.html}></div>
+                {data.Body && (
+                    <div class="opacity-75 mb-6" set:html={data.Body}></div>
                 )}
                 {data.Links && data.Links.length > 0 && (
                     <div class={cssClassesForCallToAction}>
@@ -174,8 +174,8 @@ const contentClasses = isFullSplit
                     {data.SubHeading}
                 </p>
             )}
-            {data.Body?.html && (
-                <div class={`${cssClassesForText} opacity-75`} set:html={data.Body.html}></div>
+            {data.Body && (
+                <div class={`${cssClassesForText} opacity-75`} set:html={data.Body}></div>
             )}
             {data.Links && data.Links.length > 0 && (
                 <div class={cssClassesForCallToAction}>

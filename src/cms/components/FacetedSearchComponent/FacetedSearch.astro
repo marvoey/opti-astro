@@ -125,8 +125,8 @@ const componentClass = 'component-facetedsearch';
 		{data.Title && (
 			<div class="mb-6">
 				<h2 class="text-3xl font-bold">{data.Title}</h2>
-				{data.IntroText?.html && (
-					<div class="mt-2 prose" set:html={data.IntroText.html} />
+				{data.IntroText && (
+					<div class="mt-2 prose" set:html={data.IntroText} />
 				)}
 			</div>
 		)}

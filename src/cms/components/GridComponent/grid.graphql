@@ -1,7 +1,5 @@
 fragment Grid on Grid {
-    RichText {
-        html
-    }
+    RichText
     Items {
         _metadata {
             types

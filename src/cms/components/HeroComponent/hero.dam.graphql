@@ -9,9 +9,7 @@ fragment Hero on Hero {
     }
     Heading
     SubHeading
-    Body {
-        html
-    }
+    Body
     Links {
         ...LinkCollection
     }

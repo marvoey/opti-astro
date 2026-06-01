@@ -1,6 +1,4 @@
 fragment Collapse on Collapse {
     Heading
-    Body {
-        html
-    }
+    Body
 }

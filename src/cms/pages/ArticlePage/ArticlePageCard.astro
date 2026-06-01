@@ -35,8 +35,8 @@ const articlePromoImage = (data.PromoImage as any)?.item?.Url || data.PromoImage
     </figure>
     <div class="card-body">
         <h2 class="card-title">{data.Heading}</h2>
-        { data.Body?.html && 
-            <div set:html={data.Body.html.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
+        { data.Body &&
+            <div set:html={data.Body.replace(/<[^>]*>/g, '').split(' ').slice(0, 30).join(' ') + "..."} />
         }
         <div class="card-actions justify-end mt-auto">
             <LinkButton cssClasses="btn-primary" link={data._metadata?.url?.hierarchical}>Read more</LinkButton>

@@ -48,7 +48,7 @@ export function getContentExcerpt(result: any): string {
 		return getExcerpt(fulltext, 200);
 	}
 	// ArticlePage
-	return result.Body?.html ? getExcerpt(result.Body.html) : '';
+	return result.Body ? getExcerpt(result.Body) : '';
 }
 
 /**
