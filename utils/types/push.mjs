@@ -122,6 +122,126 @@ async function ensurePropertyGroups(contentType, existingGroups) {
     }
 }
 
+/**
+ * Strip fields not accepted by the API from a content type definition
+ * @param {object} contentTypeDefinition - Raw content type definition
+ * @returns {object} - Cleaned content type
+ */
+const BASE_TYPE_MAP = {
+    'page': '_page',
+    'component': '_component',
+    'experience': '_experience',
+    'section': '_section',
+    'element': '_element',
+    'media': '_media',
+    'image': '_image',
+    'video': '_video',
+    'folder': '_folder',
+};
+
+function mapAllowedTypes(types) {
+    if (!Array.isArray(types)) return types;
+    return types.map(t => BASE_TYPE_MAP[t.toLowerCase()] ?? t);
+}
+
+function cleanArrayItem(item) {
+    if (!item) return item;
+    const clean = { ...item };
+    // link cannot be a component contentType — promote to first-class type
+    if (clean.type === 'component' && clean.contentType === 'link') {
+        clean.type = 'link';
+        delete clean.contentType;
+    }
+    if (clean.allowedTypes) clean.allowedTypes = mapAllowedTypes(clean.allowedTypes);
+    if (clean.restrictedTypes) clean.restrictedTypes = mapAllowedTypes(clean.restrictedTypes);
+    return clean;
+}
+
+function cleanProperty(prop) {
+    const { editorSettings, ...p } = prop;
+
+    // link cannot be a component contentType — promote to first-class type
+    if (p.type === 'component' && p.contentType === 'link') {
+        p.type = 'link';
+        delete p.contentType;
+    }
+
+    // required is not allowed on component properties
+    if (p.type === 'component' && p.required) delete p.required;
+
+    // 'html' is not a valid format — it was a legacy richText marker
+    if (p.format === 'html') delete p.format;
+
+    // LinkCollection format is only valid for array+link, not array+component
+    if (p.type === 'array' && p.format === 'LinkCollection' && p.items?.type === 'component') {
+        delete p.format;
+    }
+
+    // enum used to be stored as {values: [...]} — API expects the array directly
+    if (p.enum && !Array.isArray(p.enum) && Array.isArray(p.enum.values)) {
+        p.enum = p.enum.values;
+    }
+
+    if (p.allowedTypes) p.allowedTypes = mapAllowedTypes(p.allowedTypes);
+    if (p.restrictedTypes) p.restrictedTypes = mapAllowedTypes(p.restrictedTypes);
+    if (p.items) p.items = cleanArrayItem(p.items);
+
+    return p;
+}
+
+function cleanContentTypeDefinition(contentTypeDefinition) {
+    const clean = { ...contentTypeDefinition };
+    if (clean.source || clean.source === '') delete clean.source;
+    if (clean.features) delete clean.features;
+    if (clean.usage) delete clean.usage;
+    if (clean.lastModifiedBy) delete clean.lastModifiedBy;
+    if (clean.lastModified) delete clean.lastModified;
+    if (clean.created) delete clean.created;
+
+    if (clean.baseType && BASE_TYPE_MAP[clean.baseType]) {
+        clean.baseType = BASE_TYPE_MAP[clean.baseType];
+    }
+
+    if (clean.properties) {
+        clean.properties = Object.fromEntries(
+            Object.entries(clean.properties).map(([k, v]) => [k, cleanProperty(v)])
+        );
+    }
+    return clean;
+}
+
+/**
+ * Upsert a content type: create if new, patch if existing
+ * @param {string} key - Content type key
+ * @param {object} contentType - Content type definition
+ * @returns {Promise<void>}
+ */
+async function upsertContentType(key, contentType, retries = 3) {
+    let exists = false;
+    try {
+        await client.contentTypes.contentTypesGet(key);
+        exists = true;
+    } catch (e) {
+        if (!e.status || e.status !== 404) throw e;
+    }
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            if (exists) {
+                await client.contentTypes.contentTypesPatch(key, contentType, true);
+            } else {
+                await client.contentTypes.contentTypesCreate(contentType);
+            }
+            return;
+        } catch (e) {
+            const retryable = e.status === 502 || e.status === 503 || e.status === 429;
+            if (!retryable || attempt === retries) throw e;
+            const delay = (e.body?.retry_after ?? 60) * 1000;
+            console.log(`  ⚠️ ${e.status} received, retrying in ${delay / 1000}s (attempt ${attempt}/${retries})...`);
+            await new Promise(r => setTimeout(r, delay));
+        }
+    }
+}
+
 // Get command line argument for specific type
 const typeNameArg = process.argv[2];
 
@@ -160,27 +280,16 @@ const typeNameArg = process.argv[2];
         // Ensure all required property groups exist
         await ensurePropertyGroups(contentTypeDefinition, existingGroups);
         
-        // Clean up the content type definition
-        const cleanContentType = { ...contentTypeDefinition };
-        if (cleanContentType.source || cleanContentType.source == '') delete cleanContentType.source;
-        if (cleanContentType.features) delete cleanContentType.features;
-        if (cleanContentType.usage) delete cleanContentType.usage;
-        if (cleanContentType.lastModifiedBy) delete cleanContentType.lastModifiedBy;
-        if (cleanContentType.lastModified) delete cleanContentType.lastModified;
-        if (cleanContentType.created) delete cleanContentType.created;
+        const cleanContentType = cleanContentTypeDefinition(contentTypeDefinition);
 
         try {
-            await client.contentTypes.contentTypesPut(
-                contentTypeKey,
-                cleanContentType,
-                true // Force update
-            );
+            await upsertContentType(contentTypeKey, cleanContentType);
             console.log(
                 `✅ Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`
             );
         } catch (e) {
             console.log(`❌ Error while trying to update ${contentTypeKey} from ${targetFile}`);
-            console.log(`Error Details: ${e.message}`);
+            console.log(`Error Details: ${e.message}`, e.body ? JSON.stringify(e.body, null, 2) : '');
             process.exit(1);
         }
     } else {
@@ -218,30 +327,17 @@ const typeNameArg = process.argv[2];
             // Ensure all required property groups exist for this content type
             await ensurePropertyGroups(contentTypeDefinition, existingGroups);
             
-            // Clean up the content type definition
-            // Remove properties that should not be included in the update
-            const cleanContentType = { ...contentTypeDefinition };
-            if (cleanContentType.source || cleanContentType.source == '') delete cleanContentType.source;
-            if (cleanContentType.features) delete cleanContentType.features;
-            if (cleanContentType.usage) delete cleanContentType.usage;
-            if (cleanContentType.lastModifiedBy) delete cleanContentType.lastModifiedBy;
-            if (cleanContentType.lastModified) delete cleanContentType.lastModified;
-            if (cleanContentType.created) delete cleanContentType.created;
+            const cleanContentType = cleanContentTypeDefinition(contentTypeDefinition);
 
             try {
-                // Push the content type to Optimizely CMS
-                await client.contentTypes.contentTypesPut(
-                    contentTypeKey,
-                    cleanContentType,
-                    true // Force update
-                );
+                await upsertContentType(contentTypeKey, cleanContentType);
                 console.log(
                     `✅ Content type "${displayName}" (${contentTypeKey}) of baseType ${baseType} has been updated`
                 );
                 results.success++;
             } catch (e) {
                 console.log(`❌ Error while trying to update ${contentTypeKey} from ${file}`);
-                console.log(`Error Details: ${e.message}`);
+                console.log(`Error Details: ${e.message}`, e.body ? JSON.stringify(e.body, null, 2) : '');
                 results.failed++;
             }
         }

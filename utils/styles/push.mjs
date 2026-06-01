@@ -39,6 +39,32 @@ async function processFiles(pattern) {
     }
 }
 
+async function upsertDisplayTemplate(key, template, retries = 3) {
+    let exists = false;
+    try {
+        await client.displayTemplates.displayTemplatesGet(key);
+        exists = true;
+    } catch (e) {
+        if (!e.status || e.status !== 404) throw e;
+    }
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            if (exists) {
+                await client.displayTemplates.displayTemplatesPatch(key, template);
+            } else {
+                await client.displayTemplates.displayTemplatesCreate(template);
+            }
+            return;
+        } catch (e) {
+            const retryable = e.status === 502 || e.status === 503 || e.status === 429;
+            if (!retryable || attempt === retries) throw e;
+            const delay = (e.body?.retry_after ?? 60) * 1000;
+            console.log(`  ⚠️ ${e.status} received, retrying in ${delay / 1000}s (attempt ${attempt}/${retries})...`);
+            await new Promise(r => setTimeout(r, delay));
+        }
+    }
+}
+
 // Get command line argument for specific style
 const styleNameArg = process.argv[2];
 
@@ -71,16 +97,13 @@ const styleNameArg = process.argv[2];
         const nodeType = styleDefinition.nodeType;
 
         try {
-            await client.displayTemplates.displayTemplatesPut(
-                styleKey,
-                styleDefinition
-            );
+            await upsertDisplayTemplate(styleKey, styleDefinition);
             console.log(
                 `✅ Template with styleKey: ${styleKey}, contentType: ${contentType}, nodeType: ${nodeType} has been updated`
             );
         } catch (e) {
             console.log(`❌ Error while trying to update ${styleKey} in ${targetFile}`);
-            console.log(`Error Details: ${JSON.stringify(e)}`);
+            console.log(`Error Details: ${e.message}`, e.body ? JSON.stringify(e.body, null, 2) : '');
             process.exit(1);
         }
     } else {
@@ -111,17 +134,14 @@ const styleNameArg = process.argv[2];
             const nodeType = styleDefinition.nodeType;
             
             try {
-                await client.displayTemplates.displayTemplatesPut(
-                    styleKey,
-                    styleDefinition
-                );
+                await upsertDisplayTemplate(styleKey, styleDefinition);
                 console.log(
                     `✅ Template with styleKey: ${styleKey}, contentType: ${contentType}, nodeType: ${nodeType} has been updated`
                 );
                 results.success++;
             } catch (e) {
                 console.log(`❌ Error while trying to update ${styleKey} in ${file}`);
-                console.log(`Error Details: ${JSON.stringify(e)}`);
+                console.log(`Error Details: ${e.message}`, e.body ? JSON.stringify(e.body, null, 2) : '');
                 results.failed++;
             }
         }
